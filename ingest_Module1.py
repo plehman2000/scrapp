@@ -6,7 +6,7 @@ app = marimo.App(width="medium")
 
 @app.cell
 def __():
-    from ingestion_utils import find_paper_by_name, extract_title, ingest_text, create_folder_if_not_exists,extract_images_with_captions,extract_caption, get_paper_info,wrap_text
+    from ingestion_utils import find_paper_by_name, extract_title, ingest_text, create_folder_if_not_exists,extract_images_with_captions,extract_caption, get_paper_info,wrap_text, extract_details
     import spacy
     import marimo as mo
     import matplotlib.pyplot as plt
@@ -14,6 +14,7 @@ def __():
     return (
         create_folder_if_not_exists,
         extract_caption,
+        extract_details,
         extract_images_with_captions,
         extract_title,
         find_paper_by_name,
@@ -56,6 +57,36 @@ def __():
 def __(file_name, get_paper_info):
     paper = get_paper_info(file_name)
     return paper,
+
+
+@app.cell
+def __(paper):
+    chunks = paper['chunks']
+    return chunks,
+
+
+@app.cell
+def __(chunks, extract_details, json):
+    from tqdm import tqdm
+    details = []
+    for chunk in tqdm(chunks):
+        temp_str = extract_details(chunk, model='llama3.1')
+        interm = temp_str[temp_str.find("{"):][:temp_str.find("}") + 1]
+        print(interm)
+        if interm:  # Check if interm is not empty
+            print("|" + interm + "|")
+            detail = json.loads(interm)
+            details.extend(detail['details'])
+        else:
+            print("No details found in this chunk.")
+    return chunk, detail, details, interm, temp_str, tqdm
+
+
+@app.cell
+def __(details):
+    import pickle
+    pickle.dump(details, open("paper_deets.pkl", 'wb'))
+    return pickle,
 
 
 @app.cell

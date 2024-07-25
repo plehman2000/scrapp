@@ -159,6 +159,100 @@ def summarize(text, num_sentences=1):
     return output
 
 
+def extract_details(text, model='llama3.1'):
+
+
+    input_llm  = '''
+    Please extract important details from the given text and return them in a JSON object with a "details" key. Focus on key concepts, findings, and insights. 
+
+    Guidelines:
+
+    1. Identify crucial information that summarizes the main points. Authors are unimportant
+    2. Exclude unnecessary details and examples.
+    3. Use concise language and avoid lengthy descriptions.
+    4. Prioritize accuracy and relevance.
+    5. Ensure the detail forms a complete thought that is meaningful on it's own
+
+    Return format:
+    {
+    "details": [
+    "Important detail 1",
+    "Important detail 2",
+    "Important detail 3",
+    ...
+    ]
+    }
+
+    Input: 
+    ''' +  text
+
+
+    response = ollama.chat(model= model, messages=[ #llama3
+    {
+    'role': 'user',
+    'content': input_llm}])#, options={"temperature":.5}
+
+    output = response['message']['content']
+    while output.replace("<|end-output|>","").replace(" ", "") == "":
+        response = ollama.chat(model='llama3.1', messages=[ #llama3
+        {
+        'role': 'user',
+        'content': input_llm}])#, options={"temperature":.5}
+
+        output = response['message']['content']
+    
+    return output
+
+
+
+def extract_attributes(text):
+
+    input_llm = '''
+    Please process the given text and extract useful attributes in the following structured JSON format:
+
+    {
+        "entities": [
+            {
+                "name": "Entity Name",
+                "relations": [
+                    {"relation": "is/has/are/was/etc.", "attribute": "informative and relevant associated attribute, action, or description"}
+                ]
+            }
+        ]
+    }
+
+    Guidelines:
+
+    1. Identify key concepts, terms, and phrases in the text, including but not limited to proper nouns.
+    2. For each entity, list attributes, actions, or descriptions that provide meaningful context and insights.
+    3. Ensure each entity-attribute pair forms a grammatically complete and informative sentence.
+    4. Prioritize accuracy and relevance, focusing on essential information.
+    5. Use lowercase for relation words and capitalize the first letter of entity names.
+    6. Avoid redundancy, obvious information, and overly general statements.
+    7. List multiple related attributes separately for each entity.
+    8. Ensure the output is valid JSON.
+
+    Input: 
+    '''  + text
+
+
+    response = ollama.chat(model='llama3.1', messages=[ #llama3
+    {
+    'role': 'user',
+    'content': input_llm}])#, options={"temperature":.5}
+
+    output = response['message']['content']
+    while output.replace("<|end-output|>","").replace(" ", "") == "":
+        response = ollama.chat(model='llama3.1', messages=[ #llama3
+        {
+        'role': 'user',
+        'content': input_llm}])#, options={"temperature":.5}
+
+        output = response['message']['content']
+    
+    return output
+
+
 
 import ollama
 import os

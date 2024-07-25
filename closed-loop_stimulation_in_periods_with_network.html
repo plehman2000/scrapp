@@ -1,0 +1,292 @@
+<html>
+    <head>
+        <meta charset="utf-8">
+        
+            <script src="lib/bindings/utils.js"></script>
+            <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/vis-network/9.1.2/dist/dist/vis-network.min.css" integrity="sha512-WgxfT5LWjfszlPHXRmBWHkV2eceiWTOBvrKCNbdgDYTHrT2AeLCGbF4sZlZw3UMN3WtL0tGUoIAKsu8mllg/XA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/vis-network/9.1.2/dist/vis-network.min.js" integrity="sha512-LnvoEWDFrqGHlHmDD2101OrLcbsfkrzoSpvtSQtxK3RMnRV0eOkhhBN2dXHKRrUU8p2DGRTk35n4O8nWSVe1mQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+            
+                <link href="lib/tom-select/tom-select.css" rel="stylesheet">
+                <script src="lib/tom-select/tom-select.complete.min.js"></script>
+            
+        
+<center>
+<h1></h1>
+</center>
+
+<!-- <link rel="stylesheet" href="../node_modules/vis/dist/vis.min.css" type="text/css" />
+<script type="text/javascript" src="../node_modules/vis/dist/vis.js"> </script>-->
+        <link
+          href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/css/bootstrap.min.css"
+          rel="stylesheet"
+          integrity="sha384-eOJMYsd53ii+scO/bJGFsiCZc+5NDVN2yr8+0RDqr0Ql0h+rP48ckxlpbzKgwra6"
+          crossorigin="anonymous"
+        />
+        <script
+          src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/js/bootstrap.bundle.min.js"
+          integrity="sha384-JEW9xMcG8R+pH31jmWH6WWP0WintQrMb4s7ZOdauHnUtxwoG2vI5DkLtS3qm9Ekf"
+          crossorigin="anonymous"
+        ></script>
+
+
+        <center>
+          <h1></h1>
+        </center>
+        <style type="text/css">
+
+             #mynetwork {
+                 width: 100%;
+                 height: 1000px;
+                 background-color: #222222;
+                 border: 1px solid lightgray;
+                 position: relative;
+                 float: left;
+             }
+
+             
+
+             
+
+             
+        </style>
+    </head>
+
+
+    <body>
+        <div class="card" style="width: 100%">
+            
+                <div id="select-menu" class="card-header">
+                    <div class="row no-gutters">
+                        <div class="col-10 pb-2">
+                            <select
+                            class="form-select"
+                            aria-label="Default select example"
+                            onchange="selectNode([value]);"
+                            id="select-node"
+                            placeholder="Select node..."
+                            >
+                                <option selected>Select a Node by ID</option>
+                                
+                                    <option value="Closed-Loop Stimulation
+In Periods With">Closed-Loop Stimulation
+In Periods With</option>
+                                
+                                    <option value=" Forty patients, including
+super-responders, intermediate
+responders, and poor
+responders, were studied
+to assess the effectiveness
+of responsive neurostimulation
+in reducing seizure frequency.
+"> Forty patients, including
+super-responders, intermediate
+responders, and poor
+responders, were studied
+to assess the effectiveness
+of responsive neurostimulation
+in reducing seizure frequency.
+</option>
+                                
+                                    <option value=" Factors such as baseline
+seizure frequency and
+stimulation counts do
+not significantly correlate
+with seizure reduction
+following neuromodulation
+therapy."> Factors such as baseline
+seizure frequency and
+stimulation counts do
+not significantly correlate
+with seizure reduction
+following neuromodulation
+therapy.</option>
+                                
+                                    <option value="Research suggests that
+patients who spend more
+time in low-risk states
+and receive more stimulation
+during those states tend
+to have better clinical
+outcomes, particularly
+in terms of seizure reduction.
+">Research suggests that
+patients who spend more
+time in low-risk states
+and receive more stimulation
+during those states tend
+to have better clinical
+outcomes, particularly
+in terms of seizure reduction.
+</option>
+                                
+                                    <option value="Patients with stronger
+circadian rhythms of
+detection experienced
+improved patient outcomes,
+with certain patterns
+and peak hours correlating
+to better seizure reduction.
+">Patients with stronger
+circadian rhythms of
+detection experienced
+improved patient outcomes,
+with certain patterns
+and peak hours correlating
+to better seizure reduction.
+</option>
+                                
+                                    <option value=" Here is a summary of
+the text in 2 sentences:
+Super-responders to seizure
+stimulation therapy tend
+to have increased power
+in short periods and
+less phase-locking to
+long episodes compared
+to poor/intermediate
+responders. The distribution
+of stimulation episodes
+between super-responders
+and other groups was
+significantly different,
+indicating that super-responders
+often received stimulation
+outside of high-risk
+long episodes."> Here is a summary of
+the text in 2 sentences:
+Super-responders to seizure
+stimulation therapy tend
+to have increased power
+in short periods and
+less phase-locking to
+long episodes compared
+to poor/intermediate
+responders. The distribution
+of stimulation episodes
+between super-responders
+and other groups was
+significantly different,
+indicating that super-responders
+often received stimulation
+outside of high-risk
+long episodes.</option>
+                                
+                            </select>
+                        </div>
+                        <div class="col-2 pb-2">
+                            <button type="button" class="btn btn-primary btn-block" onclick="neighbourhoodHighlight({nodes: []});">Reset Selection</button>
+                        </div>
+                    </div>
+                </div>
+            
+            
+            <div id="mynetwork" class="card-body"></div>
+        </div>
+
+        
+        
+
+        <script type="text/javascript">
+
+              // initialize global variables.
+              var edges;
+              var nodes;
+              var allNodes;
+              var allEdges;
+              var nodeColors;
+              var originalNodes;
+              var network;
+              var container;
+              var options, data;
+              var filter = {
+                  item : '',
+                  property : '',
+                  value : []
+              };
+
+              
+                  new TomSelect("#select-node",{
+                      create: false,
+                      sortField: {
+                          field: "text",
+                          direction: "asc"
+                      }
+                  });
+              
+
+              
+
+              // This method is responsible for drawing the graph, returns the drawn network
+              function drawGraph() {
+                  var container = document.getElementById('mynetwork');
+
+                  
+
+                  // parsing and collecting nodes and edges from the python
+                  nodes = new vis.DataSet([{"color": "#4287f5", "font": {"color": "white"}, "id": "Closed-Loop Stimulation\nIn Periods With", "label": "Closed-Loop Stimulation\nIn Periods With", "shape": "dot", "size": 30, "title": "Closed-Loop Stimulation\nIn Periods With"}, {"color": "#FFA500", "font": {"color": "white"}, "id": " Forty patients, including\nsuper-responders, intermediate\nresponders, and poor\nresponders, were studied\nto assess the effectiveness\nof responsive neurostimulation\nin reducing seizure frequency.\n", "image": "./temp/0.png", "label": " Forty patients, including\nsuper-responders, intermediate\nresponders, and poor\nresponders, were studied\nto assess the effectiveness\nof responsive neurostimulation\nin reducing seizure frequency.\n", "mass": 7.5, "shape": "image", "size": 50, "title": " Forty patients, including\nsuper-responders, intermediate\nresponders, and poor\nresponders, were studied\nto assess the effectiveness\nof responsive neurostimulation\nin reducing seizure frequency.\n"}, {"color": "#FFA500", "font": {"color": "white"}, "id": " Factors such as baseline\nseizure frequency and\nstimulation counts do\nnot significantly correlate\nwith seizure reduction\nfollowing neuromodulation\ntherapy.", "image": "./temp/1.png", "label": " Factors such as baseline\nseizure frequency and\nstimulation counts do\nnot significantly correlate\nwith seizure reduction\nfollowing neuromodulation\ntherapy.", "mass": 7.5, "shape": "image", "size": 50, "title": " Factors such as baseline\nseizure frequency and\nstimulation counts do\nnot significantly correlate\nwith seizure reduction\nfollowing neuromodulation\ntherapy."}, {"color": "#FFA500", "font": {"color": "white"}, "id": "Research suggests that\npatients who spend more\ntime in low-risk states\nand receive more stimulation\nduring those states tend\nto have better clinical\noutcomes, particularly\nin terms of seizure reduction.\n", "image": "./temp/2.png", "label": "Research suggests that\npatients who spend more\ntime in low-risk states\nand receive more stimulation\nduring those states tend\nto have better clinical\noutcomes, particularly\nin terms of seizure reduction.\n", "mass": 7.5, "shape": "image", "size": 50, "title": "Research suggests that\npatients who spend more\ntime in low-risk states\nand receive more stimulation\nduring those states tend\nto have better clinical\noutcomes, particularly\nin terms of seizure reduction.\n"}, {"color": "#FFA500", "font": {"color": "white"}, "id": "Patients with stronger\ncircadian rhythms of\ndetection experienced\nimproved patient outcomes,\nwith certain patterns\nand peak hours correlating\nto better seizure reduction.\n", "image": "./temp/3.png", "label": "Patients with stronger\ncircadian rhythms of\ndetection experienced\nimproved patient outcomes,\nwith certain patterns\nand peak hours correlating\nto better seizure reduction.\n", "mass": 7.5, "shape": "image", "size": 50, "title": "Patients with stronger\ncircadian rhythms of\ndetection experienced\nimproved patient outcomes,\nwith certain patterns\nand peak hours correlating\nto better seizure reduction.\n"}, {"color": "#FFA500", "font": {"color": "white"}, "id": " Here is a summary of\nthe text in 2 sentences:\nSuper-responders to seizure\nstimulation therapy tend\nto have increased power\nin short periods and\nless phase-locking to\nlong episodes compared\nto poor/intermediate\nresponders. The distribution\nof stimulation episodes\nbetween super-responders\nand other groups was\nsignificantly different,\nindicating that super-responders\noften received stimulation\noutside of high-risk\nlong episodes.", "image": "./temp/4.png", "label": " Here is a summary of\nthe text in 2 sentences:\nSuper-responders to seizure\nstimulation therapy tend\nto have increased power\nin short periods and\nless phase-locking to\nlong episodes compared\nto poor/intermediate\nresponders. The distribution\nof stimulation episodes\nbetween super-responders\nand other groups was\nsignificantly different,\nindicating that super-responders\noften received stimulation\noutside of high-risk\nlong episodes.", "mass": 7.5, "shape": "image", "size": 50, "title": " Here is a summary of\nthe text in 2 sentences:\nSuper-responders to seizure\nstimulation therapy tend\nto have increased power\nin short periods and\nless phase-locking to\nlong episodes compared\nto poor/intermediate\nresponders. The distribution\nof stimulation episodes\nbetween super-responders\nand other groups was\nsignificantly different,\nindicating that super-responders\noften received stimulation\noutside of high-risk\nlong episodes."}]);
+                  edges = new vis.DataSet([{"font": {"color": "black", "size": 9}, "from": "Closed-Loop Stimulation\nIn Periods With", "to": " Forty patients, including\nsuper-responders, intermediate\nresponders, and poor\nresponders, were studied\nto assess the effectiveness\nof responsive neurostimulation\nin reducing seizure frequency.\n"}, {"font": {"color": "black", "size": 9}, "from": "Closed-Loop Stimulation\nIn Periods With", "to": " Factors such as baseline\nseizure frequency and\nstimulation counts do\nnot significantly correlate\nwith seizure reduction\nfollowing neuromodulation\ntherapy."}, {"font": {"color": "black", "size": 9}, "from": "Closed-Loop Stimulation\nIn Periods With", "to": "Research suggests that\npatients who spend more\ntime in low-risk states\nand receive more stimulation\nduring those states tend\nto have better clinical\noutcomes, particularly\nin terms of seizure reduction.\n"}, {"font": {"color": "black", "size": 9}, "from": "Closed-Loop Stimulation\nIn Periods With", "to": "Patients with stronger\ncircadian rhythms of\ndetection experienced\nimproved patient outcomes,\nwith certain patterns\nand peak hours correlating\nto better seizure reduction.\n"}, {"font": {"color": "black", "size": 9}, "from": "Closed-Loop Stimulation\nIn Periods With", "to": " Here is a summary of\nthe text in 2 sentences:\nSuper-responders to seizure\nstimulation therapy tend\nto have increased power\nin short periods and\nless phase-locking to\nlong episodes compared\nto poor/intermediate\nresponders. The distribution\nof stimulation episodes\nbetween super-responders\nand other groups was\nsignificantly different,\nindicating that super-responders\noften received stimulation\noutside of high-risk\nlong episodes."}]);
+
+                  nodeColors = {};
+                  allNodes = nodes.get({ returnType: "Object" });
+                  for (nodeId in allNodes) {
+                    nodeColors[nodeId] = allNodes[nodeId].color;
+                  }
+                  allEdges = edges.get({ returnType: "Object" });
+                  // adding nodes and edges to the graph
+                  data = {nodes: nodes, edges: edges};
+
+                  var options = {
+    "configure": {
+        "enabled": false
+    },
+    "edges": {
+        "color": {
+            "inherit": true
+        },
+        "smooth": {
+            "enabled": true,
+            "type": "dynamic"
+        }
+    },
+    "interaction": {
+        "dragNodes": true,
+        "hideEdgesOnDrag": false,
+        "hideNodesOnDrag": false
+    },
+    "physics": {
+        "enabled": false,
+        "stabilization": {
+            "enabled": true,
+            "fit": true,
+            "iterations": 1000,
+            "onlyDynamicEdges": false,
+            "updateInterval": 50
+        }
+    }
+};
+
+                  
+
+
+                  
+
+                  network = new vis.Network(container, data, options);
+
+                  
+
+                  
+                    network.on("selectNode", neighbourhoodHighlight);
+                  
+
+                  
+
+
+                  
+
+                  return network;
+
+              }
+              drawGraph();
+        </script>
+    </body>
+</html>
