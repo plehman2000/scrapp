@@ -1,0 +1,292 @@
+<html>
+    <head>
+        <meta charset="utf-8">
+        
+            <script src="lib/bindings/utils.js"></script>
+            <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/vis-network/9.1.2/dist/dist/vis-network.min.css" integrity="sha512-WgxfT5LWjfszlPHXRmBWHkV2eceiWTOBvrKCNbdgDYTHrT2AeLCGbF4sZlZw3UMN3WtL0tGUoIAKsu8mllg/XA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/vis-network/9.1.2/dist/vis-network.min.js" integrity="sha512-LnvoEWDFrqGHlHmDD2101OrLcbsfkrzoSpvtSQtxK3RMnRV0eOkhhBN2dXHKRrUU8p2DGRTk35n4O8nWSVe1mQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+            
+                <link href="lib/tom-select/tom-select.css" rel="stylesheet">
+                <script src="lib/tom-select/tom-select.complete.min.js"></script>
+            
+        
+<center>
+<h1></h1>
+</center>
+
+<!-- <link rel="stylesheet" href="../node_modules/vis/dist/vis.min.css" type="text/css" />
+<script type="text/javascript" src="../node_modules/vis/dist/vis.js"> </script>-->
+        <link
+          href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/css/bootstrap.min.css"
+          rel="stylesheet"
+          integrity="sha384-eOJMYsd53ii+scO/bJGFsiCZc+5NDVN2yr8+0RDqr0Ql0h+rP48ckxlpbzKgwra6"
+          crossorigin="anonymous"
+        />
+        <script
+          src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/js/bootstrap.bundle.min.js"
+          integrity="sha384-JEW9xMcG8R+pH31jmWH6WWP0WintQrMb4s7ZOdauHnUtxwoG2vI5DkLtS3qm9Ekf"
+          crossorigin="anonymous"
+        ></script>
+
+
+        <center>
+          <h1></h1>
+        </center>
+        <style type="text/css">
+
+             #mynetwork {
+                 width: 100%;
+                 height: 1000px;
+                 background-color: #222222;
+                 border: 1px solid lightgray;
+                 position: relative;
+                 float: left;
+             }
+
+             
+
+             
+
+             
+        </style>
+    </head>
+
+
+    <body>
+        <div class="card" style="width: 100%">
+            
+                <div id="select-menu" class="card-header">
+                    <div class="row no-gutters">
+                        <div class="col-10 pb-2">
+                            <select
+                            class="form-select"
+                            aria-label="Default select example"
+                            onchange="selectNode([value]);"
+                            id="select-node"
+                            placeholder="Select node..."
+                            >
+                                <option selected>Select a Node by ID</option>
+                                
+                                    <option value="Closed-Loop Stimulation
+In Periods With Less
+Epileptiform Activity
+Drives Improved Epilepsy
+Outcomes">Closed-Loop Stimulation
+In Periods With Less
+Epileptiform Activity
+Drives Improved Epilepsy
+Outcomes</option>
+                                
+                                    <option value=" The study found that
+the responsive neurostimulation
+system was effective
+at reducing seizure frequency
+by a median of 64.6%
+in patients, and proposed
+a method to identify
+high- and low-risk epochs
+for stimulation."> The study found that
+the responsive neurostimulation
+system was effective
+at reducing seizure frequency
+by a median of 64.6%
+in patients, and proposed
+a method to identify
+high- and low-risk epochs
+for stimulation.</option>
+                                
+                                    <option value=" Seizure reduction is
+not significantly correlated
+with baseline seizure
+frequency, detections
+or stimulation counts,
+and outcomes are more
+influenced by factors
+used earlier in therapy.
+"> Seizure reduction is
+not significantly correlated
+with baseline seizure
+frequency, detections
+or stimulation counts,
+and outcomes are more
+influenced by factors
+used earlier in therapy.
+</option>
+                                
+                                    <option value=" Patients who experience
+greater seizure reduction
+spend a greater amount
+of time in low-risk states
+and receive more stimulation
+during these states,
+which is predictive of
+clinical outcomes."> Patients who experience
+greater seizure reduction
+spend a greater amount
+of time in low-risk states
+and receive more stimulation
+during these states,
+which is predictive of
+clinical outcomes.</option>
+                                
+                                    <option value=" Patients with stronger
+circadian rhythms in
+seizure detections, indicated
+by a larger phase-locking
+value or a more stable
+peak hour, experienced
+improved patient outcomes.
+"> Patients with stronger
+circadian rhythms in
+seizure detections, indicated
+by a larger phase-locking
+value or a more stable
+peak hour, experienced
+improved patient outcomes.
+</option>
+                                
+                                    <option value=" People who respond well
+to a certain type of
+seizure treatment have
+different patterns in
+how their brain activity
+changes over time compared
+to those who do not respond
+as well, with the super-responders
+experiencing increased
+power in short periods
+and stimulation that
+is less phase-locked
+to long episodes."> People who respond well
+to a certain type of
+seizure treatment have
+different patterns in
+how their brain activity
+changes over time compared
+to those who do not respond
+as well, with the super-responders
+experiencing increased
+power in short periods
+and stimulation that
+is less phase-locked
+to long episodes.</option>
+                                
+                            </select>
+                        </div>
+                        <div class="col-2 pb-2">
+                            <button type="button" class="btn btn-primary btn-block" onclick="neighbourhoodHighlight({nodes: []});">Reset Selection</button>
+                        </div>
+                    </div>
+                </div>
+            
+            
+            <div id="mynetwork" class="card-body"></div>
+        </div>
+
+        
+        
+
+        <script type="text/javascript">
+
+              // initialize global variables.
+              var edges;
+              var nodes;
+              var allNodes;
+              var allEdges;
+              var nodeColors;
+              var originalNodes;
+              var network;
+              var container;
+              var options, data;
+              var filter = {
+                  item : '',
+                  property : '',
+                  value : []
+              };
+
+              
+                  new TomSelect("#select-node",{
+                      create: false,
+                      sortField: {
+                          field: "text",
+                          direction: "asc"
+                      }
+                  });
+              
+
+              
+
+              // This method is responsible for drawing the graph, returns the drawn network
+              function drawGraph() {
+                  var container = document.getElementById('mynetwork');
+
+                  
+
+                  // parsing and collecting nodes and edges from the python
+                  nodes = new vis.DataSet([{"color": "#4287f5", "font": {"color": "white"}, "id": "Closed-Loop Stimulation\nIn Periods With Less\nEpileptiform Activity\nDrives Improved Epilepsy\nOutcomes", "label": "Closed-Loop Stimulation\nIn Periods With Less\nEpileptiform Activity\nDrives Improved Epilepsy\nOutcomes", "shape": "dot", "size": 30, "title": "Closed-Loop Stimulation\nIn Periods With Less\nEpileptiform Activity\nDrives Improved Epilepsy\nOutcomes"}, {"color": "#FFA500", "font": {"color": "white"}, "id": " The study found that\nthe responsive neurostimulation\nsystem was effective\nat reducing seizure frequency\nby a median of 64.6%\nin patients, and proposed\na method to identify\nhigh- and low-risk epochs\nfor stimulation.", "image": "./temp/0.png", "label": " The study found that\nthe responsive neurostimulation\nsystem was effective\nat reducing seizure frequency\nby a median of 64.6%\nin patients, and proposed\na method to identify\nhigh- and low-risk epochs\nfor stimulation.", "mass": 7.5, "shape": "image", "size": 50, "title": " The study found that\nthe responsive neurostimulation\nsystem was effective\nat reducing seizure frequency\nby a median of 64.6%\nin patients, and proposed\na method to identify\nhigh- and low-risk epochs\nfor stimulation."}, {"color": "#FFA500", "font": {"color": "white"}, "id": " Seizure reduction is\nnot significantly correlated\nwith baseline seizure\nfrequency, detections\nor stimulation counts,\nand outcomes are more\ninfluenced by factors\nused earlier in therapy.\n", "image": "./temp/1.png", "label": " Seizure reduction is\nnot significantly correlated\nwith baseline seizure\nfrequency, detections\nor stimulation counts,\nand outcomes are more\ninfluenced by factors\nused earlier in therapy.\n", "mass": 7.5, "shape": "image", "size": 50, "title": " Seizure reduction is\nnot significantly correlated\nwith baseline seizure\nfrequency, detections\nor stimulation counts,\nand outcomes are more\ninfluenced by factors\nused earlier in therapy.\n"}, {"color": "#FFA500", "font": {"color": "white"}, "id": " Patients who experience\ngreater seizure reduction\nspend a greater amount\nof time in low-risk states\nand receive more stimulation\nduring these states,\nwhich is predictive of\nclinical outcomes.", "image": "./temp/2.png", "label": " Patients who experience\ngreater seizure reduction\nspend a greater amount\nof time in low-risk states\nand receive more stimulation\nduring these states,\nwhich is predictive of\nclinical outcomes.", "mass": 7.5, "shape": "image", "size": 50, "title": " Patients who experience\ngreater seizure reduction\nspend a greater amount\nof time in low-risk states\nand receive more stimulation\nduring these states,\nwhich is predictive of\nclinical outcomes."}, {"color": "#FFA500", "font": {"color": "white"}, "id": " Patients with stronger\ncircadian rhythms in\nseizure detections, indicated\nby a larger phase-locking\nvalue or a more stable\npeak hour, experienced\nimproved patient outcomes.\n", "image": "./temp/3.png", "label": " Patients with stronger\ncircadian rhythms in\nseizure detections, indicated\nby a larger phase-locking\nvalue or a more stable\npeak hour, experienced\nimproved patient outcomes.\n", "mass": 7.5, "shape": "image", "size": 50, "title": " Patients with stronger\ncircadian rhythms in\nseizure detections, indicated\nby a larger phase-locking\nvalue or a more stable\npeak hour, experienced\nimproved patient outcomes.\n"}, {"color": "#FFA500", "font": {"color": "white"}, "id": " People who respond well\nto a certain type of\nseizure treatment have\ndifferent patterns in\nhow their brain activity\nchanges over time compared\nto those who do not respond\nas well, with the super-responders\nexperiencing increased\npower in short periods\nand stimulation that\nis less phase-locked\nto long episodes.", "image": "./temp/4.png", "label": " People who respond well\nto a certain type of\nseizure treatment have\ndifferent patterns in\nhow their brain activity\nchanges over time compared\nto those who do not respond\nas well, with the super-responders\nexperiencing increased\npower in short periods\nand stimulation that\nis less phase-locked\nto long episodes.", "mass": 7.5, "shape": "image", "size": 50, "title": " People who respond well\nto a certain type of\nseizure treatment have\ndifferent patterns in\nhow their brain activity\nchanges over time compared\nto those who do not respond\nas well, with the super-responders\nexperiencing increased\npower in short periods\nand stimulation that\nis less phase-locked\nto long episodes."}]);
+                  edges = new vis.DataSet([{"font": {"color": "black", "size": 9}, "from": "Closed-Loop Stimulation\nIn Periods With Less\nEpileptiform Activity\nDrives Improved Epilepsy\nOutcomes", "to": " The study found that\nthe responsive neurostimulation\nsystem was effective\nat reducing seizure frequency\nby a median of 64.6%\nin patients, and proposed\na method to identify\nhigh- and low-risk epochs\nfor stimulation."}, {"font": {"color": "black", "size": 9}, "from": "Closed-Loop Stimulation\nIn Periods With Less\nEpileptiform Activity\nDrives Improved Epilepsy\nOutcomes", "to": " Seizure reduction is\nnot significantly correlated\nwith baseline seizure\nfrequency, detections\nor stimulation counts,\nand outcomes are more\ninfluenced by factors\nused earlier in therapy.\n"}, {"font": {"color": "black", "size": 9}, "from": "Closed-Loop Stimulation\nIn Periods With Less\nEpileptiform Activity\nDrives Improved Epilepsy\nOutcomes", "to": " Patients who experience\ngreater seizure reduction\nspend a greater amount\nof time in low-risk states\nand receive more stimulation\nduring these states,\nwhich is predictive of\nclinical outcomes."}, {"font": {"color": "black", "size": 9}, "from": "Closed-Loop Stimulation\nIn Periods With Less\nEpileptiform Activity\nDrives Improved Epilepsy\nOutcomes", "to": " Patients with stronger\ncircadian rhythms in\nseizure detections, indicated\nby a larger phase-locking\nvalue or a more stable\npeak hour, experienced\nimproved patient outcomes.\n"}, {"font": {"color": "black", "size": 9}, "from": "Closed-Loop Stimulation\nIn Periods With Less\nEpileptiform Activity\nDrives Improved Epilepsy\nOutcomes", "to": " People who respond well\nto a certain type of\nseizure treatment have\ndifferent patterns in\nhow their brain activity\nchanges over time compared\nto those who do not respond\nas well, with the super-responders\nexperiencing increased\npower in short periods\nand stimulation that\nis less phase-locked\nto long episodes."}]);
+
+                  nodeColors = {};
+                  allNodes = nodes.get({ returnType: "Object" });
+                  for (nodeId in allNodes) {
+                    nodeColors[nodeId] = allNodes[nodeId].color;
+                  }
+                  allEdges = edges.get({ returnType: "Object" });
+                  // adding nodes and edges to the graph
+                  data = {nodes: nodes, edges: edges};
+
+                  var options = {
+    "configure": {
+        "enabled": false
+    },
+    "edges": {
+        "color": {
+            "inherit": true
+        },
+        "smooth": {
+            "enabled": true,
+            "type": "dynamic"
+        }
+    },
+    "interaction": {
+        "dragNodes": true,
+        "hideEdgesOnDrag": false,
+        "hideNodesOnDrag": false
+    },
+    "physics": {
+        "enabled": false,
+        "stabilization": {
+            "enabled": true,
+            "fit": true,
+            "iterations": 1000,
+            "onlyDynamicEdges": false,
+            "updateInterval": 50
+        }
+    }
+};
+
+                  
+
+
+                  
+
+                  network = new vis.Network(container, data, options);
+
+                  
+
+                  
+                    network.on("selectNode", neighbourhoodHighlight);
+                  
+
+                  
+
+
+                  
+
+                  return network;
+
+              }
+              drawGraph();
+        </script>
+    </body>
+</html>
