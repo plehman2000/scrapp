@@ -396,3 +396,31 @@ import re
 def wrap_text(text, width=20):
     pattern = r'(.{' + str(width) + r',}?)(\s+|$)'
     return re.sub(pattern, lambda m: m.group(1) + '\n', text)
+
+
+
+def extract_info(text):
+    
+
+    schema = """ {
+            "": ""
+    }"""
+    input_llm = f"""
+    Given a full text of a research paper, return a dictionary of the section names and each of the sections of text. If no title is easily found, create a sensible one### Template:
+    {json.dumps(json.loads(schema), indent=4)}
+    ### Example:
+ {{
+            "Section Name": "Here is all the text in the section "Section Name." I think it will prove important"
+    }}
+    ### Text:
+    {text}
+"""
+
+    response = ollama.chat(model='nuextract', messages=[ #llama3
+    {
+    'role': 'user',
+    'content': input_llm}])#, options={"temperature":.5}
+
+    output = response['message']['content']
+    
+    return output.replace("<|end-output|>","")#output[output.find("<|end-output|>"):]

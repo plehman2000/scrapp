@@ -60,6 +60,72 @@ def __(file_name, get_paper_info):
 
 
 @app.cell
+def __(file_name):
+    import fitz  # PyMuPDF
+
+    def extract_text(pdf_path):
+        doc = fitz.open(pdf_path)
+        full_text = ""
+        for page in doc:
+            # Extract text from the page
+            text = page.get_text()
+            full_text += text
+            
+        doc.close()
+        
+        return full_text
+
+    # Usage
+    full_text = extract_text(file_name)
+    return extract_text, fitz, full_text
+
+
+@app.cell
+def __(file_name):
+    import pdfplumber
+    import re
+
+    def split_pdf_by_section(text):
+        sections = {}
+        current_section = "Default"
+        lines = text.split('\n')
+        
+        for line in lines:
+            if line.startswith("Section: "):
+                current_section = line.replace("Section: ", "").strip()
+                sections[current_section] = []
+            else:
+                if current_section not in sections:
+                    sections[current_section] = []
+                sections[current_section].append(line)
+        
+        return sections
+    sections = split_pdf_by_section(file_name)
+
+    for section, content in sections.items():
+        print(f"Section: {section}")
+        print("-" * 50)
+        print("\n".join(content[:5]))  # Print first 5 lines of each section
+        print("...\n")
+
+
+    return content, pdfplumber, re, section, sections, split_pdf_by_section
+
+
+@app.cell
+def __(extract_info, full_text):
+    info = extract_info(full_text)
+    print(info)
+    return info,
+
+
+@app.cell
+def __(info):
+    type(info)
+    return
+
+
+@app.cell
 def __(paper):
     chunks = paper['chunks']
     return chunks,
@@ -83,10 +149,22 @@ def __(chunks, extract_details, json):
 
 
 @app.cell
-def __(details):
+def __():
     import pickle
-    pickle.dump(details, open("paper_deets.pkl", 'wb'))
+    # pickle.dump(details, open("paper_deets.pkl", 'wb'))
     return pickle,
+
+
+@app.cell
+def __(pickle):
+    deets = pickle.load(open("paper_deets.pkl", 'rb'))
+    return deets,
+
+
+@app.cell
+def __(deets):
+    deets
+    return
 
 
 @app.cell
