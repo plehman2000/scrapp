@@ -9,7 +9,7 @@ at variable levels of abstractions: small machine-generated summaries
 up to elaborate essays. Quotes can be automatically sourced, and we include
 a Wayback Machine-like functionality that saves local copies of webpages 
 in case they are edited or lost. Capable of internet searching for improved context. 
-And perhaps most impressively and most challengingly, building a world model based on the first ord""")
+And perhaps most impressively and most challengingly, building a world model based on the first order proposition simplied from the text""")
 print(
 """
 What makes up a scrapp?"
