@@ -1,0 +1,10 @@
+E:\GHRepos\scrapp\frontend\yew-app\target\wasm32-unknown-unknown\debug\deps\libgloo_storage-2fde8ef72a37d516.rmeta: C:\Users\patri\.cargo\registry\src\index.crates.io-6f17d22bba15001f\gloo-storage-0.2.2\src\lib.rs C:\Users\patri\.cargo\registry\src\index.crates.io-6f17d22bba15001f\gloo-storage-0.2.2\src\errors.rs C:\Users\patri\.cargo\registry\src\index.crates.io-6f17d22bba15001f\gloo-storage-0.2.2\src\local_storage.rs C:\Users\patri\.cargo\registry\src\index.crates.io-6f17d22bba15001f\gloo-storage-0.2.2\src\session_storage.rs
+
+E:\GHRepos\scrapp\frontend\yew-app\target\wasm32-unknown-unknown\debug\deps\libgloo_storage-2fde8ef72a37d516.rlib: C:\Users\patri\.cargo\registry\src\index.crates.io-6f17d22bba15001f\gloo-storage-0.2.2\src\lib.rs C:\Users\patri\.cargo\registry\src\index.crates.io-6f17d22bba15001f\gloo-storage-0.2.2\src\errors.rs C:\Users\patri\.cargo\registry\src\index.crates.io-6f17d22bba15001f\gloo-storage-0.2.2\src\local_storage.rs C:\Users\patri\.cargo\registry\src\index.crates.io-6f17d22bba15001f\gloo-storage-0.2.2\src\session_storage.rs
+
+E:\GHRepos\scrapp\frontend\yew-app\target\wasm32-unknown-unknown\debug\deps\gloo_storage-2fde8ef72a37d516.d: C:\Users\patri\.cargo\registry\src\index.crates.io-6f17d22bba15001f\gloo-storage-0.2.2\src\lib.rs C:\Users\patri\.cargo\registry\src\index.crates.io-6f17d22bba15001f\gloo-storage-0.2.2\src\errors.rs C:\Users\patri\.cargo\registry\src\index.crates.io-6f17d22bba15001f\gloo-storage-0.2.2\src\local_storage.rs C:\Users\patri\.cargo\registry\src\index.crates.io-6f17d22bba15001f\gloo-storage-0.2.2\src\session_storage.rs
+
+C:\Users\patri\.cargo\registry\src\index.crates.io-6f17d22bba15001f\gloo-storage-0.2.2\src\lib.rs:
+C:\Users\patri\.cargo\registry\src\index.crates.io-6f17d22bba15001f\gloo-storage-0.2.2\src\errors.rs:
+C:\Users\patri\.cargo\registry\src\index.crates.io-6f17d22bba15001f\gloo-storage-0.2.2\src\local_storage.rs:
+C:\Users\patri\.cargo\registry\src\index.crates.io-6f17d22bba15001f\gloo-storage-0.2.2\src\session_storage.rs:

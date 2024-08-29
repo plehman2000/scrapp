@@ -1,0 +1,11 @@
+E:\GHRepos\scrapp\frontend\yew-app\target\wasm32-unknown-unknown\debug\deps\libgloo_file-993dd6d03f2caf11.rmeta: C:\Users\patri\.cargo\registry\src\index.crates.io-6f17d22bba15001f\gloo-file-0.3.0\src\lib.rs C:\Users\patri\.cargo\registry\src\index.crates.io-6f17d22bba15001f\gloo-file-0.3.0\src\blob.rs C:\Users\patri\.cargo\registry\src\index.crates.io-6f17d22bba15001f\gloo-file-0.3.0\src\file_list.rs C:\Users\patri\.cargo\registry\src\index.crates.io-6f17d22bba15001f\gloo-file-0.3.0\src\file_reader.rs C:\Users\patri\.cargo\registry\src\index.crates.io-6f17d22bba15001f\gloo-file-0.3.0\src\object_url.rs
+
+E:\GHRepos\scrapp\frontend\yew-app\target\wasm32-unknown-unknown\debug\deps\libgloo_file-993dd6d03f2caf11.rlib: C:\Users\patri\.cargo\registry\src\index.crates.io-6f17d22bba15001f\gloo-file-0.3.0\src\lib.rs C:\Users\patri\.cargo\registry\src\index.crates.io-6f17d22bba15001f\gloo-file-0.3.0\src\blob.rs C:\Users\patri\.cargo\registry\src\index.crates.io-6f17d22bba15001f\gloo-file-0.3.0\src\file_list.rs C:\Users\patri\.cargo\registry\src\index.crates.io-6f17d22bba15001f\gloo-file-0.3.0\src\file_reader.rs C:\Users\patri\.cargo\registry\src\index.crates.io-6f17d22bba15001f\gloo-file-0.3.0\src\object_url.rs
+
+E:\GHRepos\scrapp\frontend\yew-app\target\wasm32-unknown-unknown\debug\deps\gloo_file-993dd6d03f2caf11.d: C:\Users\patri\.cargo\registry\src\index.crates.io-6f17d22bba15001f\gloo-file-0.3.0\src\lib.rs C:\Users\patri\.cargo\registry\src\index.crates.io-6f17d22bba15001f\gloo-file-0.3.0\src\blob.rs C:\Users\patri\.cargo\registry\src\index.crates.io-6f17d22bba15001f\gloo-file-0.3.0\src\file_list.rs C:\Users\patri\.cargo\registry\src\index.crates.io-6f17d22bba15001f\gloo-file-0.3.0\src\file_reader.rs C:\Users\patri\.cargo\registry\src\index.crates.io-6f17d22bba15001f\gloo-file-0.3.0\src\object_url.rs
+
+C:\Users\patri\.cargo\registry\src\index.crates.io-6f17d22bba15001f\gloo-file-0.3.0\src\lib.rs:
+C:\Users\patri\.cargo\registry\src\index.crates.io-6f17d22bba15001f\gloo-file-0.3.0\src\blob.rs:
+C:\Users\patri\.cargo\registry\src\index.crates.io-6f17d22bba15001f\gloo-file-0.3.0\src\file_list.rs:
+C:\Users\patri\.cargo\registry\src\index.crates.io-6f17d22bba15001f\gloo-file-0.3.0\src\file_reader.rs:
+C:\Users\patri\.cargo\registry\src\index.crates.io-6f17d22bba15001f\gloo-file-0.3.0\src\object_url.rs:
