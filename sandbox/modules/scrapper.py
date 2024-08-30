@@ -4,7 +4,7 @@ import ollama
 def extract_relations_formatted(text):
 
     input_llm = """
-    Please extract all relations betweens proper nouns and predicates. Valid relations are verbs like is/has/created/taken etc. THE SUBJECT + RELATION PREDICATE should form a complete sentence as close to how it appears in the text as possible
+    Please extract all relations betweens proper nouns and predicates and return in the following JSON template. Valid relations are verbs like is/has/created/taken etc. THE SUBJECT + RELATION PREDICATE should form a complete sentence as close to how it appears in the text as possible
     ### Template:
      {
       "facts": [

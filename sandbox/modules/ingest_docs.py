@@ -97,11 +97,13 @@ def db_ready_facts(relations, doc_id):
         filtered_facts[x['subject']].append([ x['predicate'], doc_id]) 
     return filtered_facts
 
-def ingest_document_prototype(file_path):
+def ingest_document_prototype(file_path): #need to add work for using webpages
     global scrapp_db 
     global file_name_db
     # Read file and process content
     file_info = read_file_with_metadata(file_path)
+
+    # add source like URL or title
     doc_id = str(uuid.uuid4())
     relations = text_to_relations(file_info['content'])
     filtered_facts = db_ready_facts(relations, doc_id)
@@ -114,7 +116,7 @@ def ingest_document_prototype(file_path):
     
     for subject in filtered_facts:
         existing_entry = scrapp_db.get(Query().subject == subject)
-        if existing_entry:
+        if existing_entry: # case sensitive, is this a good choice? 
             updated_facts = existing_entry['facts'] + filtered_facts[subject]
             scrapp_db.update({'facts': updated_facts}, Query().subject == subject)
         else:
@@ -151,15 +153,4 @@ def get_scrapp_db():
     all_subjects = [doc['subject'] for doc in all_docs]
     return all_subjects
 
-# # file_path = "./test_inputs/info3.txt"
-# file_path = "./test_inputs/info2.txt"
-# ingest_document_prototype(file_path)
 
-
-# query = "Kamala"
-
-# results = search_db(query, n=1)
-# q = Query()
-# output = scrapp_db.search(q.subject == results[0])
-# print(json.dumps(output[0], indent=4))
-# # print(results)

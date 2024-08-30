@@ -3,56 +3,114 @@ import json
 from tinydb import TinyDB, Query
 import re
 import os
-from modules.ingest_docs import search_db, file_name_db,ingest_document_prototype, get_scrapp_db
+from modules.ingest_docs import search_db, file_name_db, ingest_document_prototype, get_scrapp_db
 from rapidfuzz import fuzz
 import uuid
+import base64
+from streamlit_searchbox import st_searchbox
 
 SAVE_DIR = "./documents/"
-st.session_state.ingesting = False
 
+def load_font(font_file):
+    with open(font_file, "rb") as f:
+        font_bytes = f.read()
+    return base64.b64encode(font_bytes).decode()
+
+# Load the font files
+woff2_font = load_font("./.streamlit/font/DepartureMono-Regular.woff2")
+woff_font = load_font("./.streamlit/font/DepartureMono-Regular.woff")
+otf_font = load_font("./.streamlit/font/DepartureMono-Regular.otf")
+
+font_info = f"""
+    <style>
+    @font-face {{
+    font-family: 'DepartureMono';
+    src: url(data:font/woff2;charset=utf-8;base64,{woff2_font}) format('woff2'),
+        url(data:font/woff;charset=utf-8;base64,{woff_font}) format('woff'),
+        url(data:font/otf;charset=utf-8;base64,{otf_font}) format('opentype');
+    font-weight: normal;
+    font-style: normal;
+    }}
+
+    html, body, [class*="css"] {{
+    font-family: 'DepartureMono', monospace !important;
+    }}
+    </style>
+    """
+
+
+def get_fonted_text(text,size=24):
+    return f'<p style="font-family: \'DepartureMono\', monospace; font-size: {size}px;">{text}</p>'
 def search_page():
-    st.title("Database Search App")
+    st.markdown(font_info, unsafe_allow_html=True)
 
-    # search_term = st.text_input("Enter search term here")
-    from streamlit_searchbox import st_searchbox
+    st.markdown(get_fonted_text("Entity Search", size=48), unsafe_allow_html=True)
+    # Add custom CSS to load the font
 
-    # function with list of labels
+
     suggestions = get_scrapp_db()
 
     def get_suggestions(searchterm: str) -> list[any]:
         all_subjects = sorted(suggestions, key=lambda x: fuzz.partial_ratio(searchterm,x), reverse=True)[:5]
         return all_subjects if searchterm else []
 
-
-    # pass search function to searchbox
     search_term = st_searchbox(
         get_suggestions,
         key="searchbox",
     )
 
     if search_term:
-        results = search_db(search_term)
-        results = [x[0] for x in json.loads(results)['facts']]
+        results = json.loads(search_db(search_term))['facts']
         if results:
-            st.subheader("Search Results:")
-            # Display buttons and check which one was clicked
-            for label in results:
-                if st.button(label, key=uuid.uuid4()):
+            st.markdown(get_fonted_text("Search Results",size=24), unsafe_allow_html=True)
 
-                    st.write(f"You clicked: {label}")
+
+            texts = results 
+            images = ["https://via.placeholder.com/150"] * len(results)
+
+            for label, img in zip(results, images):
+                col1, col2 = st.columns([2, 1])
+
+                with col1:
+                    # st.write(f"{label} clicked!")
+                    st.markdown(get_fonted_text(f"\"{label[0]}\"",size=16), unsafe_allow_html=True)
+
+                    # if st.button(label[0]):
+                    #     st.write(f"{label} clicked!")
+
+                with col2:
+                    file_info = file_name_db.get(Query().doc_id == label[1])['metadata']
+                    del file_info["file_size"]
+                    del file_info["modification_time"]
+                    source = "N/A"
+                    # st.write(f"File Name: \"{file_info['file_name']}\"")
+                    # st.write(f"Collection Time: {file_info['creation_time']}")
+                    # st.write(f"Source: {source}")
+
+                    st.markdown(get_fonted_text(f"File Name: \"{file_info['file_name']}\"",size=16), unsafe_allow_html=True)
+                    st.markdown(get_fonted_text(f"Collection Time: {file_info['creation_time']}",size=16), unsafe_allow_html=True)
+                    st.markdown(get_fonted_text(f"Source: {source}",size=16), unsafe_allow_html=True)
+
+
+
+
+                st.markdown("---")
         else:
             st.info("No results found.")
 
 def upload_page():
-    
-    st.title("File Upload")
-    st.write("Upload files to the DB")
+
+    # st.title("File Upload")
+    st.markdown(get_fonted_text("File Upload",size=48), unsafe_allow_html=True)
+    st.markdown(get_fonted_text("Upload files to the DB"), unsafe_allow_html=True)
+
 
     uploaded_files = st.file_uploader("Choose a file", type=None, accept_multiple_files=True)
         
-        
     from modules.ingest_docs import read_file_with_metadata
-    if st.button("Ingest", disabled=st.session_state.ingesting):
+    st.markdown(font_info, unsafe_allow_html=True)
+
+    if st.button(font_info, disabled=st.session_state.ingesting,):
         st.session_state.ingesting = True
         if uploaded_files is not None:
             for uploaded_file in uploaded_files:
@@ -65,14 +123,17 @@ def upload_page():
                     ingest_document_prototype(save_path)
                 st.success("Ingested!")
 
-
 page_names_to_funcs = {
     "Search": search_page,
     "Upload Files": upload_page
 }
 
 def main():
-    st.sidebar.title("Navigation")
+    st.markdown(font_info, unsafe_allow_html=True)
+
+    # st.sidebar.title("Navigation")
+    st.sidebar.markdown(get_fonted_text("Navigation"), unsafe_allow_html=True)
+
     page_name = st.sidebar.radio("Go to", list(page_names_to_funcs.keys()))
     page_names_to_funcs[page_name]()
 
