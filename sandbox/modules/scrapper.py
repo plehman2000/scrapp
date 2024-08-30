@@ -10,12 +10,10 @@ def extract_relations_formatted(text):
       "facts": [
          {
           "subject": "",
-          "verb": "",
           "predicate": ""
          },
          {
           "subject": "",
-          "verb": "",
           "predicate": ""
          }
       ]
@@ -26,23 +24,19 @@ def extract_relations_formatted(text):
       "facts": [
          {
           "subject": "Adriaan van Wijngaarden",
-          "verb": "employed",
-          "predicate": "Dijkstra as the first computer programmer in the Netherlands at the Mathematical Centre in Amsterdam (1952-1962)"
+          "predicate": "employed Dijkstra as the first computer programmer in the Netherlands at the Mathematical Centre in Amsterdam (1952-1962)"
          },
          {
           "subject": "Dijkstra",
-          "verb": "formulated",
-          "predicate": "the shortest path problem in 1956"
+          "predicate": "formulated the shortest path problem in 1956"
          }
          {
           "subject": "Dijkstra",
-          "verb": "solved",
-          "predicate": "the shortest path problem in 1956"
+          "predicate": "solved the shortest path problem in 1956"
          }
                   {
           "subject": "John",
-          "verb": "is",
-          "predicate": "reknowned for his Computer Science contributions"
+          "predicate": "is reknowned for his Computer Science contributions"
          }
       ]
      }
@@ -118,14 +112,15 @@ def llm_facts_to_formatted_facts(facts):
     following these guidelines:
 
     - Noun: Identify the subject of the original fact and use it as the noun. Do not replace it with a pronoun.
-    - Verb: Choose a verb that captures the primary action or state described in the fact.
-    - Object: Fill in the object with key details from the original fact.
+    - Verb/Object: Choose a verb that captures the primary action or state described in the fact and object with key details from the original fact.
 
     All facts should be formatted as grammatically correct, complete sentences. If needed, split sentences 
     into smaller ones to maintain clarity and accuracy.
 
     Instructions: Apply this structure to each fact in the list, always following noun -> verb -> object. 
-    Ensure the rewritten facts are clear, accurate, and maintain the essence of the original information.
+    Ensure the rewritten facts are clear, accurate, and maintain the same form and information of the original information.
+    Use full names or specific descriptors instead of pronouns.
+
 
     """
 
@@ -140,14 +135,14 @@ def llm_facts_to_formatted_facts(facts):
     return output
 
 
-def chunk_to_ents(text):
-    entities = set()
-    result = get_entities(text)
-    [entities.add(r) for r in result]
-    entities = list(entities)
-    facts = llm_chunks_to_facts( chunks)
-    all_out = [p['facts'] for p in facts]
-    return sum(all_out, [])
+# def chunk_to_ents(text):
+#     entities = set()
+#     result = get_entities(text)
+#     [entities.add(r) for r in result]
+#     entities = list(entities)
+#     facts = llm_chunks_to_facts( chunks)
+#     all_out = [p['facts'] for p in facts]
+#     return sum(all_out, [])
 
 
 
@@ -219,7 +214,8 @@ def replace_pronouns_json(text):
 
     input_llm = """
     Replace all pronouns in following JSON with the most appropriate proper noun available, using the context from all provided facts. Do not return pronouns, such as "he" or "she" 
-    Return the modified JSON in the same format as the original, shown below. Only return the JSON:
+    Return the modified JSON in the same format as the original, shown below. Ensure that each proper noun subject
+    in the list of JSON objects is unique and not repeated. PLEASE DO NOT INCLUDE PRONOUNS LIKE HE OR SHE IN THIS OUTPUTOnly return the JSON:
     """
 
     response = ollama.chat(model='dolphin-llama3',
@@ -244,9 +240,28 @@ def replace_pronouns_json(text):
 
     return parsed_output
 
+
+
+from .loader_anim import Loader
+from time import sleep
+
+
+
 def text_to_relations(text):
+    loader = Loader("Collecting Facts...").start()
     facts = llm_chunks_to_facts(text)
+    loader.stop()
+
+    loader = Loader("Formatting Facts...").start()
     formatted_facts = llm_facts_to_formatted_facts(facts)
+    loader.stop()
+
+    loader = Loader("Extracting Relations...").start()
     relations = extract_relations_formatted(formatted_facts)
+    loader.stop()
+
+    loader = Loader("Replacing pronouns...").start()
     out = replace_pronouns_json(relations)
+    loader.stop()
+
     return out
