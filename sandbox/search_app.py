@@ -3,14 +3,14 @@ import json
 from tinydb import TinyDB, Query
 import re
 import os
-from modules.ingest_docs import search_db, file_name_db, ingest_document_prototype, get_scrapp_db
+from modules.ingest_docs import search_db, file_name_db, ingest_document_prototype, get_scrapp_db, ingest_document_prototype2,download_webpage_html
 from rapidfuzz import fuzz
 import uuid
 import base64
 from streamlit_searchbox import st_searchbox
 
 SAVE_DIR = "./documents/"
-
+st.session_state.ingesting = False
 def load_font(font_file):
     with open(font_file, "rb") as f:
         font_bytes = f.read()
@@ -29,6 +29,7 @@ font_info = f"""
         url(data:font/woff;charset=utf-8;base64,{woff_font}) format('woff'),
         url(data:font/otf;charset=utf-8;base64,{otf_font}) format('opentype');
     font-weight: normal;
+
     font-style: normal;
     }}
 
@@ -39,8 +40,14 @@ font_info = f"""
     """
 
 
-def get_fonted_text(text,size=24):
-    return f'<p style="font-family: \'DepartureMono\', monospace; font-size: {size}px;">{text}</p>'
+
+def get_fonted_text(text,size=24, body=False):
+    extra = "letter-spacing: -2px;"
+
+    if body==True:
+        extra = ""
+    
+    return f'<p style="font-family: \'DepartureMono\', monospace; font-size: {size}px;{extra}">{text}</p>'
 def search_page():
     st.markdown(font_info, unsafe_allow_html=True)
 
@@ -62,18 +69,18 @@ def search_page():
     if search_term:
         results = json.loads(search_db(search_term))['facts']
         if results:
-            st.markdown(get_fonted_text("Search Results",size=24), unsafe_allow_html=True)
+            st.markdown(get_fonted_text("Search Results",size=24,body=True), unsafe_allow_html=True)
 
 
             texts = results 
             images = ["https://via.placeholder.com/150"] * len(results)
 
-            for label, img in zip(results, images):
-                col1, col2 = st.columns([2, 1])
+            for label in results:
+                col1, col2  = st.columns([2, 1])
 
                 with col1:
                     # st.write(f"{label} clicked!")
-                    st.markdown(get_fonted_text(f"\"{label[0]}\"",size=16), unsafe_allow_html=True)
+                    st.markdown(get_fonted_text(f"\"{label[0]}\"",size=16,body=True), unsafe_allow_html=True)
 
                     # if st.button(label[0]):
                     #     st.write(f"{label} clicked!")
@@ -82,15 +89,23 @@ def search_page():
                     file_info = file_name_db.get(Query().doc_id == label[1])['metadata']
                     del file_info["file_size"]
                     del file_info["modification_time"]
-                    source = "N/A"
+
+                    source = file_info['file_name']
+
+                    if "url" in file_info.keys():
+                        source = file_info['url']
+                    
                     # st.write(f"File Name: \"{file_info['file_name']}\"")
                     # st.write(f"Collection Time: {file_info['creation_time']}")
                     # st.write(f"Source: {source}")
 
-                    st.markdown(get_fonted_text(f"File Name: \"{file_info['file_name']}\"",size=16), unsafe_allow_html=True)
-                    st.markdown(get_fonted_text(f"Collection Time: {file_info['creation_time']}",size=16), unsafe_allow_html=True)
-                    st.markdown(get_fonted_text(f"Source: {source}",size=16), unsafe_allow_html=True)
-
+                    st.markdown(get_fonted_text(f"File Name: \"{file_info['file_name']}\"",size=16,body=True), unsafe_allow_html=True)
+                    st.markdown(get_fonted_text(f"Collection Time: {file_info['creation_time']}",size=16,body=True), unsafe_allow_html=True)
+                    st.markdown(get_fonted_text(f"Source: {source}",size=16,body=True), unsafe_allow_html=True)
+                # with col3:
+                #     st.write("NEEd to add deleting")
+                #     if st.button("Delete", key=uuid.uuid4()):
+                #         st.success(f"Deleted entry: {label[0]}")
 
 
 
@@ -102,37 +117,58 @@ def upload_page():
 
     # st.title("File Upload")
     st.markdown(get_fonted_text("File Upload",size=48), unsafe_allow_html=True)
-    st.markdown(get_fonted_text("Upload files to the DB"), unsafe_allow_html=True)
+    st.markdown(get_fonted_text("Upload files to the DB",body=True), unsafe_allow_html=True)
+    # st.markdown("<a href="file:///C:\Programs\sort.mw">Link 1</a>")
 
-
-    uploaded_files = st.file_uploader("Choose a file", type=None, accept_multiple_files=True)
+    uploaded_files = st.file_uploader("", type=None, accept_multiple_files=True)
         
     from modules.ingest_docs import read_file_with_metadata
-    st.markdown(font_info, unsafe_allow_html=True)
+    # st.markdown(font_info, unsafe_allow_html=True)
 
-    if st.button(font_info, disabled=st.session_state.ingesting,):
+    if st.button("Go", disabled=st.session_state.ingesting):
         st.session_state.ingesting = True
         if uploaded_files is not None:
             for uploaded_file in uploaded_files:
                 save_path = os.path.join(SAVE_DIR, uploaded_file.name)
-                
                 with open(save_path, "wb") as f:
                     f.write(uploaded_file.getbuffer())
-                read_file_with_metadata(save_path)
+                # read_file_with_metadata(save_path)
                 with st.spinner('Ingesting...'):
-                    ingest_document_prototype(save_path)
+                    metadata = ingest_document_prototype2(save_path)
                 st.success("Ingested!")
+                # st.sucess(metadata)
+import validators
 
+def webcrawl_page():
+    url = st.text_input("Enter URL")
+    file_path = None
+    if validators.url(url):
+        if st.button("Go", disabled=st.session_state.ingesting):
+            file_path = download_webpage_html(url)
+    else:
+        st.text("Invalid URL")
+    # uploaded_files = st.file_uploader("", type=None, accept_multiple_files=True)
+        
+    # from modules.ingest_docs import read_file_with_metadata
+    # # st.markdown(font_info, unsafe_allow_html=True)
+    if file_path is not None:
+        st.session_state.ingesting = True
+        with st.spinner('Ingesting...'):
+            metadata = ingest_document_prototype2(file_path, url=url)
+
+        st.success("Ingested!")
+        st.sucess(metadata)
 page_names_to_funcs = {
     "Search": search_page,
-    "Upload Files": upload_page
+    "Upload Files": upload_page,
+    "Download Websites": webcrawl_page
 }
 
 def main():
     st.markdown(font_info, unsafe_allow_html=True)
 
     # st.sidebar.title("Navigation")
-    st.sidebar.markdown(get_fonted_text("Navigation"), unsafe_allow_html=True)
+    st.sidebar.markdown(get_fonted_text("Navigation",body=True), unsafe_allow_html=True)
 
     page_name = st.sidebar.radio("Go to", list(page_names_to_funcs.keys()))
     page_names_to_funcs[page_name]()

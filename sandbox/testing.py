@@ -15,14 +15,70 @@ def __():
 @app.cell
 def __():
     # need something to scan db and collect entities that are the same
-
-
     return
 
 
 @app.cell
 def __():
-    return
+    import PyPDF2
+    import re
+
+    def extract_text_from_pdf(pdf_path):
+        # Open the PDF file
+        with open(pdf_path, 'rb') as file:
+            # Create a PDF reader object
+            pdf_reader = PyPDF2.PdfReader(file)
+
+            # Initialize an empty string to store the extracted text
+            extracted_text = ""
+
+            # Iterate through each page in the PDF
+            for page in pdf_reader.pages:
+                # Extract text from the page
+                page_text = page.extract_text()
+
+                # Remove any potential table-like structures
+                # This regex looks for patterns of repeated whitespace that might indicate a table
+                page_text = re.sub(r'\s{2,}', ' ', page_text)
+
+                # Append the cleaned text to our result
+                extracted_text += page_text + "\n\n"
+
+        return extracted_text.strip()
+
+    pdf_path = ".\documents\mctb2.pdf"
+    text = extract_text_from_pdf(pdf_path)
+    print(text)
+    return PyPDF2, extract_text_from_pdf, pdf_path, re, text
+
+
+@app.cell
+def __():
+    from text_chunker import TextChunker
+
+    with open("./documents/info1.txt", 'r', encoding='utf-8') as file:
+        text = file.read()
+
+    from textsplitter import TextSplitter
+
+
+    text_splitter = TextSplitter(max_token_size=200, end_sentence=True, preserve_formatting=True,
+                                 remove_urls=True, replace_entities=True, remove_stopwords=True, language='english')
+
+    chunks = text_splitter.split_text(text)
+
+    for i, chunk in enumerate(chunks):
+        print(f"Chunk {i + 1}:\n{chunk}")
+    return (
+        TextChunker,
+        TextSplitter,
+        chunk,
+        chunks,
+        file,
+        i,
+        text,
+        text_splitter,
+    )
 
 
 @app.cell
@@ -36,6 +92,60 @@ def __(scrapp_db):
     all_subjects = sorted(all_subjects, key=lambda x: fuzz.partial_ratio(entity_to_mathc,x), reverse=True)
     print(all_subjects)
     return all_docs, all_subjects, entity_to_mathc, fuzz
+
+
+@app.cell
+def __():
+    from stqdm import stqdm
+
+
+    stqdm
+    return stqdm,
+
+
+@app.cell
+def __():
+    import html_text
+    import os
+
+    def extract_text_from_html_file(file_path, guess_layout=True):
+        try:
+            # Check if the file exists
+            if not os.path.exists(file_path):
+                raise FileNotFoundError(f"The file {file_path} does not exist.")
+
+            # Open and read the HTML file
+            with open(file_path, 'r', encoding='utf-8') as file:
+                html_content = file.read()
+
+            # Extract text from the HTML content
+            extracted_text = html_text.extract_text(html_content, guess_layout=guess_layout)
+
+            return extracted_text
+
+        except FileNotFoundError as e:
+            print(f"Error: {e}")
+            return None
+        except Exception as e:
+            print(f"An error occurred while processing the file: {e}")
+            return None
+
+    # Example usage
+    file_path = ".\documents\en.wikipedia.org_wiki_Edsger_W._Dijkstra__09a889b9-.html"
+
+    # Extract text with layout guessing (default)
+    text_with_layout = extract_text_from_html_file(file_path)
+    if text_with_layout:
+        print("Extracted text (with layout guessing):")
+        print(text_with_layout[:500])  # Print first 500 characters
+
+    return (
+        extract_text_from_html_file,
+        file_path,
+        html_text,
+        os,
+        text_with_layout,
+    )
 
 
 @app.cell
