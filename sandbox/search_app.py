@@ -41,6 +41,7 @@ font_info = f"""
 
 
 
+
 def get_fonted_text(text,size=24, body=False):
     extra = "letter-spacing: -2px;"
 
@@ -106,6 +107,7 @@ def search_page():
                 #     st.write("NEEd to add deleting")
                 #     if st.button("Delete", key=uuid.uuid4()):
                 #         st.success(f"Deleted entry: {label[0]}")
+
 
 
 
