@@ -46,14 +46,14 @@ def extract_relations_formatted(text):
     ### Text:
     """
 
-    response = ollama.chat(model='dolphin-llama3',
-                           format="json",messages=[ #llama3
-    {
-    'role': 'user',
-    'content': input_llm + text}])#, options={"temperature":.5}
+    response = ollama.chat(
+        model="dolphin-llama3",
+        format="json",
+        messages=[{"role": "user", "content": input_llm + text}],  # llama3
+    )  # , options={"temperature":.5}
 
-    output = response['message']['content']
-    output = output.replace("<|end-output|>","")
+    output = response["message"]["content"]
+    output = output.replace("<|end-output|>", "")
     try:
         parsed_output = json.loads(output)
 
@@ -65,23 +65,27 @@ def extract_relations_formatted(text):
     except Exception as e:
         print(f"Error processing chunk")
 
-
     return parsed_output
+
 
 import spacy
 import json
-def get_entities(text):
 
+
+def get_entities(text):
 
     nlp = spacy.load("en_core_web_trf")
     doc = nlp(text)
 
-    # entities = [(ent.text, ent.label_) for ent in doc.ents 
-    entities = [ent.text for ent in doc.ents 
-                if ent.label_ not in ["MONEY", "TIME", "DATE", "CARDINAL", "PERCENT", "QUANTITY", "ORDINAL"]]
+    # entities = [(ent.text, ent.label_) for ent in doc.ents
+    entities = [
+        ent.text
+        for ent in doc.ents
+        if ent.label_
+        not in ["MONEY", "TIME", "DATE", "CARDINAL", "PERCENT", "QUANTITY", "ORDINAL"]
+    ]
 
     return entities
-
 
 
 # def llm_replace_pronouns
@@ -97,13 +101,12 @@ def llm_chunks_to_facts(chunk):
 6. Do not include any information that seems to be formatting artifacts
 Please present the facts as a  bulleted list. Do not include any additional commentary or explanation beyond the list of facts."""
     response = ollama.chat(
-        model='dolphin-llama3'
+        model="dolphin-llama3"
         # model='gemma2:27b'
-        , messages=[ #llama3
-    {
-    'role': 'user',
-    'content': prompt + chunk}])
-    output = response['message']['content']
+        ,
+        messages=[{"role": "user", "content": prompt + chunk}],  # llama3
+    )
+    output = response["message"]["content"]
     return output
 
 
@@ -128,13 +131,12 @@ def llm_facts_to_formatted_facts(facts):
     """
 
     response = ollama.chat(
-    model='dolphin-llama3'
-    # model='gemma2:27b'
-    , messages=[ #llama3
-    {
-    'role': 'user',
-    'content': prompt + facts}])
-    output = response['message']['content']
+        model="dolphin-llama3"
+        # model='gemma2:27b'
+        ,
+        messages=[{"role": "user", "content": prompt + facts}],  # llama3
+    )
+    output = response["message"]["content"]
     return output
 
 
@@ -148,21 +150,18 @@ def llm_facts_to_formatted_facts(facts):
 #     return sum(all_out, [])
 
 
-
-
-
 # # Load the English language model
 # nlp = spacy.load("en_core_web_lg")
 
 # def parse_sentence(sentence):
 #     # Process the sentence
 #     doc = nlp(sentence)
-    
+
 #     # Initialize variables
 #     subject = ""
 #     verb = ""
 #     predicate = ""
-    
+
 #     # Find the root of the sentence (usually the main verb)
 #     root = None
 #     for token in doc:
@@ -170,21 +169,21 @@ def llm_facts_to_formatted_facts(facts):
 #             root = token
 #             verb = token.text
 #             break
-    
+
 #     # Find the subject and its modifiers
 #     if root:
 #         for child in root.children:
 #             if child.dep_ in ["nsubj", "nsubjpass"]:
 #                 subject_token = child
-#                 subject = ' '.join([token.text for token in subject_token.subtree 
+#                 subject = ' '.join([token.text for token in subject_token.subtree
 #                                     if token.dep_ in ["amod", "compound"] or token == subject_token])
 #                 break
-    
+
 #     # Construct the predicate (everything except the subject)
 #     if root:
 #         predicate_tokens = [token for token in doc if token.i < subject_token.i or token.i > subject_token.i]
 #         predicate = ' '.join([token.text for token in predicate_tokens if token != root])
-    
+
 #     return {
 #         "subject": subject.strip(),
 #         "verb": verb,
@@ -206,12 +205,6 @@ def llm_facts_to_formatted_facts(facts):
 # The core beliefs of Catholicism are found in the Nicene Creed. The Catholic Church teaches that it is the one, holy, catholic and apostolic church founded by Jesus Christ in his Great Commission,[16][17][note 1] that its bishops are the successors of Christ's apostles, and that the pope is the successor to Saint Peter, upon whom primacy was conferred by Jesus Christ.[20] It maintains that it practises the original Christian faith taught by the apostles, preserving the faith infallibly through scripture and sacred tradition as authentically interpreted through the magisterium of the church.[21] The Roman Rite and others of the Latin Church, the Eastern Catholic liturgies, and institutes such as mendicant orders, enclosed monastic orders and third orders reflect a variety of theological and spiritual emphases in the church.[22][23]"""
 
 
-
-
-
-
-
-
 def replace_pronouns_json(text):
 
     input_llm = """
@@ -220,14 +213,14 @@ def replace_pronouns_json(text):
     in the list of JSON objects is unique and not repeated. PLEASE DO NOT INCLUDE PRONOUNS LIKE HE OR SHE IN THIS OUTPUTOnly return the JSON:
     """
 
-    response = ollama.chat(model='dolphin-llama3',
-                           format="json",messages=[ #llama3
-    {
-    'role': 'user',
-    'content': input_llm + str(text)}])#, options={"temperature":.5}
+    response = ollama.chat(
+        model="dolphin-llama3",
+        format="json",
+        messages=[{"role": "user", "content": input_llm + str(text)}],  # llama3
+    )  # , options={"temperature":.5}
 
-    output = response['message']['content']
-    output = output.replace("<|end-output|>","")
+    output = response["message"]["content"]
+    output = output.replace("<|end-output|>", "")
     try:
         parsed_output = json.loads(output)
 
@@ -239,9 +232,7 @@ def replace_pronouns_json(text):
     except Exception as e:
         print(f"Error processing chunk")
 
-
     return parsed_output
-
 
 
 from itertools import cycle
@@ -292,15 +283,18 @@ class Loader:
         # handle exceptions with those variables ^
         self.stop()
 
+
 from time import sleep
 
 
 from stqdm import stqdm
 import streamlit as st
+
+
 def text_to_relations(texts):
     responses = []
 
-    for text in stqdm(texts, desc="Extracting Relations", backend=True,frontend=True):
+    for text in stqdm(texts, desc="Extracting Relations", backend=True, frontend=True):
         # loader = Loader("Collecting Facts...").start()
         # st.write("Collecting Facts...")
 
@@ -312,7 +306,7 @@ def text_to_relations(texts):
 
         formatted_facts = llm_facts_to_formatted_facts(facts)
         # loader.stop()
-#
+        #
         # loader = Loader("Extracting Relations...").start()
         # st.write("Extracting Relations...")
         relations = extract_relations_formatted(formatted_facts)
