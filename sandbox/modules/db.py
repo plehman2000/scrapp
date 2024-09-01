@@ -90,6 +90,7 @@ def rewrite_json(input_json):
             "metadata": data["metadatas"][0][i],
             "subject": data["metadatas"][0][i],
             "fact": data["documents"][0][i],
+            "embedding":
         }
         results.append(result)
     return {"results": results}

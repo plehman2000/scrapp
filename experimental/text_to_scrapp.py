@@ -49,7 +49,7 @@ def extract_relations_formatted(text):
     ### Text:
     """
 
-    response = ollama.chat(model='llama3.1:8b',
+    response = ollama.chat(model='dolphin-llama3',
                            format="json",messages=[ #llama3
     {
     'role': 'user',
@@ -102,7 +102,7 @@ def llm_chunks_to_facts(chunk):
 5. Not include subjective interpretations or opinions
 Please present the facts as a  bulleted list. Do not include any additional commentary or explanation beyond the list of facts."""
     response = ollama.chat(
-        model='llama3.1:8b'
+        model='dolphin-llama3'
         # model='gemma2:27b'
         , messages=[ #llama3
     {
@@ -132,7 +132,7 @@ def llm_facts_to_formatted_facts(facts):
     """
     
     response = ollama.chat(
-    model='llama3.1:8b'
+    model='dolphin-llama3'
     # model='gemma2:27b'
     , messages=[ #llama3
     {

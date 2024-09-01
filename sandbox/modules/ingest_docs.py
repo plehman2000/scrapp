@@ -4,20 +4,17 @@ from .scrapper import text_to_relations
 from tinydb import TinyDB, Query
 from tqdm import tqdm
 import uuid
-
-from modules.db import search_db, add_docs
-
-
-global scrapp_db
-global file_name_db
-# scrapp_db = TinyDB('./databases/scrapps_db.json')
-file_name_db = TinyDB("./databases/files_db.json")
-
-
+import ollama
 from itertools import cycle
 from shutil import get_terminal_size
 from threading import Thread
 from time import sleep
+
+
+global scrapp_db
+global file_name_db
+scrapp_db = TinyDB("./databases/scrapps_db.json")
+file_name_db = TinyDB("./databases/files_db.json")
 
 
 class Loader:
@@ -92,9 +89,11 @@ def db_ready_facts(relations, doc_id):
         temp_facts = temp_facts["facts"]
 
         for x in temp_facts:
+            embedding = ollama.embeddings(model="nomic-embed-text", prompt=x["subject"] + " " + x["predicate"])["embedding"]
+
             if x["subject"] not in filtered_facts:
                 filtered_facts[x["subject"]] = []
-            filtered_facts[x["subject"]].append([x["predicate"], doc_id])
+            filtered_facts[x["subject"]].append([x["predicate"], doc_id, embedding])
     return filtered_facts
 
 
@@ -293,77 +292,6 @@ def ingest_document_prototype2(
     return file_info["metadata"]
 
 
-
-def ingest_document_prototype3(
-    file_path, url=None
-):  # need to add work for using webpages
-    global scrapp_db
-    global file_name_db
-    # Read file and process content
-    file_info = read_file_with_metadata(file_path)
-    # add source like URL or title
-    doc_id = str(uuid.uuid4())
-    text_splitter = TextSplitter(
-        max_token_size=300,
-        end_sentence=True,
-        preserve_formatting=True,
-        remove_urls=False,
-        replace_entities=True,
-        remove_stopwords=False,
-        language="english",
-    )
-
-    text = None
-    if file_path.endswith(".txt"):
-        try:
-            with open(file_path, "r", encoding="utf-8") as file:
-                text = file.read()
-
-        except UnicodeDecodeError:
-            # If UTF-8 decoding fails, try reading as binary
-            text = file.read().decode("utf-8", errors="replace")
-    elif file_path.endswith(".pdf"):
-        text = extract_text_from_pdf(file_path)
-        print(f"text: {text[:50]}")
-    elif file_path.endswith(".html"):
-        text = extract_text_from_html_file(file_path)
-    text_chunks = text_splitter.split_text(text)
-    for chunk in text_chunks[:5]:
-        chunk = chunk.lstrip()
-        label = ""
-        if len(chunk) > 40:
-            # Find the last space or period within the 40-50 character range
-            for i in range(100, 39, -1):
-                if i >= len(chunk):
-                    continue
-                if chunk[i] == " " or chunk[i] == ".":
-                    label = chunk[: i + 1].rstrip()
-                    break
-
-        with st.expander('"' + label[:50] + '"' + "..."):
-            st.write(str(chunk))
-
-    relations = text_to_relations(text_chunks)
-    filtered_facts = db_ready_facts(relations, doc_id)
-
-    metadata = file_info["metadata"]
-    metadata['lookup_id'] = doc_id
-    # Add file name to file_name_db
-    file_name_db.insert({"doc_id": doc_id, "metadata": metadata})
-
-    # Add filtered facts to scrapp_db
-    loader = Loader("Adding to DB...", "Done!").start()
-
-
-    from modules.db import add_docs
-    for subject in filtered_facts:
-        metadata['subject'] = subject
-    #     scrapp_db.insert({"subject": subject, "facts": filtered_facts[subject]})
-        add_docs(chunks=filtered_facts[subject], metadata=metadata)
-    loader.stop()
-    return metadata
-
-
 from tinydb import TinyDB, Query
 from rapidfuzz import fuzz
 
@@ -388,5 +316,4 @@ def search_db(query):
 
 def get_scrapp_db():
     all_docs = scrapp_db.all()
-    all_subjects = [doc["subject"] for doc in all_docs]
-    return all_subjects
+    return all_docs

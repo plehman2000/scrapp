@@ -21,7 +21,7 @@ def __():
     # <|im_end|>"""
 
 
-    #     response = ollama.chat(model='llama3.1:8b', messages=[ #llama3
+    #     response = ollama.chat(model='dolphin-llama3', messages=[ #llama3
     #     {
     #     'role': 'user',
     #     'content': PROMPT}])#, options={"temperature":.5}
@@ -56,7 +56,7 @@ def __():
     #     {text}
     #     """
 
-    #     response = ollama.chat(model='llama3.1:8b', messages=[{
+    #     response = ollama.chat(model='dolphin-llama3', messages=[{
     #         'role': 'user',
     #         'content': input_llm
     #     }])
@@ -144,7 +144,7 @@ def __(json, ollama):
         ### Text:
         """
 
-        response = ollama.chat(model='llama3.1:8b',
+        response = ollama.chat(model='dolphin-llama3',
                                format="json",messages=[ #llama3
         {
         'role': 'user',
@@ -200,7 +200,7 @@ def __(chunks, ollama):
     5. Not include subjective interpretations or opinions
     Please present the facts as a  bulleted list. Do not include any additional commentary or explanation beyond the list of facts."""
         response = ollama.chat(
-            model='llama3.1:8b'
+            model='dolphin-llama3'
             # model='gemma2:27b'
             , messages=[ #llama3
         {
@@ -230,7 +230,7 @@ def __(chunks, ollama):
         """
         
         response = ollama.chat(
-        model='llama3.1:8b'
+        model='dolphin-llama3'
         # model='gemma2:27b'
         , messages=[ #llama3
         {
