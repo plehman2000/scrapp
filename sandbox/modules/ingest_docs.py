@@ -162,7 +162,7 @@ from urllib.parse import urlparse
 import uuid
 
 
-def download_webpage_html(url, save_folder=""):
+def download_webpage_html(url, save_folder="./documents/"):
     try:
         # Send a GET request to the URL
         response = requests.get(url)
