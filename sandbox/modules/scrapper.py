@@ -47,7 +47,7 @@ def extract_relations_formatted(text):
     """
 
     response = ollama.chat(
-        model="dolphin-llama3",
+        model="llama3.1:8b",
         format="json",
         messages=[{"role": "user", "content": input_llm + text}],  # llama3
     )  # , options={"temperature":.5}
@@ -101,7 +101,7 @@ def llm_chunks_to_facts(chunk):
 6. Do not include any information that seems to be formatting artifacts
 Please present the facts as a  bulleted list. Do not include any additional commentary or explanation beyond the list of facts."""
     response = ollama.chat(
-        model="dolphin-llama3"
+        model="llama3.1:8b"
         # model='gemma2:27b'
         ,
         messages=[{"role": "user", "content": prompt + chunk}],  # llama3
@@ -131,7 +131,7 @@ def llm_facts_to_formatted_facts(facts):
     """
 
     response = ollama.chat(
-        model="dolphin-llama3"
+        model="llama3.1:8b"
         # model='gemma2:27b'
         ,
         messages=[{"role": "user", "content": prompt + facts}],  # llama3
@@ -214,7 +214,7 @@ def replace_pronouns_json(text):
     """
 
     response = ollama.chat(
-        model="dolphin-llama3",
+        model="llama3.1:8b",
         format="json",
         messages=[{"role": "user", "content": input_llm + str(text)}],  # llama3
     )  # , options={"temperature":.5}

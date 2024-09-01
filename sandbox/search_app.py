@@ -3,7 +3,7 @@ import json
 from tinydb import TinyDB, Query
 import re
 import os
-from modules.ingest_docs import search_db, file_name_db, ingest_document_prototype, get_scrapp_db, ingest_document_prototype2,download_webpage_html
+from modules.ingest_docs import search_db, file_name_db, ingest_document_prototype, get_scrapp_db, ingest_document_prototype3,download_webpage_html
 from rapidfuzz import fuzz
 import uuid
 import base64
@@ -55,11 +55,12 @@ def search_page():
     st.markdown(get_fonted_text("Entity Search", size=48), unsafe_allow_html=True)
     # Add custom CSS to load the font
 
-
-    suggestions = get_scrapp_db()
+    from modules.db import search_db, search_db_id  
 
     def get_suggestions(searchterm: str) -> list[any]:
-        all_subjects = sorted(suggestions, key=lambda x: fuzz.partial_ratio(searchterm,x), reverse=True)[:5]
+        if searchterm == "":
+            return []
+        all_subjects = [x['metadata']['subject'] for x in search_db_id(searchterm,n_results=10)]
         return all_subjects if searchterm else []
 
     search_term = st_searchbox(
@@ -67,8 +68,8 @@ def search_page():
         key="searchbox",
     )
 
-    if search_term:
-        results = json.loads(search_db(search_term))['facts']
+    if search_term and st.button("GO"):
+        results = search_db(search_term)
         if results:
             st.markdown(get_fonted_text("Search Results",size=24,body=True), unsafe_allow_html=True)
 
@@ -136,7 +137,7 @@ def upload_page():
                     f.write(uploaded_file.getbuffer())
                 # read_file_with_metadata(save_path)
                 with st.spinner('Ingesting...'):
-                    metadata = ingest_document_prototype2(save_path)
+                    metadata = ingest_document_prototype3(save_path)
                 st.success("Ingested!")
                 # st.sucess(metadata)
 import validators
@@ -156,10 +157,10 @@ def webcrawl_page():
     if file_path is not None:
         st.session_state.ingesting = True
         with st.spinner('Ingesting...'):
-            metadata = ingest_document_prototype2(file_path, url=url)
+            metadata = ingest_document_prototype3(file_path, url=url)
 
         st.success("Ingested!")
-        st.sucess(metadata)
+        st.success(metadata)
 page_names_to_funcs = {
     "Search": search_page,
     "Upload Files": upload_page,

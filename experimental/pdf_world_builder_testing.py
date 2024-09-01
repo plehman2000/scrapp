@@ -23,7 +23,7 @@ def __():
     <|im_end|>"""
 
 
-        response = ollama.chat(model='dolphin-llama3', messages=[ #llama3
+        response = ollama.chat(model='llama3.1:8b', messages=[ #llama3
         {
         'role': 'user',
         'content': PROMPT}])#, options={"temperature":.5}
@@ -58,7 +58,7 @@ def __():
         {text}
         """
 
-        response = ollama.chat(model='dolphin-llama3', messages=[{
+        response = ollama.chat(model='llama3.1:8b', messages=[{
             'role': 'user',
             'content': input_llm
         }])
@@ -153,7 +153,7 @@ def __(ollama):
         raw_facts = []
         for i,chunk in enumerate(tqdm(chunks)):
             prompt = """  Return individual facts that can be intererpreted context-free and independently from from the following text in ONLY this JSON format: {"facts": ["fact", "fact"]}. One key named 'facts', and a list of strings of facts. If no facts, only return {}. If I only looked at one fact from this requested list it should be meaningful.: """
-            response = ollama.chat(model='dolphin-llama3', messages=[ #llama3
+            response = ollama.chat(model='llama3.1:8b', messages=[ #llama3
             {
             'role': 'user',
             'content': prompt + chunk}])
@@ -356,7 +356,7 @@ def __(mo):
             Output:\"""
 
 
-            response = ollama.chat(model='dolphin-llama3', messages=[ #llama3
+            response = ollama.chat(model='llama3.1:8b', messages=[ #llama3
             {
             'role': 'user',
             'content': log_prompt}])#, options={"temperature":.5}

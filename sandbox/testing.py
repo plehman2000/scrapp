@@ -138,7 +138,6 @@ def __():
     if text_with_layout:
         print("Extracted text (with layout guessing):")
         print(text_with_layout[:500])  # Print first 500 characters
-
     return (
         extract_text_from_html_file,
         file_path,
@@ -194,7 +193,7 @@ def __(all_subjects):
 
         terms_string = ", ".join(terms)
 
-        response = ollama.chat(model='dolphin-llama3',
+        response = ollama.chat(model='llama3.1:8b',
                                format="json",
                                messages=[
                                    {
@@ -223,6 +222,20 @@ def __(all_subjects):
 
     print(json.dumps(grouped_synonyms, indent=2))
     return grouped_synonyms, identify_synonyms, json, ollama
+
+
+@app.cell
+def __():
+    return
+
+
+@app.cell
+def __():
+    from modules.db import search_db
+
+    search_db("nigga")
+
+    return search_db,
 
 
 if __name__ == "__main__":
