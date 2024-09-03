@@ -221,6 +221,7 @@ def extract_text_from_html_file(file_path, guess_layout=True):
         print(f"An error occurred while processing the file: {e}")
         return None
 
+from stqdm import stqdm
 
 def ingest_document_prototype2(
     file_path, url=None
@@ -271,22 +272,27 @@ def ingest_document_prototype2(
         with st.expander('"' + label[:50] + '"' + "..."):
             st.write(str(chunk))
 
-    relations = text_to_relations(text_chunks)
-    filtered_facts = db_ready_facts(relations, doc_id)
-
-    # Add file name to file_name_db
     file_name_db.insert({"doc_id": doc_id, "metadata": file_info["metadata"]})
-
-    # Add filtered facts to scrapp_db
     loader = Loader("Adding to DB...", "Done!").start()
+    print("Loading")
+    for chunk in stqdm(text_chunks, desc="Extracting Relations", backend=False, frontend=True):
+        relations = text_to_relations([chunk])
+        filtered_facts = db_ready_facts(relations, doc_id)
 
-    for subject in filtered_facts:
-        existing_entry = scrapp_db.get(Query().subject == subject)
-        if existing_entry:  # case sensitive, is this a good choice?
-            updated_facts = existing_entry["facts"] + filtered_facts[subject]
-            scrapp_db.update({"facts": updated_facts}, Query().subject == subject)
-        else:
-            scrapp_db.insert({"subject": subject, "facts": filtered_facts[subject]})
+        # Add filtered facts to scrapp_db
+
+        for subject in filtered_facts:
+            existing_entry = scrapp_db.get(Query().subject == subject)
+            if existing_entry:  # case sensitive, is this a good choice?
+                temp_facts = ""
+                if "facts" in existing_entry:
+                    temp_facts = existing_entry["facts"] if existing_entry["facts"] else ""
+                else:
+                    print("Warning: 'facts' key not found in existing_entry")
+                updated_facts = existing_entry["facts"] + filtered_facts[subject]
+                scrapp_db.update({"facts": updated_facts}, Query().subject == subject)
+            else:
+                scrapp_db.insert({"subject": subject, "facts": filtered_facts[subject]})
 
     loader.stop()
     return file_info["metadata"]

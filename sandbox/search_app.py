@@ -57,6 +57,7 @@ def search_page():
 
     scrapp_copy = get_scrapp_db()
     ent_suggestions = [doc['subject'] for doc in scrapp_copy]
+    ent_suggestions = [x for x in ent_suggestions if x != ""]
     from scipy import spatial
 
     def get_ent_suggestions(searchterm: str) -> list[any]:
@@ -171,7 +172,22 @@ def webcrawl_page():
 
         st.success("Ingested!")
         st.sucess(metadata)
+
+
+
+
+
+
+
+
+
+def combine_page():
+    query = st.text_input("E.G. How does Gnosticism and ")
+    st.write(query)
+
+
 page_names_to_funcs = {
+    "Combine": combine_page,
     "Search": search_page,
     "Upload Files": upload_page,
     "Download Websites": webcrawl_page

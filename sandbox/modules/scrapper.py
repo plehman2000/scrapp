@@ -5,7 +5,7 @@ def extract_relations_formatted(text):
 
     input_llm = """
     Please extract all relations betweens proper nouns and predicates and return this information only in the following JSON template. 
-    Only put proper nouns in the subject field.
+    Only put proper nouns in the subject field, the subject field must be populated.
     Valid relations are verbs like is/has/created/taken etc. THE SUBJECT + RELATION PREDICATE should form a complete sentence as close to how it appears in the text as possible
     ### Template:
      {
@@ -287,14 +287,14 @@ class Loader:
 from time import sleep
 
 
-from stqdm import stqdm
+# from stqdm import stqdm
 import streamlit as st
 
 
 def text_to_relations(texts):
     responses = []
 
-    for text in stqdm(texts, desc="Extracting Relations", backend=True, frontend=True):
+    for text in texts:
         # loader = Loader("Collecting Facts...").start()
         # st.write("Collecting Facts...")
 

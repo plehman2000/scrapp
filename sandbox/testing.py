@@ -138,7 +138,6 @@ def __():
     if text_with_layout:
         print("Extracted text (with layout guessing):")
         print(text_with_layout[:500])  # Print first 500 characters
-
     return (
         extract_text_from_html_file,
         file_path,
@@ -223,6 +222,25 @@ def __(all_subjects):
 
     print(json.dumps(grouped_synonyms, indent=2))
     return grouped_synonyms, identify_synonyms, json, ollama
+
+
+@app.cell
+def __(mo):
+    mo.md("# Ontology Graphing")
+    return
+
+
+@app.cell
+def __():
+    import fastobo
+    obodoc = fastobo.load("MFOEM.owl")
+    return fastobo, obodoc
+
+
+@app.cell
+def __(nxo):
+    nxo
+    return
 
 
 if __name__ == "__main__":
