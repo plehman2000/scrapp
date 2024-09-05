@@ -94,7 +94,7 @@ def llm_chunks_to_facts(chunk):
 
     prompt = """Extract a list of independently verifiable facts from the following text. Each fact should:
 1. Be as close to as it is directly stated in the text, not inferred
-2. Use full names or specific descriptors instead of pronouns
+2. Use full names or specific descriptors instead of pronouns. Do not use compound subjects
 3. Be meaningful and understandable on its own, without context from other facts
 4. Be phrased as a complete, grammatically correct sentence
 5. Not include subjective interpretations or opinions
@@ -140,14 +140,12 @@ def llm_facts_to_formatted_facts(facts):
     return output
 
 
-# def chunk_to_ents(text):
-#     entities = set()
-#     result = get_entities(text)
-#     [entities.add(r) for r in result]
-#     entities = list(entities)
-#     facts = llm_chunks_to_facts( chunks)
-#     all_out = [p['facts'] for p in facts]
-#     return sum(all_out, [])
+def chunk_to_ents(text):
+    entities = set()
+    result = get_entities(text)
+    [entities.add(r) for r in result]
+    entities = list(entities)
+    return entities
 
 
 # # Load the English language model
