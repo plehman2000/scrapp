@@ -65,7 +65,11 @@ def __():
     # entity_to_mathc = "Kamala Harris"
     # all_subjects = sorted(all_subjects, key=lambda x: fuzz.partial_ratio(entity_to_mathc,x), reverse=True)
     # print(all_subjects)
+    return
 
+
+@app.cell
+def __():
     import marimo as mo
     return mo,
 
@@ -73,68 +77,6 @@ def __():
 @app.cell
 def __(mo):
     mo.md("# Pronoun Algorithm")
-    return
-
-
-@app.cell
-def __():
-    import spacy
-    nlp = spacy.load("en_core_web_trf")
-    return nlp, spacy
-
-
-@app.cell
-def __(nlp):
-    import networkx as nx
-    def generate_ast(sentence):
-        doc = nlp(sentence)
-        ast = nx.DiGraph()
-        def traverse_tree(node):
-            nonlocal ast
-            for child in node.children:
-                ast.add_edge(node.text.replace("|", " "), child.text.replace("|", " "), pos=node.pos_,edge_label = str(child.dep_))
-                traverse_tree(child)
-
-        root = [token for token in doc if token.head == token][0]
-        ast.add_node(root.text.replace("|", " "))
-        traverse_tree(root)
-
-        return ast
-
-
-
-
-
-    import networkx as nx
-    import matplotlib.pyplot as plt
-    def visualize_ast(ast):
-        pos = nx.spring_layout(ast)
-
-        plt.figure(figsize=(10, 10))
-        edge_labels = nx.get_edge_attributes(ast, 'edge_label')
-
-        num_nodes = len(ast.nodes)
-        node_size = 4000 / num_nodes  # Adjust the constant multiplier as needed
-        font_size = 36 / (num_nodes ** 0.5)  # Adjust the constant divisor as needed
-        nx.draw_networkx(
-            ast, with_labels=True, node_size=node_size, node_color="lightblue", font_size=font_size,pos=pos,arrows=True
-        )
-        nx.draw_networkx_edge_labels(ast, pos, edge_labels=edge_labels)
-        plt.title("Abstract Syntax Tree (AST)")
-        plt.axis("off")
-        plt.show()
-    return generate_ast, nx, plt, visualize_ast
-
-
-@app.cell
-def __(generate_ast):
-    ast = generate_ast("The Waystone Inn lay in silence: and it was a silence of three parts.")
-    return ast,
-
-
-@app.cell
-def __(ast, visualize_ast):
-    visualize_ast(ast)
     return
 
 
@@ -176,26 +118,220 @@ def __():
     world. With an alert and energetic mind, we mindfully explore this heart, mind, and body just
     as it is now. Reality becomes more and more interesting, so our concentration grows, and this
     combination of the frst four produces fundamental wisdom. Wisdom leads to more faith, and
-    the cycle goes around again.    """
+    the cycle goes around again.    The Waystone Inn lay in silence: and it was a silence of three parts."""
     sentences = tokenize.sent_tokenize(f)
     return f, sentences, tokenize
 
 
 @app.cell
+def __():
+    import spacy
+    nlp = spacy.load("en_core_web_trf")
+    return nlp, spacy
+
+
+@app.cell
+def __(nlp):
+    import networkx as nx
+    import uuid
+    def generate_ast(sentence):
+        doc = nlp(sentence)
+        ast = nx.DiGraph()
+        def traverse_tree(node):
+            nonlocal ast
+            for child in node.children:
+                ast.add_edge(node.text + f"_{node.i}", child.text + f"_{child.i}", edge_label=str(child.dep_))
+                ast.nodes[node.text + f"_{node.i}"]['pos'] = node.pos_
+                ast.nodes[child.text + f"_{child.i}"]['pos'] = child.pos_
+
+                traverse_tree(child)
+        root = [token for token in doc if token.head == token][0]
+        ast.add_node(root.text + f"_{root.i}", pos=root.pos_)
+        traverse_tree(root)
+        return ast
+
+
+
+
+
+    import networkx as nx
+    import matplotlib.pyplot as plt
+
+    def visualize_ast(ast, title="Abstract Syntax Tree (AST)"):
+        # Set up the plot
+        plt.figure(figsize=(12, 8))
+        pos = nx.spring_layout(ast, k=0.9, iterations=50)
+
+        # Calculate dynamic sizes based on the number of nodes
+        num_nodes = len(ast.nodes)
+        node_size = max(300, min(3000, 8000 / num_nodes))
+        font_size = max(6, min(12, 24 / (num_nodes ** 0.3)))
+
+        # Draw nodes
+        nx.draw_networkx_nodes(ast, pos, node_size=node_size, node_color="lightblue")
+
+        # Draw edges
+        nx.draw_networkx_edges(ast, pos, edge_color="gray", arrows=True, arrowsize=20)
+
+        # Draw labels
+        nx.draw_networkx_labels(ast, pos, font_size=font_size, font_weight="bold")
+
+        # Draw edge labels
+        edge_labels = nx.get_edge_attributes(ast, 'edge_label')
+        nx.draw_networkx_edge_labels(ast, pos, edge_labels=edge_labels, font_size=font_size-2)
+
+        # Set title and turn off axis
+        plt.title(title, fontsize=16)
+        plt.axis("off")
+
+        # Adjust layout and display
+        plt.tight_layout()
+        plt.show()
+    return generate_ast, nx, plt, uuid, visualize_ast
+
+
+@app.cell
+def __():
+    # def combine_compound_nodes(ast):
+    #     # Create a copy of the graph to modify
+    #     new_ast = ast.copy()
+
+    #     # Find all compound edges between proper nouns
+    #     compound_edges = [(u, v) for u, v, data in new_ast.edges(data=True)
+    #                       if data.get('edge_label') == 'compound'
+    #                       and new_ast.nodes[u].get('pos') == 'PROPN'
+    #                       and new_ast.nodes[v].get('pos') == 'PROPN']
+
+    #     # Create a subgraph of compound relationships
+    #     compound_graph = nx.Graph(compound_edges)
+
+    #     # Find connected components (groups of related compound nouns)
+    #     compound_groups = list(nx.connected_components(compound_graph))
+
+    #     # Process each group
+    #     for group in compound_groups:
+    #         # Sort nodes in the group by their original index in the sentence
+    #         sorted_group = sorted(group, key=lambda x: int(x.split('_')[-1]))
+
+    #         # Create new node name
+    #         new_node_name = " ".join([node.split('_')[0] for node in sorted_group])
+    #         new_node = f"{new_node_name}_{uuid.uuid4().hex[:8]}"
+
+    #         # Add the new node
+    #         new_ast.add_node(new_node, pos='PROPN')
+
+    #         # Redirect incoming edges
+    #         for node in sorted_group:
+    #             for predecessor in new_ast.predecessors(node):
+    #                 if predecessor not in group:
+    #                     edge_data = new_ast.get_edge_data(predecessor, node)
+    #                     new_ast.add_edge(predecessor, new_node, **edge_data)
+
+    #         # Redirect outgoing edges
+    #         for node in sorted_group:
+    #             for successor in new_ast.successors(node):
+    #                 if successor not in group:
+    #                     edge_data = new_ast.get_edge_data(node, successor)
+    #                     new_ast.add_edge(new_node, successor, **edge_data)
+
+    #         # Remove old nodes
+    #         for node in sorted_group:
+    #             new_ast.remove_node(node)
+
+    #     return new_ast
+    # ast = generate_ast(sentences[-1])
+    # ast = combine_compound_nodes(ast)
+    return
+
+
+@app.cell
+def __(generate_ast, sentences):
+    sent = sentences[-1]
+    sent = "The Waystone house lay in silence: and it was a silence of three parts."
+    ast = generate_ast(sent)
+    return ast, sent
+
+
+@app.cell
+def __(ast, sent):
+    # def combine_compound_nodes(ast):
+    #     # Create a copy of the graph to modify
+    #     new_ast = ast.copy()
+    #     print(new_ast.edges)
+    #     return new_ast
+
+
+    # ast = combine_compound_nodes(ast)
+
+    new_ast = ast.copy()
+    print(sent)
+    edge_data = new_ast.edges(data=True)
+    for edge in edge_data:
+        # print(edge)
+        # conditionals
+        match edge[2]['edge_label']:
+            case 'compound':
+                print(edge)
+                # TODO basically add nodees to each other, continuously combine nodes until no change in sentence
+                if ast.nodes[edge[0]]['pos'] == "NOUN" or ast.nodes[edge[0]]['pos'] == "PROPN":
+                    # print(ast.nodes[edge[1]])
+                    if ast.nodes[edge[1]]['pos'] == "NOUN" or ast.nodes[edge[1]]['pos'] == "PROPN":
+                        word1_and_index = [edge[0][:edge[0].rfind('_', 0, len(edge[0])-1)],edge[0][edge[0].rfind('_', 0, len(edge[0])-1):]]
+                        word2_and_index = [edge[1][:edge[1].rfind('_', 0, len(edge[1])-1)],edge[1][edge[1].rfind('_', 0, len(edge[1])-1):]]
+                        print(word1_and_index,word2_and_index)
+                        #nodes should be combined
+
+                        # create new node
+                        
+                        # get all edges pointing to nodes
+                        edges_1 = ast.edges(edge[0])
+                        edges_2 = ast.edges(edge[1])
+
+                        #mak edges pointing to new node
+                        for ed in edges_1:
+                            print(ed)
+
+
+                        #remove old edges
+
+                # for node
+    return (
+        ed,
+        edge,
+        edge_data,
+        edges_1,
+        edges_2,
+        new_ast,
+        word1_and_index,
+        word2_and_index,
+    )
+
+
+@app.cell
+def __(new_ast, visualize_ast):
+    visualize_ast(new_ast)
+    return
+
+
+@app.cell
+def __():
+    return
+
+
+@app.cell
 def __(nlp, sentences, spacy):
     from spacy.displacy import parse_deps
-    sentence = sentences[0] + " whichever"
+    sentence = sentences[-1]
     doc = nlp(sentence)
     print(sentence)
     for token in doc:
         print(token.text,"|", spacy.explain(token.pos_),"|", token.dep_,"| Ancestors: ",[[x.text,x.i,x.i+len(x.text_with_ws)] for x in list(token.children)])
-            
     return doc, parse_deps, sentence, token
 
 
 @app.cell
 def __(doc, parse_deps, spacy):
-    def process_deps_output(doc, deps_output):
+    def process_deps_output(deps_output):
         words = deps_output['words']
         arcs = deps_output['arcs']
         for arc in arcs:
@@ -209,9 +345,10 @@ def __(doc, parse_deps, spacy):
         return deps_output
 
     deps_output = parse_deps(doc)
-    enhanced_output = process_deps_output(doc, deps_output)
+    enhanced_output = process_deps_output(deps_output)
     for arc in enhanced_output['arcs'][:5]:
-        print(f"Label: {arc['label']}, Dependency: {arc['dependency']}")
+        # print(f"Label: {arc['label']}, Dependency: {arc['dependency']}")
+        print(arc)
     return arc, deps_output, enhanced_output, process_deps_output
 
 
