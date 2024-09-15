@@ -317,3 +317,20 @@ def text_to_relations(texts):
         # loader.stop()
         responses.append(out)
     return responses
+
+
+
+
+
+def text_to_relations2(texts):
+    responses = []
+
+    for text in texts:
+        response = ""
+
+
+
+
+
+        responses.append(response)
+    return responses

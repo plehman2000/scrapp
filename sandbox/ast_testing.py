@@ -1,14 +1,15 @@
 import marimo
 
-__generated_with = "0.6.25"
+__generated_with = "0.8.15"
 app = marimo.App(width="medium")
 
 
-@app.cell
-def __():
+app._unparsable_cell(
+    r"""
+    def hide():
     # from modules.ingest_docs import search_db, ingest_document_prototype, scrapp_db, file_name_db
-    # # ingest_document_prototype("./test_inputs/info1.txt")
-    # # search_db("Kamala D. Harris")
+    # # ingest_document_prototype(\"./test_inputs/info1.txt\")
+    # # search_db(\"Kamala D. Harris\")
     # # need something to scan db and collect entities that are the same
     # import PyPDF2
     # import re
@@ -20,7 +21,7 @@ def __():
     #         pdf_reader = PyPDF2.PdfReader(file)
 
     #         # Initialize an empty string to store the extracted text
-    #         extracted_text = ""
+    #         extracted_text = \"\"
 
     #         # Iterate through each page in the PDF
     #         for page in pdf_reader.pages:
@@ -32,16 +33,16 @@ def __():
     #             page_text = re.sub(r'\s{2,}', ' ', page_text)
 
     #             # Append the cleaned text to our result
-    #             extracted_text += page_text + "\n\n"
+    #             extracted_text += page_text + \"\n\n\"
 
     #     return extracted_text.strip()
 
-    # pdf_path = ".\documents\mctb2.pdf"
+    # pdf_path = \".\documents\mctb2.pdf\"
     # text = extract_text_from_pdf(pdf_path)
     # print(text)
     # from text_chunker import TextChunker
 
-    # with open("./documents/info1.txt", 'r', encoding='utf-8') as file:
+    # with open(\"./documents/info1.txt\", 'r', encoding='utf-8') as file:
     #     text = file.read()
 
     # from textsplitter import TextSplitter
@@ -53,7 +54,7 @@ def __():
     # chunks = text_splitter.split_text(text)
 
     # for i, chunk in enumerate(chunks):
-    #     print(f"Chunk {i + 1}:\n{chunk}")
+    #     print(f\"Chunk {i + 1}:\n{chunk}\")
 
 
 
@@ -62,10 +63,12 @@ def __():
     # all_subjects = [doc['subject'] for doc in all_docs]
     # # for s in all_subjects:
     # #     print(s)
-    # entity_to_mathc = "Kamala Harris"
+    # entity_to_mathc = \"Kamala Harris\"
     # all_subjects = sorted(all_subjects, key=lambda x: fuzz.partial_ratio(entity_to_mathc,x), reverse=True)
     # print(all_subjects)
-    return
+    """,
+    name="__"
+)
 
 
 @app.cell
@@ -76,7 +79,7 @@ def __():
 
 @app.cell
 def __(mo):
-    mo.md("# Pronoun Algorithm")
+    mo.md("""# Pronoun Algorithm""")
     return
 
 
@@ -126,8 +129,12 @@ def __():
 @app.cell
 def __():
     import spacy
+    from torch import Tensor
+    # import spacy_transformers
+    # spacy.cli.download("en_core_web_sm")
+
     nlp = spacy.load("en_core_web_trf")
-    return nlp, spacy
+    return Tensor, nlp, spacy
 
 
 @app.cell
@@ -288,15 +295,14 @@ def __(ast, sent):
                         edges_2 = ast.edges(edge[1])
 
                         #mak edges pointing to new node
-                        for ed in edges_1:
-                            print(ed)
+                        # for ed in edges_1:
+                        #     print(ed)
 
 
                         #remove old edges
 
-                # for node
+                # for nde
     return (
-        ed,
         edge,
         edge_data,
         edges_1,
