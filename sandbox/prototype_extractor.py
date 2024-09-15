@@ -40,31 +40,25 @@ combination of the first four produces fundamental wisdom. Wisdom leads to more 
 the cycle goes around again.    """
 import spacy
 
-
-
 model = Maverick(device='cuda')
-
-text = text.replace("\n\n", "")
-text = text.replace("\n", " ")
-text_splitter = NLTKTextSplitter(chunk_size=1000)
-chunks = text_splitter.split_text(text)
+nlp_lg = spacy.load('en_core_web_lg')
 
 
+def get_best_pronoun(cluster, offsets): #gets best Noune from a cluster, if all pronoiuns return none
+    ls = []
+    for noun, offset in zip(cluster, offsets):
+        pos = nlp_lg(noun)[0].pos_
+        if pos in ["DET", "PROPN"]:
+            ls.append([noun, offset])
 
-for i, chunk in enumerate(chunks):
-    print(f"Chunk {i + 1}:\n{chunk}")
-    res = model.predict(chunk)
-    # print(res)
-    for i,cluster in enumerate(zip(res['clusters_token_text'], res['clusters_char_offsets'])):
-        print(cluster)
+    if len(ls) == 0:
+        return None, None
+    
 
-    break
+    #TODO need better heuristic here, just picks first, should be informed by prior selections (search db for terms, select ones that are the same?)
 
+    return ls[0][0], ls[0][1]
 
-
-
-
-nlp = spacy.load('en_core_web_lg')
 
 #https://stackoverflow.com/questions/56977820/better-way-to-use-spacy-to-parse-sentences
 def get_pro_nsubj(token):
@@ -74,7 +68,7 @@ def get_pro_nsubj(token):
 
 def get_declarations(chunk):
     incomplete_facts = []
-    for token in nlp(chunk):
+    for token in nlp_lg(chunk):
         if token.pos_ in ['NOUN', 'ADJ']:
             if token.dep_ in ['attr', 'acomp'] and token.head.lower_ in ['is', 'was']:
                 # to test for lemma 'be' use token.head.lemma_ == 'be'
@@ -84,7 +78,41 @@ def get_declarations(chunk):
                 incomplete_facts.append(factoid)
     return incomplete_facts
 
-incomplete_facts = get_declarations(chunk)
 
-print(incomplete_facts)
-print(type(incomplete_facts[0][0]))
+
+
+
+
+text = text.replace("\n\n", "")
+text = text.replace("\n", " ")
+text_splitter = NLTKTextSplitter(chunk_size=1000)
+chunks = text_splitter.split_text(text)
+
+
+
+for i, chunk in enumerate(chunks):
+    # print(f"Chunk {i + 1}:\n{chunk}")
+    pronoun_results = model.predict(chunk)
+    incomplete_facts = get_declarations(chunk)
+    # print(pronoun_results['clusters_token_text'])
+    # print(res)
+    for i,(cluster, offsets) in enumerate(zip(pronoun_results['clusters_token_text'], pronoun_results['clusters_char_offsets'])):
+        best_pronoun, offset = get_best_pronoun(cluster, offsets)
+        if best_pronoun == None:
+            break
+        print(best_pronoun, offset)
+
+
+        # print(best_pronoun)
+
+
+
+
+
+    break
+
+
+
+
+# print(incomplete_facts[0][0])
+# print(incomplete_facts[0][0].idx)
