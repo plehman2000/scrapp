@@ -2,9 +2,8 @@
 from langchain_text_splitters import NLTKTextSplitter
 from maverick import Maverick
 
-text = """Mindfulness is in a category all by itself, as it can potentially balance and perfect the remaining four spiritual faculties. This does not mean that we shouldn't be informed by the other
-two pairs, but that mindfulness is extremely important. Mindfulness means knowing what is
-as it is right now. It is the quality of mind that knows things as they are. Really, it is the quality of sensations manifesting as they are, where they are, and on their own. However, initially
+text = """Mindfulness is in a category all by itself, as it can potentially balance and perfect the remaining four spiritual faculties. This does not mean that we shouldn't be informed by the other two pairs, but that mindfulness is extremely important. 
+Mindfulness means knowing what is as it is right now. It is the quality of mind that knows things as they are. Really, it is the quality of sensations manifesting as they are, where they are, and on their own. However, initially
 it appears to be something we create and cultivate, and that is okay for the time being.4
  If you
 are trying to perceive the sensations that make up your experience clearly and to know what
@@ -70,7 +69,7 @@ def get_declarations(chunk):
     incomplete_facts = []
     for token in nlp_lg(chunk):
         if token.pos_ in ['NOUN', 'ADJ']:
-            if token.dep_ in ['attr', 'acomp'] and token.head.lower_ in ['is', 'was']:
+            if token.dep_ in ['attr', 'acomp'] and token.head.lower_ in ['is', 'was',]: #TODO MAKE MORE ALL_ENCOMPASSING, probably use nested for loops?
                 # to test for lemma 'be' use token.head.lemma_ == 'be'
                 nsubj = get_pro_nsubj(token.head)
                     # get the text of each token in the constituent and join it all together
@@ -83,8 +82,8 @@ def get_declarations(chunk):
 
 
 
-text = text.replace("\n\n", "")
-text = text.replace("\n", " ")
+# text = text.replace("\n\n", "")
+# text = text.replace("\n", " ")
 text_splitter = NLTKTextSplitter(chunk_size=1000)
 chunks = text_splitter.split_text(text)
 
@@ -94,18 +93,23 @@ for i, chunk in enumerate(chunks):
     # print(f"Chunk {i + 1}:\n{chunk}")
     pronoun_results = model.predict(chunk)
     incomplete_facts = get_declarations(chunk)
-    # print(pronoun_results['clusters_token_text'])
-    # print(res)
+    # print(pronoun_results)
+    offs_to_pron = {}
+
     for i,(cluster, offsets) in enumerate(zip(pronoun_results['clusters_token_text'], pronoun_results['clusters_char_offsets'])):
-        best_pronoun, offset = get_best_pronoun(cluster, offsets)
-        if best_pronoun == None:
-            break
-        print(best_pronoun, offset)
+        best_pronoun, _ = get_best_pronoun(cluster, offsets)
 
+        if best_pronoun != None:
+            # print(incomplete_facts)
+            # map all offsets to best_pronoun
+            print(chunk)
+            for offs in offsets:
+                print(cluster,offs, chunk[offs[0]:offs[1]+1])
+                offs_to_pron[offs[0]] = best_pronoun
 
-        # print(best_pronoun)
-
-
+    for fact in incomplete_facts:
+        nu_fact = offs_to_pron[fact[0].idx] + fact[1]
+        print(nu_fact)
 
 
 
