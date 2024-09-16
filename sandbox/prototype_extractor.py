@@ -82,35 +82,35 @@ def get_declarations(chunk):
 
 
 
-# text = text.replace("\n\n", "")
-# text = text.replace("\n", " ")
+text = text.replace("\n\n", "")
+text = text.replace("\n", " ")
 text_splitter = NLTKTextSplitter(chunk_size=1000)
 chunks = text_splitter.split_text(text)
 
-
-
 for i, chunk in enumerate(chunks):
-    # print(f"Chunk {i + 1}:\n{chunk}")
+    print(f"Chunk {i + 1}:\n{chunk}")
     pronoun_results = model.predict(chunk)
     incomplete_facts = get_declarations(chunk)
-    # print(pronoun_results)
     offs_to_pron = {}
 
-    for i,(cluster, offsets) in enumerate(zip(pronoun_results['clusters_token_text'], pronoun_results['clusters_char_offsets'])):
-        best_pronoun, _ = get_best_pronoun(cluster, offsets)
+    for i,(clusters, offsets) in enumerate(zip(pronoun_results['clusters_token_text'], pronoun_results['clusters_char_offsets'])):
+        best_pronoun, best_pronoun_offset = get_best_pronoun(clusters, offsets)
 
         if best_pronoun != None:
+            print("\nBEST PRONOUN")
+            print(best_pronoun, best_pronoun_offset)
             # print(incomplete_facts)
-            # map all offsets to best_pronoun
-            print(chunk)
-            for offs in offsets:
-                print(cluster,offs, chunk[offs[0]:offs[1]+1])
-                offs_to_pron[offs[0]] = best_pronoun
-
-    for fact in incomplete_facts:
-        nu_fact = offs_to_pron[fact[0].idx] + fact[1]
-        print(nu_fact)
-
+            # map all offsets to best_pronoun   
+            print("\nsubjects AND OFFSETS")
+            for cl, off in zip(clusters, offsets):
+                print(cl,off)
+            print("\nFACTS")
+            for fact in incomplete_facts:
+                print(fact[0], fact[0].idx, fact[1])
+            #     print(best_pronoun,offs, (chunk.replace("\n", "")[offs[0]:offs[1]+1]))
+            #     # print(incomplete_facts)
+            #     offs_to_pron[offs[0]] = best_pronoun
+        break
 
 
     break
