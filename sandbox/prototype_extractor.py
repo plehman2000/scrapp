@@ -1,6 +1,10 @@
 
 from langchain_text_splitters import NLTKTextSplitter
 from maverick import Maverick
+import spacy
+from detokenize.detokenizer import detokenize
+from tqdm import tqdm
+from pprint import pprint
 
 text = """Mindfulness is in a category all by itself, as it can potentially balance and perfect the remaining four spiritual faculties. This does not mean that we shouldn't be informed by the other two pairs, but that mindfulness is extremely important. 
 Mindfulness means knowing what is as it is right now. It is the quality of mind that knows things as they are. Really, it is the quality of sensations manifesting as they are, where they are, and on their own. However, initially
@@ -15,7 +19,7 @@ notion that vague and escapist aversion to experience and thought are related to
 mammalian reality as it is. It is about being here now. Truth is found in the ordinary sensations
 that make up our experience. If we are not mindful of them or reject them because we are looking for “progress”, “depth”, or “transcendence”, we will be unable to appreciate what they have
 to teach, and be unable to do insight practices.
-The fve spiritual faculties have also been presented in another order that can be useful:
+The five spiritual faculties have also been presented in another order that can be useful:
 faith, energy, mindfulness, concentration, and wisdom. In this order, they apply to each of the
 three trainings, the frst of which, as discussed earlier, is morality. We have faith that training
 in morality is a good idea and that we can do it, so we exert energy to live up to a standard of
@@ -37,7 +41,25 @@ world. With an alert and energetic mind, we mindfully explore this heart, mind, 
 as it is now. Reality becomes more and more interesting, so our concentration grows, and this
 combination of the first four produces fundamental wisdom. Wisdom leads to more faith, and
 the cycle goes around again.    """
-import spacy
+
+# file_path = r"C:\GH\scrapp\sandbox\documents\info3.txt"
+# with open(file_path, 'r', encoding='utf-8') as file:
+#     text = file.read()
+
+# print(text)
+
+import PyPDF2
+def read_pdf(file_path):
+    content = ""
+    with open(file_path, 'rb') as file:
+        pdf_reader = PyPDF2.PdfReader(file)
+        for page in tqdm(pdf_reader.pages):
+            content += page.extract_text()
+    return content
+
+
+text = read_pdf(r"C:\GH\scrapp\sandbox\documents\mctb2.pdf")
+
 
 model = Maverick(device='cuda')
 nlp_lg = spacy.load('en_core_web_lg')
@@ -47,15 +69,16 @@ def get_best_noun(cluster, offsets): #gets best Noune from a cluster, if all pro
     ls = []
     for noun, offset in zip(cluster, offsets):
         pos = nlp_lg(noun)[0].pos_
-        if pos in ["DET", "PROPN"]:
+        if pos in ["DET", "PROPN", "VERB"]:
+            # print(noun, pos)
             ls.append([noun, offset])
 
     if len(ls) == 0:
         return None, None
     
-
+    ls = sorted(ls, key=lambda x : len(x[0]),reverse=True)
     #TODO need better heuristic here, just picks first, should be informed by prior selections (search db for terms, select ones that are the same?)
-
+    # print(f"Picked {ls[0][0]}!")
     return ls[0][0], ls[0][1]
 
 
@@ -67,13 +90,22 @@ def get_pro_nsubj(token):
         return None
     return pro_nsubj_list[0]
 
+def print_nicely_formatted(data):
+    for key, values in data.items():
+        print(f"'{key}': [")
+        for value in values:
+            print(f"    '{value}',")
+        print("],\n")
+
+
 
 def get_declarations(doc):
     incomplete_facts = []
     for token in doc:
         if token.pos_ in ['NOUN', 'ADJ']:
-            if token.dep_ in ['attr', 'acomp'] and token.head.lower_ in ['is', 'was',]: #TODO MAKE MORE ALL_ENCOMPASSING, probably use nested for loops? should apply to has, was etc
+            if token.dep_ in ['attr', 'acomp'] and token.head.lower_ in ['is', 'was']: #TODO MAKE MORE ALL_ENCOMPASSING, probably use nested for loops? should apply to has, was etc
                 # to test for lemma 'be' use token.head.lemma_ == 'be'
+                print()
                 nsubj = get_pro_nsubj(token.head)
                 if nsubj:
                     # get the text of each token in the constituent and join it all together
@@ -82,16 +114,12 @@ def get_declarations(doc):
     return incomplete_facts
 
 
-
-
-from detokenize.detokenizer import detokenize
-from tqdm import tqdm
+import pickle
 
 text = text.replace("\n\n", "")
 text = text.replace("\n", " ")
 text_splitter = NLTKTextSplitter(chunk_size=1000)
 chunks = text_splitter.split_text(text)
-
 
 all_facts = {}
 for chunk in tqdm(chunks):
@@ -100,7 +128,7 @@ for chunk in tqdm(chunks):
     offs_to_pron = {}
     for i,(clusters, offsets) in enumerate(zip(pronoun_results['clusters_token_text'], pronoun_results['clusters_token_offsets'])):
         best_noun, best_noun_offset = get_best_noun(clusters, offsets)
-
+        # print(f"CLUSTERS: {clusters}")
         if best_noun != None:
             # print("\nBEST NOUN")
             # print(best_noun, best_noun_offset)
@@ -111,22 +139,21 @@ for chunk in tqdm(chunks):
     detokenized_chunk= detokenize(pron_tokenized)
     doc = nlp_lg(detokenized_chunk)
     tokens = [token for token in doc]
-
-
-    incomplete_facts = get_declarations(tokens)
+    # incomplete_facts = get_declarations(tokens)
+    incomplete_facts = get_declarations(doc)
 
     # Merge common Nouns
     if incomplete_facts:
         for fact in incomplete_facts:
             word2match = fact[0]
-            word2match_idx = fact[0].i
+            word2match_idx = fact[0].i# old iMP
+            # word2match_idx = fact[2]
             if word2match_idx in offs_to_pron: # if there is a valid Noun to replace the pronoun with
-                # print(word2match, word2match_idx,offs_to_pron[word2match_idx])
-                pron_tokenized[word2match_idx] = offs_to_pron[word2match_idx]
                 nu_noun = offs_to_pron[word2match_idx]
+                # print("YO", nu_noun, fact[1])
                 if nu_noun not in all_facts:
                     all_facts[nu_noun] = []
                 all_facts[nu_noun].append(fact[1])
-
-
-print(all_facts)
+    pickle.dump(all_facts,open("saved_facts_mctb.pkl", 'wb'))
+    # print_nicely_formatted(all_facts)
+    print(all_facts)
