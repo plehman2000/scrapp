@@ -1,5 +1,6 @@
 import torch
 import numpy as np
+from transformers import DebertaTokenizerFast
 
 from transformers import AutoTokenizer
 
@@ -9,7 +10,16 @@ from maverick.common.constants import *
 from maverick.models import *
 
 from transformers.utils.hub import cached_file as hf_cached_file
+from transformers import AutoTokenizer
 
+# # Download vocabulary from huggingface.co and cache.
+# tokenizer = AutoTokenizer.from_pretrained('bert-base-uncased')
+
+# # Download vocabulary from huggingface.co (user-uploaded) and cache.
+# tokenizer = AutoTokenizer.from_pretrained('dbmdz/bert-base-german-cased')
+
+# # If vocabulary files are in a directory (e.g. tokenizer was saved using *save_pretrained('./test/saved_model/')*)
+# tokenizer = AutoTokenizer.from_pretrained('./test/bert_saved_model/'),
 
 class Maverick:
     # put the pip package online
@@ -31,7 +41,12 @@ class Maverick:
         return path
 
     def __get_model_tokenizer__(self):
-        tokenizer = AutoTokenizer.from_pretrained(self.model.encoder_hf_model_name, use_fast=True, add_prefix_space=True)
+        print("EDITED TOKENIZER IN MAVERICK_MODEL.py")
+        print(self.model.encoder_hf_model_name)
+        # tokenizer = AutoTokenizer.from_pretrained(self.model.encoder_hf_model_name, use_fast=True, add_prefix_space=True)
+        # tokenizer = AutoTokenizer.from_pretrained('bert-base-uncased', use_fast=True, add_prefix_space=True)
+
+        tokenizer = DebertaTokenizerFast.from_pretrained("microsoft/deberta-base", use_fast=True, add_prefix_space=True)
         special_tokens_dict = {"additional_special_tokens": ["[SPEAKER_START]", "[SPEAKER_END]"]}
         tokenizer.add_special_tokens(special_tokens_dict)
         return tokenizer

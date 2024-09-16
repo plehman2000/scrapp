@@ -65,9 +65,9 @@ def get_pro_nsubj(token):
     return [child for child in token.children if child.dep_ == 'nsubj'][0]
 
 
-def get_declarations(chunk):
+def get_declarations(doc):
     incomplete_facts = []
-    for token in nlp_lg(chunk):
+    for token in doc:
         if token.pos_ in ['NOUN', 'ADJ']:
             if token.dep_ in ['attr', 'acomp'] and token.head.lower_ in ['is', 'was',]: #TODO MAKE MORE ALL_ENCOMPASSING, probably use nested for loops?
                 # to test for lemma 'be' use token.head.lemma_ == 'be'
@@ -90,10 +90,12 @@ chunks = text_splitter.split_text(text)
 for i, chunk in enumerate(chunks):
     print(f"Chunk {i + 1}:\n{chunk}")
     pronoun_results = model.predict(chunk)
-    incomplete_facts = get_declarations(chunk)
+    doc = nlp_lg(chunk)
+    tokens = [token for token in doc]
+    incomplete_facts = get_declarations(doc)
     offs_to_pron = {}
-
-    for i,(clusters, offsets) in enumerate(zip(pronoun_results['clusters_token_text'], pronoun_results['clusters_char_offsets'])):
+    print(pronoun_results)
+    for i,(clusters, offsets) in enumerate(zip(pronoun_results['clusters_token_text'], pronoun_results['clusters_token_offsets'])):
         best_pronoun, best_pronoun_offset = get_best_pronoun(clusters, offsets)
 
         if best_pronoun != None:
@@ -101,22 +103,19 @@ for i, chunk in enumerate(chunks):
             print(best_pronoun, best_pronoun_offset)
             # print(incomplete_facts)
             # map all offsets to best_pronoun   
-            print("\nsubjects AND OFFSETS")
+            print("\nSUBJECTS AND OFFSETS")
             for cl, off in zip(clusters, offsets):
-                print(cl,off)
-            print("\nFACTS")
-            for fact in incomplete_facts:
-                print(fact[0], fact[0].idx, fact[1])
-            #     print(best_pronoun,offs, (chunk.replace("\n", "")[offs[0]:offs[1]+1]))
-            #     # print(incomplete_facts)
-            #     offs_to_pron[offs[0]] = best_pronoun
-        break
+                print( tokens[off[0]],cl,off)
+                offs_to_pron[off] = best_pronoun
+        # break
+
+    print("\nFACTS")
+    for fact in incomplete_facts:
+        print(fact[0],tokens[fact[0].i], fact[0].i, fact[1])
+    #     print(best_pronoun,offs, (chunk.replace("\n", "")[offs[0]:offs[1]+1]))
+    #     # print(incomplete_facts)
+    #     offs_to_pron[offs[0]] = best_pronoun
 
 
     break
 
-
-
-
-# print(incomplete_facts[0][0])
-# print(incomplete_facts[0][0].idx)
