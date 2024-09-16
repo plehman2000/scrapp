@@ -41,12 +41,12 @@ class Maverick:
         return path
 
     def __get_model_tokenizer__(self):
-        print("EDITED TOKENIZER IN MAVERICK_MODEL.py")
+        # print("EDITED TOKENIZER IN MAVERICK_MODEL.py")
         print(self.model.encoder_hf_model_name)
-        # tokenizer = AutoTokenizer.from_pretrained(self.model.encoder_hf_model_name, use_fast=True, add_prefix_space=True)
+        tokenizer = AutoTokenizer.from_pretrained(self.model.encoder_hf_model_name, use_fast=True, add_prefix_space=True)
         # tokenizer = AutoTokenizer.from_pretrained('bert-base-uncased', use_fast=True, add_prefix_space=True)
 
-        tokenizer = DebertaTokenizerFast.from_pretrained("microsoft/deberta-base", use_fast=True, add_prefix_space=True)
+        # tokenizer = DebertaTokenizerFast.from_pretrained("sileod/deberta-v3-large-tasksource-nli", use_fast=True, add_prefix_space=True)
         special_tokens_dict = {"additional_special_tokens": ["[SPEAKER_START]", "[SPEAKER_END]"]}
         tokenizer.add_special_tokens(special_tokens_dict)
         return tokenizer

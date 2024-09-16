@@ -43,7 +43,7 @@ model = Maverick(device='cuda')
 nlp_lg = spacy.load('en_core_web_lg')
 
 
-def get_best_pronoun(cluster, offsets): #gets best Noune from a cluster, if all pronoiuns return none
+def get_best_noun(cluster, offsets): #gets best Noune from a cluster, if all pronoiuns return none
     ls = []
     for noun, offset in zip(cluster, offsets):
         pos = nlp_lg(noun)[0].pos_
@@ -62,60 +62,71 @@ def get_best_pronoun(cluster, offsets): #gets best Noune from a cluster, if all 
 #https://stackoverflow.com/questions/56977820/better-way-to-use-spacy-to-parse-sentences
 def get_pro_nsubj(token):
     # get the (lowercased) subject pronoun if there is one
-    return [child for child in token.children if child.dep_ == 'nsubj'][0]
+    pro_nsubj_list = [child for child in token.children if child.dep_ == 'nsubj'] 
+    if len(pro_nsubj_list) == 0:
+        return None
+    return pro_nsubj_list[0]
 
 
 def get_declarations(doc):
     incomplete_facts = []
     for token in doc:
         if token.pos_ in ['NOUN', 'ADJ']:
-            if token.dep_ in ['attr', 'acomp'] and token.head.lower_ in ['is', 'was',]: #TODO MAKE MORE ALL_ENCOMPASSING, probably use nested for loops?
+            if token.dep_ in ['attr', 'acomp'] and token.head.lower_ in ['is', 'was',]: #TODO MAKE MORE ALL_ENCOMPASSING, probably use nested for loops? should apply to has, was etc
                 # to test for lemma 'be' use token.head.lemma_ == 'be'
                 nsubj = get_pro_nsubj(token.head)
+                if nsubj:
                     # get the text of each token in the constituent and join it all together
-                factoid =  [nsubj," " + token.head.lower_ + " "+ ' '.join([t.text for t in token.subtree])]
-                incomplete_facts.append(factoid)
+                    factoid =  [nsubj," " + token.head.lower_ + " "+ ' '.join([t.text for t in token.subtree])]
+                    incomplete_facts.append(factoid)
     return incomplete_facts
 
 
 
 
-
+from detokenize.detokenizer import detokenize
+from tqdm import tqdm
 
 text = text.replace("\n\n", "")
 text = text.replace("\n", " ")
 text_splitter = NLTKTextSplitter(chunk_size=1000)
 chunks = text_splitter.split_text(text)
 
-for i, chunk in enumerate(chunks):
-    print(f"Chunk {i + 1}:\n{chunk}")
+
+all_facts = {}
+for chunk in tqdm(chunks):
     pronoun_results = model.predict(chunk)
-    doc = nlp_lg(chunk)
-    tokens = [token for token in doc]
-    incomplete_facts = get_declarations(doc)
+    pron_tokenized = pronoun_results['tokens']
     offs_to_pron = {}
-    print(pronoun_results)
     for i,(clusters, offsets) in enumerate(zip(pronoun_results['clusters_token_text'], pronoun_results['clusters_token_offsets'])):
-        best_pronoun, best_pronoun_offset = get_best_pronoun(clusters, offsets)
+        best_noun, best_noun_offset = get_best_noun(clusters, offsets)
 
-        if best_pronoun != None:
-            print("\nBEST PRONOUN")
-            print(best_pronoun, best_pronoun_offset)
-            # print(incomplete_facts)
-            # map all offsets to best_pronoun   
-            print("\nSUBJECTS AND OFFSETS")
+        if best_noun != None:
+            # print("\nBEST NOUN")
+            # print(best_noun, best_noun_offset)
+            # map all offsets to best_noun   
             for cl, off in zip(clusters, offsets):
-                print( tokens[off[0]],cl,off)
-                offs_to_pron[off] = best_pronoun
-        # break
+                offs_to_pron[off[0]] = best_noun
 
-    print("\nFACTS")
-    for fact in incomplete_facts:
-        print(fact[0],tokens[fact[0].i], fact[0].i, fact[1])
-    #     print(best_pronoun,offs, (chunk.replace("\n", "")[offs[0]:offs[1]+1]))
-    #     # print(incomplete_facts)
-    #     offs_to_pron[offs[0]] = best_pronoun
+    detokenized_chunk= detokenize(pron_tokenized)
+    doc = nlp_lg(detokenized_chunk)
+    tokens = [token for token in doc]
 
 
-    break
+    incomplete_facts = get_declarations(tokens)
 
+    # Merge common Nouns
+    if incomplete_facts:
+        for fact in incomplete_facts:
+            word2match = fact[0]
+            word2match_idx = fact[0].i
+            if word2match_idx in offs_to_pron: # if there is a valid Noun to replace the pronoun with
+                # print(word2match, word2match_idx,offs_to_pron[word2match_idx])
+                pron_tokenized[word2match_idx] = offs_to_pron[word2match_idx]
+                nu_noun = offs_to_pron[word2match_idx]
+                if nu_noun not in all_facts:
+                    all_facts[nu_noun] = []
+                all_facts[nu_noun].append(fact[1])
+
+
+print(all_facts)
