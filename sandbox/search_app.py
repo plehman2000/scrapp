@@ -178,13 +178,83 @@ def webcrawl_page():
 
 
 
-
-
-
-
 def combine_page():
-    query = st.text_input("E.G. How does Gnosticism and ")
-    st.write(query)
+    st.markdown(font_info, unsafe_allow_html=True)
+
+    if 'entries_to_combine' not in st.session_state:
+        st.session_state.entries_to_combine = []
+
+    if 'selected_toggles' not in st.session_state:
+        st.session_state.selected_toggles = set()
+
+    st.markdown(get_fonted_text("Combine Facts", size=48), unsafe_allow_html=True)
+
+    def get_ent_suggestions(searchterm: str) -> list[any]:
+        all_subjects = sorted(ent_suggestions, key=lambda x: fuzz.partial_ratio(searchterm, x[1]), reverse=True)[:8]
+        return all_subjects if searchterm else []
+
+    scrapp_copy = get_scrapp_db()
+    ent_suggestions = [doc['subject'] for doc in scrapp_copy]
+    ent_suggestions = [x for x in ent_suggestions if x != ""]
+
+    print("Entity SEARCH")
+    st.session_state.title = "Entity Search"
+
+    search_term = st_searchbox(
+        get_ent_suggestions,
+        key="searchbox",
+    )
+    results = json.loads(search_db(search_term))['facts']
+
+    top_container = st.container()
+    if search_term:
+        if results:
+            st.markdown(get_fonted_text("Search Results", size=24, body=True), unsafe_allow_html=True)
+
+            for label in results:
+                col1, col2, col3 = st.columns([3, 1, 1])
+
+                with col1:
+                    st.markdown(get_fonted_text(f"\"{label[0]}\"", size=16, body=True), unsafe_allow_html=True)
+
+                with col2:
+                    file_info = file_name_db.get(Query().doc_id == label[1])['metadata']
+                    del file_info["file_size"]
+                    del file_info["modification_time"]
+
+                    source = file_info['file_name']
+                    if "url" in file_info.keys():
+                        source = file_info['url']
+
+                    st.markdown(get_fonted_text(f"File Name: \"{file_info['file_name']}\"", size=16, body=True), unsafe_allow_html=True)
+                    st.markdown(get_fonted_text(f"Collection Time: {file_info['creation_time']}", size=16, body=True), unsafe_allow_html=True)
+                    st.markdown(get_fonted_text(f"Source: {source}", size=16, body=True), unsafe_allow_html=True)
+
+                with col3:
+                    # Create a unique key for each search term and result combination
+                    toggle_key = f"toggle_{search_term}_{label[1]}"
+                    add_str = f"{search_term}: {label[0]}"
+                    
+                    if st.toggle("Select", key=toggle_key, value=toggle_key in st.session_state.selected_toggles):
+                        if add_str not in st.session_state.entries_to_combine:
+                            st.session_state.entries_to_combine.append(add_str)
+                            st.session_state.selected_toggles.add(toggle_key)
+                    else:
+                        if add_str in st.session_state.entries_to_combine:
+                            st.session_state.entries_to_combine.remove(add_str)
+                            st.session_state.selected_toggles.discard(toggle_key)
+
+                st.markdown("---")
+        else:
+            st.info("No results found.")
+
+    if st.button("Clear All Selections"):
+        st.session_state.entries_to_combine = []
+        st.session_state.selected_toggles = set()
+    with top_container:
+        st.markdown(get_fonted_text("Current selection:", size=24), unsafe_allow_html=True)
+        for item in st.session_state.entries_to_combine:
+            st.write(item)
 
 
 page_names_to_funcs = {

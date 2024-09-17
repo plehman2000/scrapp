@@ -500,6 +500,7 @@ def llm_chunks_to_facts(chunk):
 4. Be phrased as a complete, grammatically correct sentence
 5. Not include subjective interpretations or opinions
 6. Do not include any information that seems to be formatting artifacts
+7. Try to use simple subjects
 Please present the facts as a  bulleted list. Do not include any additional commentary or explanation beyond the list of facts. """
     response = ollama.chat(
         model="dolphin-llama3"
