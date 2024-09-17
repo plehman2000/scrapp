@@ -43,7 +43,7 @@ class Maverick:
     def __get_model_tokenizer__(self):
         # print("EDITED TOKENIZER IN MAVERICK_MODEL.py")
         print(self.model.encoder_hf_model_name)
-        tokenizer = AutoTokenizer.from_pretrained(self.model.encoder_hf_model_name, use_fast=True, add_prefix_space=True)
+        tokenizer = AutoTokenizer.from_pretrained(self.model.encoder_hf_model_name, use_fast=True, add_prefix_space=True, clean_up_tokenization_spaces=False)
         # tokenizer = AutoTokenizer.from_pretrained('bert-base-uncased', use_fast=True, add_prefix_space=True)
 
         # tokenizer = DebertaTokenizerFast.from_pretrained("sileod/deberta-v3-large-tasksource-nli", use_fast=True, add_prefix_space=True)
