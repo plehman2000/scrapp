@@ -89,7 +89,9 @@ def db_ready_facts(relations, doc_id):
         temp_facts = temp_facts["facts"]
 
         for x in temp_facts:
-            embedding = ollama.embeddings(model="nomic-embed-text", prompt=x["subject"] + " " + x["predicate"])["embedding"]
+            embedding = ollama.embeddings(
+                model="nomic-embed-text", prompt=x["subject"] + " " + x["predicate"]
+            )["embedding"]
 
             if x["subject"] not in filtered_facts:
                 filtered_facts[x["subject"]] = []
@@ -221,7 +223,9 @@ def extract_text_from_html_file(file_path, guess_layout=True):
         print(f"An error occurred while processing the file: {e}")
         return None
 
+
 from stqdm import stqdm
+
 
 def ingest_document_prototype2(
     file_path, url=None
@@ -275,7 +279,9 @@ def ingest_document_prototype2(
     file_name_db.insert({"doc_id": doc_id, "metadata": file_info["metadata"]})
     loader = Loader("Adding to DB...", "Done!").start()
     print("Loading")
-    for chunk in stqdm(text_chunks, desc="Extracting Relations", backend=False, frontend=True):
+    for chunk in stqdm(
+        text_chunks, desc="Extracting Relations", backend=False, frontend=True
+    ):
         relations = text_to_relations([chunk])
         filtered_facts = db_ready_facts(relations, doc_id)
 
@@ -286,7 +292,9 @@ def ingest_document_prototype2(
             if existing_entry:  # case sensitive, is this a good choice?
                 temp_facts = ""
                 if "facts" in existing_entry:
-                    temp_facts = existing_entry["facts"] if existing_entry["facts"] else ""
+                    temp_facts = (
+                        existing_entry["facts"] if existing_entry["facts"] else ""
+                    )
                 else:
                     print("Warning: 'facts' key not found in existing_entry")
                 updated_facts = existing_entry["facts"] + filtered_facts[subject]
@@ -346,8 +354,9 @@ import json
 
 import PyPDF2
 import ollama
-nlp_lg = spacy.load('en_core_web_lg')
-model = Maverick(device='cuda')
+
+nlp_lg = spacy.load("en_core_web_lg")
+model = Maverick(device="cuda")
 
 text = """Mindfulness is in a category all by itself, as it can potentially balance and perfect the remaining four spiritual faculties. This does not mean that we shouldn't be informed by the other two pairs, but that mindfulness is extremely important. 
 Mindfulness means knowing what is as it is right now. It is the quality of mind that knows things as they are. Really, it is the quality of sensations manifesting as they are, where they are, and on their own. However, initially
@@ -385,14 +394,42 @@ as it is now. Reality becomes more and more interesting, so our concentration gr
 combination of the first four produces fundamental wisdom. Wisdom leads to more faith, and
 the cycle goes around again.    """
 
+def llm_facts_to_formatted_facts(facts):
+    raw_facts = []
 
-def extract_relations_formatted(text):
+    prompt = """
+    Task: Rewrite each fact in the provided list using the format 'Proper Noun Verbs Object,' 
+    following these guidelines:
+
+    - Noun: Identify the subject of the original fact and use it as the noun. Do not replace it with a pronoun.
+    - Verb/Object: Choose a verb that captures the primary action or state described in the fact and object with key details from the original fact.
+
+    All facts should be formatted as grammatically correct, complete sentences. If needed, split sentences 
+    into smaller ones to maintain clarity and accuracy.
+
+    Instructions: Apply this structure to each fact in the list, always following noun -> verb -> object. 
+    Ensure the rewritten facts are clear, accurate, and maintain the same form and information of the original information.
+    Use full names or specific descriptors instead of pronouns.
+
+
+    """
+
+    response = ollama.chat(
+        model="dolphin-llama3"
+        # model='gemma2:27b'
+        ,
+        messages=[{"role": "user", "content": prompt + facts}],  # llama3
+    )
+    output = response["message"]["content"]
+    return output
+def extract_relations_formatted(text, msubjects):
 
     input_llm = """
     
     Please extract all relations betweens proper nouns and predicates and return this information only in the following JSON template. 
     Only put proper nouns in the subject field, the subject field must be populated.
     Valid relations are verbs like is/has/created/taken etc. THE SUBJECT + RELATION PREDICATE should form a complete sentence as close to how it appears in the text as possible
+    Use only the following list of main subjects as subjects :""" + ",".join(msubjects) +     """
     ### Template:
      {
       "facts": [
@@ -453,16 +490,17 @@ def extract_relations_formatted(text):
 
     return parsed_output
 
-def llm_chunks_to_facts(chunk,msubjects):
 
-    prompt = f"""Extract a list of independently verifiable facts from the following text.Each fact should:
+def llm_chunks_to_facts(chunk):
+
+    prompt = f"""Extract a list of independent  facts from the following text.Each fact should:
 1. Be as close to as it is directly stated in the text, not inferred
 2. Use full names or specific descriptors instead of pronouns. Do not use compound subjects
 3. Be meaningful and understandable on its own, without context from other facts
 4. Be phrased as a complete, grammatically correct sentence
 5. Not include subjective interpretations or opinions
 6. Do not include any information that seems to be formatting artifacts
-Please present the facts as a  bulleted list. Do not include any additional commentary or explanation beyond the list of facts. use only the following list of main subjects:{msubjects}"""
+Please present the facts as a  bulleted list. Do not include any additional commentary or explanation beyond the list of facts. """
     response = ollama.chat(
         model="dolphin-llama3"
         # model='gemma2:27b'
@@ -475,7 +513,7 @@ Please present the facts as a  bulleted list. Do not include any additional comm
 
 def read_pdf(file_path):
     content = ""
-    with open(file_path, 'rb') as file:
+    with open(file_path, "rb") as file:
         pdf_reader = PyPDF2.PdfReader(file)
         for page in tqdm(pdf_reader.pages):
             content += page.extract_text()
@@ -484,14 +522,16 @@ def read_pdf(file_path):
 
 def read_pdf(file_path):
     content = ""
-    with open(file_path, 'rb') as file:
+    with open(file_path, "rb") as file:
         pdf_reader = PyPDF2.PdfReader(file)
         for page in tqdm(pdf_reader.pages):
             content += page.extract_text()
     return content
 
 
-def get_best_noun(cluster, offsets): #gets best Noune from a cluster, if all pronoiuns return none
+def get_best_noun(
+    cluster, offsets
+):  # gets best Noune from a cluster, if all pronoiuns return none
     ls = []
     for noun, offset in zip(cluster, offsets):
         pos = nlp_lg(noun)[0].pos_
@@ -502,19 +542,20 @@ def get_best_noun(cluster, offsets): #gets best Noune from a cluster, if all pro
 
     if len(ls) == 0:
         return None, None
-    ls = sorted(ls, key=lambda x : len(x[0]),reverse=False)
-    #TODO need better heuristic here, just picks first, should be informed by prior selections (search db for terms, select ones that are the same?)
+    ls = sorted(ls, key=lambda x: len(x[0]), reverse=False)
+    # TODO need better heuristic here, just picks first, should be informed by prior selections (search db for terms, select ones that are the same?)
     # print(f"Picked {ls[0][0]}!")
     return ls[0][0], ls[0][1]
 
 
-#https://stackoverflow.com/questions/56977820/better-way-to-use-spacy-to-parse-sentences
+# https://stackoverflow.com/questions/56977820/better-way-to-use-spacy-to-parse-sentences
 def get_pro_nsubj(token):
     # get the (lowercased) subject pronoun if there is one
-    pro_nsubj_list = [child for child in token.children if child.dep_ == 'nsubj'] 
+    pro_nsubj_list = [child for child in token.children if child.dep_ == "nsubj"]
     if len(pro_nsubj_list) == 0:
         return None
     return pro_nsubj_list[0]
+
 
 def print_nicely_formatted(data):
     for key, values in data.items():
@@ -524,39 +565,27 @@ def print_nicely_formatted(data):
         print("],\n")
 
 
-
 def get_declarations(doc):
     incomplete_facts = []
     for token in doc:
-        if token.pos_ in ['NOUN', 'ADJ']:
-            if token.dep_ in ['attr', 'acomp'] and token.head.lower_ in ['is', 'was']: #TODO MAKE MORE ALL_ENCOMPASSING, probably use nested for loops? should apply to has, was etc
+        if token.pos_ in ["NOUN", "ADJ"]:
+            if token.dep_ in ["attr", "acomp"] and token.head.lower_ in [
+                "is",
+                "was",
+            ]:  # TODO MAKE MORE ALL_ENCOMPASSING, probably use nested for loops? should apply to has, was etc
                 # to test for lemma 'be' use token.head.lemma_ == 'be'
                 nsubj = get_pro_nsubj(token.head)
                 if nsubj:
                     # get the text of each token in the constituent and join it all together
-                    factoid =  [nsubj," " + token.head.lower_ + " "+ ' '.join([t.text for t in token.subtree])]
+                    factoid = [
+                        nsubj,
+                        " "
+                        + token.head.lower_
+                        + " "
+                        + " ".join([t.text for t in token.subtree]),
+                    ]
                     incomplete_facts.append(factoid)
     return incomplete_facts
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 def ingest_document_prototype3(
@@ -611,52 +640,65 @@ def ingest_document_prototype3(
     file_name_db.insert({"doc_id": doc_id, "metadata": file_info["metadata"]})
     # loader = Loader("Adding to DB...", "Done!").start()
     print("Loading")
-    for chunk in stqdm(text_chunks, desc="Extracting Relations", backend=False, frontend=True):
-        pronoun_results = model.predict(chunk)
-        pron_tokenized = pronoun_results['tokens']
-        offs_to_pron = {}
+    pronoun_results_list = []
+    for chunk in stqdm(text_chunks, desc="Getting parts of speech...", backend=False, frontend=True):
+        pronoun_results_list.append(model.predict(chunk))
+    print("Done")
+    zix = 0
+    for chunk in stqdm(
+        text_chunks, desc="Extracting Relations", backend=False, frontend=True
+    ):
+        pronoun_results = pronoun_results_list[zix]  # model.predict(chunk)
+        zix +=1
+        pron_tokenized = pronoun_results["tokens"]
         main_subjects = []
-        for i,(clusters, offsets) in enumerate(zip(pronoun_results['clusters_token_text'], pronoun_results['clusters_token_offsets'])):
+        relations_list = []
+        for i, (clusters, offsets) in enumerate(
+            zip(
+                pronoun_results["clusters_token_text"],
+                pronoun_results["clusters_token_offsets"],
+            )
+        ):
             best_noun, _ = get_best_noun(clusters, offsets)
             if best_noun != None:
                 for cl, off in zip(clusters, offsets):
-                    for i in range(off[0],off[1]+1):
+                    for i in range(off[0], off[1] + 1):
                         if i == off[0]:
                             pron_tokenized[i] = best_noun
                         else:
-                            pron_tokenized[i] = ''
+                            pron_tokenized[i] = ""
                 main_subjects.append(best_noun)
-                    
 
             # print(temp_cl)
         # print(pron_tokenized)
-        detokenized_chunk= detokenize(pron_tokenized)
-        facts = llm_chunks_to_facts(detokenized_chunk, main_subjects)
-        relations = extract_relations_formatted(facts)
-        # relations = extract_relations_formatted(detokenized_chunk, main_subjects)
-        # print(detokenized_chunk)
-        # for f in relations['facts']:
-        #     print(f)
-        # break
+        detokenized_chunk = detokenize(pron_tokenized)
+        facts = llm_chunks_to_facts(detokenized_chunk)
+        formatted_facts = llm_facts_to_formatted_facts(facts)
+        relations = extract_relations_formatted(formatted_facts, main_subjects)
+
+        # facts = llm_chunks_to_facts(text)
+        # formatted_facts = llm_facts_to_formatted_facts(facts)
+        # relations = extract_relations_formatted(formatted_facts)
 
 
 
         print(relations)
-        filtered_facts = db_ready_facts(relations, doc_id)
+        relations_list.append(relations)
+    filtered_facts = db_ready_facts(relations_list, doc_id)
 
-        # Add filtered facts to scrapp_db
-
-        for subject in filtered_facts:
-            existing_entry = scrapp_db.get(Query().subject == subject)
-            if existing_entry:  # case sensitive, is this a good choice?
-                temp_facts = ""
-                if "facts" in existing_entry:
-                    temp_facts = existing_entry["facts"] if existing_entry["facts"] else ""
-                else:
-                    print("Warning: 'facts' key not found in existing_entry")
-                updated_facts = existing_entry["facts"] + filtered_facts[subject]
-                scrapp_db.update({"facts": updated_facts}, Query().subject == subject)
+    # Add filtered facts to scrapp_db
+    print(filtered_facts)
+    for subject in filtered_facts:
+        existing_entry = scrapp_db.get(Query().subject == subject)
+        if existing_entry:  # case sensitive, is this a good choice?
+            temp_facts = ""
+            if "facts" in existing_entry:
+                temp_facts = existing_entry["facts"] if existing_entry["facts"] else ""
             else:
-                scrapp_db.insert({"subject": subject, "facts": filtered_facts[subject]})
+                print("Warning: 'facts' key not found in existing_entry")
+            updated_facts = existing_entry["facts"] + filtered_facts[subject]
+            scrapp_db.update({"facts": updated_facts}, Query().subject == subject)
+        else:
+            scrapp_db.insert({"subject": subject, "facts": filtered_facts[subject]})
 
     return file_info["metadata"]

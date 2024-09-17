@@ -58,6 +58,7 @@ def search_page():
     scrapp_copy = get_scrapp_db()
     ent_suggestions = [doc['subject'] for doc in scrapp_copy]
     ent_suggestions = [x for x in ent_suggestions if x != ""]
+    print(ent_suggestions)
     from scipy import spatial
 
     def get_ent_suggestions(searchterm: str) -> list[any]:

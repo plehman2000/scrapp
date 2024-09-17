@@ -18,7 +18,23 @@ def __():
     import PyPDF2
     import ollama
     nlp_lg = spacy.load('en_core_web_lg')
-    model = Maverick(device='cuda')
+
+    return (
+        Maverick,
+        NLTKTextSplitter,
+        PyPDF2,
+        detokenize,
+        json,
+        nlp_lg,
+        ollama,
+        pprint,
+        spacy,
+        tqdm,
+    )
+
+
+@app.cell
+def __(PyPDF2, json, nlp_lg, ollama, tqdm):
 
     text = """Mindfulness is in a category all by itself, as it can potentially balance and perfect the remaining four spiritual faculties. This does not mean that we shouldn't be informed by the other two pairs, but that mindfulness is extremely important. 
     Mindfulness means knowing what is as it is right now. It is the quality of mind that knows things as they are. Really, it is the quality of sensations manifesting as they are, where they are, and on their own. However, initially
@@ -223,36 +239,22 @@ def __():
 
 
     return (
-        Maverick,
-        NLTKTextSplitter,
-        PyPDF2,
-        detokenize,
         extract_relations_formatted,
         get_best_noun,
         get_declarations,
         get_pro_nsubj,
-        json,
         llm_chunks_to_facts,
-        model,
-        nlp_lg,
-        ollama,
-        pprint,
         print_nicely_formatted,
         read_pdf,
-        spacy,
         text,
-        tqdm,
     )
 
 
 @app.cell
-def __():
-    return
+def __(Maverick):
+    model = Maverick(device='cuda')
 
-
-@app.cell
-def __():
-    return
+    return model,
 
 
 @app.cell
@@ -273,11 +275,9 @@ def __(
 
 
 
-    text_splitter = NLTKTextSplitter(chunk_size=1000)
-    chunks = text_splitter.split_text(text)
 
     all_facts = {}
-    for chunk in tqdm(chunks):
+    for chunk in tqdm(chunks): 
         pronoun_results = model.predict(chunk)
         pron_tokenized = pronoun_results['tokens']
         offs_to_pron = {}

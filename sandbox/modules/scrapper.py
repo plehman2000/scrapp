@@ -322,15 +322,33 @@ def text_to_relations(texts):
 
 
 
-def text_to_relations2(texts):
+
+
+def text_to_relations(texts):
     responses = []
 
     for text in texts:
-        response = ""
+        # loader = Loader("Collecting Facts...").start()
+        # st.write("Collecting Facts...")
 
+        facts = llm_chunks_to_facts(text)
+        # loader.stop()
 
+        # loader = Loader("Formatting Facts...").start()
+        # st.write("Formatting Facts...")
 
+        formatted_facts = llm_facts_to_formatted_facts(facts)
+        # loader.stop()
+        #
+        # loader = Loader("Extracting Relations...").start()
+        # st.write("Extracting Relations...")
+        relations = extract_relations_formatted(formatted_facts)
+        # loader.stop()
 
+        # loader = Loader("Replacing pronouns...").start()
+        # st.write("Replacing pronouns...")
 
-        responses.append(response)
+        out = replace_pronouns_json(relations)
+        # loader.stop()
+        responses.append(out)
     return responses
