@@ -702,4 +702,6 @@ def ingest_document_prototype3(
         else:
             scrapp_db.insert({"subject": subject, "facts": filtered_facts[subject]})
 
-    return file_info["metadata"]
+    return filtered_facts
+
+
