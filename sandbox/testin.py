@@ -73,25 +73,74 @@ async def chatv(facts):
 import asyncio
 from ollama import AsyncClient
 
-
 import math
 facts = [
- "Living Morally includes leading a non-harming and benevolent lifestyle"
-"An aspect of moral training dedicates oneself to rigorous spiritual practice"
+ "Living Morally includes leading a non-harming and benevolent lifestyle",
+"An aspect of moral training dedicates oneself to rigorous spiritual practice",
 "a well- Adjusted life does not necessarily equate to one filled with wealth and extravagance, but rather refers to a lifestyle that benefits both oneself and others without causing harm."
 ]
 
-res = asyncio.run(chatv(facts))
+# res = asyncio.run(chatv(facts))
 
+import torch
+from transformers import AutoModelForCausalLM, AutoTokenizer
+import math
 
-# def calc_number_calls(num_facts, facts_per_call):
-#     facts_left = num_facts
-#     calls = 0
-#     while facts_left > 1:
-#         n = math.ceil(facts_left/facts_per_call)
-#         calls += n
-#         facts_left = facts_left // facts_per_call
-#     print((calls*5)//60)
+def calculate_perplexity(text, model_name="FacebookAI/roberta-base"):
+    # Load pre-trained model and tokenizer
+    model = AutoModelForCausalLM.from_pretrained(model_name)
+    tokenizer = AutoTokenizer.from_pretrained(model_name)
 
+    # Encode the text
+    encodings = tokenizer(text, return_tensors="pt")
 
-# calc_number_calls(10000,3)
+    # Ensure the input_ids tensor is on the same device as the model
+    input_ids = encodings.input_ids.to(model.device)
+
+    # Calculate perplexity
+    max_length = model.config.max_position_embeddings
+    stride = 512
+
+    nlls = []
+    for i in range(0, input_ids.size(1), stride):
+        begin_loc = max(i + stride - max_length, 0)
+        end_loc = min(i + stride, input_ids.size(1))
+        trg_len = end_loc - i
+        input_ids_chunk = input_ids[:, begin_loc:end_loc].to(model.device)
+        target_ids = input_ids[:, i:end_loc].to(model.device)
+
+        with torch.no_grad():
+            outputs = model(input_ids_chunk, labels=target_ids)
+            neg_log_likelihood = outputs.loss
+
+        nlls.append(neg_log_likelihood * trg_len)
+
+    ppl = torch.exp(torch.stack(nlls).sum() / end_loc)
+    
+    return ppl.item()
+
+def analyze_text(text, model_name="FacebookAI/roberta-base"):
+    perplexity = calculate_perplexity(text, model_name)
+    
+    return {
+        "text": text,
+        "perplexity": perplexity,
+        "model": model_name
+    }
+
+# Example usage
+result = analyze_text(facts[0])
+
+print(f"Text: {result['text']}")
+print(f"Model: {result['model']}")
+print(f"Perplexity: {result['perplexity']:.2f}")
+
+result = analyze_text(facts[1])
+
+print(f"Text: {result['text']}")
+print(f"Model: {result['model']}")
+print(f"Perplexity: {result['perplexity']:.2f}")
+
+# You can try with different models, for example:
+# result = analyze_text(text, model_name="distilgpt2")
+# result = analyze_text(text, model_name="gpt2-medium")
