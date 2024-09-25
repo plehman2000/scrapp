@@ -21,21 +21,29 @@ def get_conclusion_premise(conclusion):
 
 def get_inversion(conclusion, premises):
     prompt = f"""
-    Given the following premises that must be true for the following conclusion to hold:
+    Given the following premises and conclusion:
     {conclusion}\n
     {premises}
-    Create a skeptical, reasonable inversion for each premise:
+    Create a skeptical, reasonable opposition/inversion for each premise:
     """
     premises = get_llm_response(prompt)
     return premises
 
-conclusion = "Kamala Harris is the best person to vote for for the U.S. Presidential Race"
-premises = get_conclusion_premise(conclusion)
-inverted_premises = get_inversion(conclusion, premises)
-premises_json = extract_info_json(json_extraction_prompt+premises)
-inverted_premises_json = extract_info_json(json_extraction_prompt+inverted_premises)
+conclusion = "Jorbo Collins is the best person to vote for for the U.S. Presidential Race"
+# premises = get_conclusion_premise(conclusion)
+# inverted_premises = get_inversion(conclusion, premises)
+# premises_json = extract_info_json(json_extraction_prompt+premises)
+# inverted_premises_json = extract_info_json(json_extraction_prompt+inverted_premises)
 
-print(premises)
-print(inverted_premises)
-print(premises_json)
-print(inverted_premises_json)
+# print(premises)
+# print(inverted_premises)
+# print("\n\nJSON\n")
+# print(premises_json)
+# print(inverted_premises_json)
+
+
+from langchain_community.tools import DuckDuckGoSearchResults
+
+tool = DuckDuckGoSearchResults()
+results = tool.invoke("Obama")
+print(results)
