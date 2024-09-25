@@ -77,6 +77,7 @@ import math
 facts = [
  "Living Morally includes leading a non-harming and benevolent lifestyle",
 "An aspect of moral training dedicates oneself to rigorous spiritual practice",
+"An aspect of moral training dedicates oneself to rigorous spiritual practice nebloid!!",
 "a well- Adjusted life does not necessarily equate to one filled with wealth and extravagance, but rather refers to a lifestyle that benefits both oneself and others without causing harm."
 ]
 
@@ -88,7 +89,7 @@ import math
 
 def calculate_perplexity(text, model_name="FacebookAI/roberta-base"):
     # Load pre-trained model and tokenizer
-    model = AutoModelForCausalLM.from_pretrained(model_name)
+    model = AutoModelForCausalLM.from_pretrained(model_name, is_decoder=True)
     tokenizer = AutoTokenizer.from_pretrained(model_name)
 
     # Encode the text
@@ -119,28 +120,22 @@ def calculate_perplexity(text, model_name="FacebookAI/roberta-base"):
     
     return ppl.item()
 
-def analyze_text(text, model_name="FacebookAI/roberta-base"):
-    perplexity = calculate_perplexity(text, model_name)
-    
-    return {
-        "text": text,
-        "perplexity": perplexity,
-        "model": model_name
-    }
 
-# Example usage
-result = analyze_text(facts[0])
-
-print(f"Text: {result['text']}")
-print(f"Model: {result['model']}")
-print(f"Perplexity: {result['perplexity']:.2f}")
-
-result = analyze_text(facts[1])
-
-print(f"Text: {result['text']}")
-print(f"Model: {result['model']}")
-print(f"Perplexity: {result['perplexity']:.2f}")
+# for fact in facts:
+#     perplexity = calculate_perplexity(fact)
+#     print(fact)
+#     print(f"{perplexity:.2e}")
 
 # You can try with different models, for example:
 # result = analyze_text(text, model_name="distilgpt2")
 # result = analyze_text(text, model_name="gpt2-medium")
+
+
+# Load model directly
+
+from modules.ingest_docs import read_pdf
+
+
+
+content = read_pdf(r'C:\GH\scrapp\sandbox\documents\nnpaper.pdf')
+print(content)
