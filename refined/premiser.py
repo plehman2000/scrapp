@@ -6,7 +6,8 @@ import json
 
 
 json_extraction_prompt = f"""
-    You extract the title from the first part of this chunk, ignoring the author names afterward### Template:
+    You extract the premises from the following list of premises
+    ### Template:
     {{"premises":["statement"]}}
 
     ### Text:\n"""
