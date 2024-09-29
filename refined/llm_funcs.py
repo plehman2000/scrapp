@@ -29,12 +29,26 @@ def get_llm_response(prompt):
 ################################################################################################################
 
 def extract_info_json(prompt_with_schema):
-    response = ollama.chat(model='nuextract', messages=[ #llama3
-    {
-    'role': 'user',
-    'content': prompt_with_schema}])
+    response = ollama.generate(model='nuextract', prompt= prompt_with_schema)['response']
+    output = response[response.find("<|end-output|>")+len("<|end-output|>"):]
+    print("output")
+    print("========================")
+    print(output)
+    print("========================")
 
-    output = response['message']['content']
-    
-    return output.replace("<|end-output|>","")
+    try:
+        return json.loads(output)
+    # except json.JSONDecodeError:
+    #     print(output)
+    #     try:
+    #         response = ollama.chat(model='dolphin-llama3', messages=[ #llama3
+    #         {
+    #         'role': 'user',
+    #         'content': prompt_with_schema}])
 
+    #         output = response['message']['content']
+            # output = output.replace("<|end-output|>","")
+
+    #         return json.loads(output)
+    except json.JSONDecodeError:
+        return {"error": "Error in JSON output"}
