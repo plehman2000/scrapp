@@ -20,7 +20,7 @@ with dpg.theme() as global_theme:
 dpg.bind_theme(global_theme)
 
 
-dpg.show_style_editor()
+# dpg.show_style_editor()
 
 def prompt_entered_callback():
     conclusion = dpg.get_value("prompt_input")
@@ -33,7 +33,7 @@ dpg.create_viewport(width=WINDOW_SIZE_HW[1], height=WINDOW_SIZE_HW[0])
 dpg.setup_dearpygui()
 
 with dpg.window(tag="start_window",label="Start Window", pos=[0,0], width=WINDOW_SIZE_HW[1]//4 , height=WINDOW_SIZE_HW[0]):
-    dpg.add_text("Make a claim about present reality")
+    dpg.add_text("Enter a claim")
     dpg.add_input_text(tag="prompt_input", callback=prompt_entered_callback, on_enter=True,  width=300, height=100)
     dpg.add_checkbox(tag="prompt_rewrite_checkbox", label="Optimize prompt")
 dpg.show_viewport()
