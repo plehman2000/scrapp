@@ -39,6 +39,17 @@ def get_inversion(conclusion, premises):
 
 
 
+def rewrite_conclusion(conclusion):
+    prompt = f"""
+    Rewrite the following conclusion so it is a clear statement useful for statements of truth and debate:
+    {conclusion}
+    """
+    premises = get_llm_response(prompt)
+    return premises
+
+
+
+
 def spawn_premise_windows_dpg(premise_list, tag_prefix, x=0,y=0, new_window_width=400, new_window_height=75):
     # Get the position and size of the start_window to arrange new windows
     start_window_pos = dpg.get_item_pos("start_window")
