@@ -15,9 +15,9 @@ json_extraction_prompt = f"""
     {{"premises":["This guy is not very nice", "this guy is mean"]}}
     ### Text:\n
 """
-def get_conclusion_premise(conclusion):
+def get_conclusion_premise(conclusion, n=5):
     prompt = f"""
-    Suppose the following conclusion is a proven fact. Give 3-5 premises that provide an argument that this is true in complete sentences. Only return these premises. Return each premises separated by a newline
+    Suppose the following conclusion is a proven fact. Give {n} premises that provide an argument that this is true in complete sentences. Only return these premises. Return each premise in a valid JSON, like {{"premise1" : "he is mean", {{"premise2": "..."}}}}. Only return JSON.
     {conclusion}
     """
     premises = get_llm_response(prompt)
@@ -28,20 +28,16 @@ def get_inversion(conclusion, premises):
     Given the following premises and conclusion:
     {conclusion}\n
     {premises}
-    Reframe each premise so it does not support the original conclusion. Only return these new, inverted premises. Return each premises separated by a newline
+    Reframe each premise so it does not support the original conclusion. Only return these new, inverted premises. Return each premises in a valid json, like {{"premise1" : "he is mean", {{"premise2": "..."}}}}. Only return JSON.
     """
     premises = get_llm_response(prompt)
-    print("INVERSION")
-    print("========================")
-    print(premises)
-    print("========================")
     return premises
 
 
 
 def rewrite_conclusion(conclusion):
     prompt = f"""
-    Rewrite the following conclusion so it is a clear statement useful for statements of truth and debate:
+    Improve the clarity of the following statement. Return only the rewrite, as a single sentence:
     {conclusion}
     """
     premises = get_llm_response(prompt)
@@ -63,7 +59,6 @@ def spawn_premise_windows_dpg(premise_list, tag_prefix, x=0,y=0, new_window_widt
         with dpg.window(tag=f"{tag_prefix}_premise_{i}", label=f"Premise {i + 1}", pos=[new_window_x, new_window_y], width=new_window_width, height=new_window_height):
             # Add the premise text inside the window
             dpg.add_text(prem, wrap=0)
-
         # Adjust vertical position for the next window (stacked below the previous one)
         new_window_y += new_window_height + 10
         time.sleep(0.1)
@@ -77,24 +72,27 @@ def get_premises_dpg(conclusion):
     # Get premises and their inversions
     premises = get_conclusion_premise(conclusion)
     inverted_premises = get_inversion(conclusion, premises)
-
+    print("premis\n" + premises)
+    premises_list = json.loads(premises).values()
+    inverted_premises_list = json.loads(inverted_premises).values()
+    print(type(premises_list))
     new_window_width=400
     new_window_height=75
     # Extract structured information as JSON
     # premises_json = extract_info_json(json_extraction_prompt + premises)
-    premises_list = premises.split("\n")#[]
     spawn_premise_windows_dpg(premises_list, tag_prefix = "proposition", new_window_width=new_window_width, new_window_height=new_window_height)
     # inverted_premises_json = extract_info_json(json_extraction_prompt + inverted_premises)
-    inverted_premises_list = inverted_premises.split("\n")#[]
     # Reset X position for the inverted premises
     spawn_premise_windows_dpg(inverted_premises_list, tag_prefix="opposition", x=new_window_width, new_window_width=new_window_width, new_window_height=new_window_height)
     # Remove the loading indicator after the premises are created
     dpg.delete_item("loader_og")
+    return premises_list, inverted_premises_list
 
 def premise_flow_dpg():
     # Get the conclusion input from a widget (e.g., a text box)
     conclusion = dpg.get_value("prompt_input")
-    get_premises_dpg(conclusion)
+    premises_list, inverted_premises_list = get_premises_dpg(conclusion)
+    return premises_list, inverted_premises_list
 
 
 # from langchain_community.tools import DuckDuckGoSearchResults
@@ -115,4 +113,15 @@ def get_entities(text):
                 if ent.label_ not in ["MONEY", "TIME", "DATE", "CARDINAL", "PERCENT", "QUANTITY", "ORDINAL"]]
 
     return entities
+
+
+
+
+def argue_against(conclusion):
+    prompt = f"""
+    Write the strongest possible 3 sentence argument against the following argument
+    {conclusion}
+    """
+    premises = get_llm_response(prompt)
+    return premises
 

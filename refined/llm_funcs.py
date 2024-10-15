@@ -8,7 +8,7 @@ def get_llm_response(prompt):
     response = ollama.chat(model='dolphin-llama3', messages=[ #llama3
     {
     'role': 'user',
-    'content': prompt}])#, options={"temperature":.5}
+    'content': prompt}], options={'json':True})#, options={"temperature":.5}
     output = response['message']['content']
     return output
 

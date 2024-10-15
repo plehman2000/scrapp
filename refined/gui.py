@@ -28,9 +28,8 @@ def prompt_entered_callback():
     conclusion = dpg.get_value("prompt_input")
     if REWRITE_PROMPT:
         conclusion = premiser.rewrite_conclusion(conclusion)
-    with dpg.window(tag="conclusion",label="conclusion", pos=[3,0], width=WINDOW_SIZE_HW[1]//4 , height=WINDOW_SIZE_HW[0]//10):
-        dpg.add_text("Conclusion")
-        dpg.add_text(conclusion)
+    dpg.add_text("Conclusion", parent="start_window")
+    dpg.add_text(conclusion, parent="start_window")
 
     
     entities = premiser.get_entities(conclusion)
