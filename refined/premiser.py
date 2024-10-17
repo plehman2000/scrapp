@@ -35,14 +35,6 @@ def get_inversion(conclusion, premises):
 
 
 
-def rewrite_conclusion(conclusion):
-    prompt = f"""
-    Improve the clarity of the following statement. Return only the rewrite, as a single sentence:
-    {conclusion}
-    """
-    premises = get_llm_response(prompt)
-    return premises
-
 
 
 
@@ -125,3 +117,17 @@ def argue_against(conclusion):
     premises = get_llm_response(prompt)
     return premises
 
+
+def trim_leading_whitespace(s):
+    lines = s.splitlines()
+    if lines and lines[0].strip() == '':
+        return ''.join(lines[1:])
+    return s.lstrip()
+
+import json
+def get_premises(conclusion):
+    premises = get_conclusion_premise(conclusion)
+    inverted_premises = get_inversion(conclusion, premises)
+    premises_list = [trim_leading_whitespace(x) for x in list(json.loads(premises).values())]
+    inverted_premises_list = [trim_leading_whitespace(x) for x in list(json.loads(inverted_premises).values())]
+    return premises_list, inverted_premises_list

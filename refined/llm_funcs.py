@@ -12,7 +12,13 @@ def get_llm_response(prompt):
     output = response['message']['content']
     return output
 
-
+def reword_query(naive_claim):
+    #reword logic
+    query = get_llm_response(
+        f""" Write a search query to find sources that support the following claim, by rewording the following claim into a question:{naive_claim}                             
+        """
+                             )
+    return query
 
 ################################################################################################################
 #? EXAMPLE for extract_info_json()
