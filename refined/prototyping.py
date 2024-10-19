@@ -21,7 +21,6 @@ def __():
 @app.cell
 def __():
     claim = "Donald Trump a bad candidate for president"
-
     return (claim,)
 
 
@@ -34,7 +33,7 @@ def __(claim, reword_query):
 
 
     query = reword_query(claim)
-    client = Search(api_key="HNJaxYzYNVImfHCaLJzohRSJnoKofi")
+    client = Search(api_key="")
     results = client.search(query)
 
     print(f"Found {len(results)} for query '{results.query}'")
@@ -168,8 +167,6 @@ def __(all_chunk_vector_pairs):
     # vectors_embedded = TSNE(n_components=2, learning_rate='auto',init='random', perplexity=3).fit_transform(np.array([x[1] for x in all_chunk_vector_pairs]))
     vectors_embedded = PCA(n_components=2).fit_transform(np.array([x[1] for x in all_chunk_vector_pairs]))
     import pandas as pd
-
-
     return PCA, TSNE, np, pd, vectors_embedded
 
 
