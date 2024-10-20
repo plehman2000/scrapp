@@ -8,14 +8,16 @@ app = marimo.App(width="medium")
 def __():
     from premiser import get_conclusion_premise, get_inversion
     from llm_funcs import reword_query
-    from text_utils import chunk_text
-    return chunk_text, get_conclusion_premise, get_inversion, reword_query
-
-
-@app.cell
-def __():
+    from text_utils import chunk_text, is_non_informative
     from web_funcs import download_webpage_html
-    return (download_webpage_html,)
+    return (
+        chunk_text,
+        download_webpage_html,
+        get_conclusion_premise,
+        get_inversion,
+        is_non_informative,
+        reword_query,
+    )
 
 
 @app.cell
@@ -27,10 +29,6 @@ def __():
 @app.cell
 def __(claim, reword_query):
     from pymojeek import Search
-
-
-
-
 
     query = reword_query(claim)
     client = Search(api_key="HNJaxYzYNVImfHCaLJzohRSJnoKofi")
@@ -50,55 +48,14 @@ def __():
 
 @app.cell
 def __():
-    import re
-
-    def is_non_informative(text, min_length=100, max_menu_ratio=0.3):
-        # Check text length
-        if len(text) < min_length:
-            return True
-        
-        # Look for common web page elements
-        web_elements = ['menu', 'search', 'home', 'you are here']
-        element_count = sum(1 for element in web_elements if element.lower() in text.lower())
-        
-        # Calculate ratio of web elements to text length
-        element_ratio = element_count / len(text.split())
-        
-        # Check for excessive newlines, often indicative of menus
-        newline_ratio = text.count('\n') / len(text)
-        
-        # If many web elements or excessive newlines, likely non-informative
-        if element_ratio > max_menu_ratio or newline_ratio > 0.05:
-            return True
-        
-        # Check for repeated short phrases, often seen in menus
-        short_phrases = re.findall(r'\b\w+(?:\s+\w+)?\b', text)
-        if len(set(short_phrases)) / len(short_phrases) < 0.7:
-            return True
-        
-        return False
-
-
-    return is_non_informative, re
+    return
 
 
 @app.cell
-def __():
+def __(chunk_text, is_non_informative, tqdm):
     import os
     from web_funcs import extract_text_from_html_file
     filedir = "./documents/"
-    return extract_text_from_html_file, filedir, os
-
-
-@app.cell
-def __(
-    chunk_text,
-    extract_text_from_html_file,
-    filedir,
-    is_non_informative,
-    os,
-    tqdm,
-):
     all_chunks = []
 
     num_files = 0
@@ -109,36 +66,17 @@ def __(
         for c in chunks:
             if not is_non_informative(c):
                 all_chunks.append(c)
-    return all_chunks, c, chunks, file, num_files, text
-
-
-@app.cell(hide_code=True)
-def __():
-    # import spacy
-    # from maverick import Maverick
-    # from detokenize.detokenizer import detokenize
-
-    # model = Maverick(device="cuda")
-    # nlp_lg = spacy.load("en_core_web_lg")
-
-    # def get_best_noun(
-    #     cluster, offsets
-    # ):  # gets best Noune from a cluster, if all pronoiuns return none
-    #     ls = []
-    #     for noun, offset in zip(cluster, offsets):
-    #         pos = nlp_lg(noun)[0].pos_
-    #         # print(f"POS: {noun} {pos}")
-    #         if pos in ["DET", "PROPN", "VERB"]:
-    #             # print(noun, pos)
-    #             ls.append([noun, offset])
-
-    #     if len(ls) == 0:
-    #         return None, None
-    #     ls = sorted(ls, key=lambda x: len(x[0]), reverse=False)
-    #     # TODO need better heuristic here, just picks first, should be informed by prior selections (search db for terms, select ones that are the same?)
-    #     # print(f"Picked {ls[0][0]}!")
-    #     return ls[0][0], ls[0][1]
-    return
+    return (
+        all_chunks,
+        c,
+        chunks,
+        extract_text_from_html_file,
+        file,
+        filedir,
+        num_files,
+        os,
+        text,
+    )
 
 
 @app.cell(hide_code=True)
@@ -199,35 +137,36 @@ def __(all_chunk_vector_pairs):
     from sklearn.manifold import TSNE
     from sklearn.decomposition import PCA
 
-    # vectors_embedded = TSNE(n_components=2, learning_rate='auto',init='random', perplexity=3).fit_transform(np.array([x[1] for x in all_chunk_vector_pairs]))
     vectors_embedded = PCA(n_components=2).fit_transform(np.array([x[1] for x in all_chunk_vector_pairs]))
 
     return PCA, TSNE, np, pd, vectors_embedded
 
 
 @app.cell(hide_code=True)
-def __(all_chunk_vector_pairs, np, pd, vectors_embedded):
+def __(all_chunk_vector_pairs, np):
     from sklearn.cluster import HDBSCAN, AffinityPropagation, k_means, dbscan
 
     N = 5
 
     a_clustered = k_means(np.array([x[1] for x in all_chunk_vector_pairs]), N)
     vectors_embedded_clustered = a_clustered[1]
-    df = pd.DataFrame({"v1":vectors_embedded[:, 0], "v2":vectors_embedded[:, 1], 'text': [x[0] for x in all_chunk_vector_pairs], "cluster":vectors_embedded_clustered})
-    import plotly.express as px
-    fig = px.scatter(df, x='v1', y='v2', color='cluster')
-    fig.show()
-    print(f"{len(set(vectors_embedded_clustered))} Clusters")
+
+    #VISUALIZATION CODE
+    ####################################################
+    # df = pd.DataFrame({"v1":vectors_embedded[:, 0], "v2":vectors_embedded[:, 1], 'text': [x[0] for x in all_chunk_vector_pairs], "cluster":vectors_embedded_clustered})
+    # import plotly.express as px
+    # fig = px.scatter(df, x='v1', y='v2', color='cluster')
+    # fig.show()
+    # print(f"{len(set(vectors_embedded_clustered))} Clusters")
+    ####################################################
+
     return (
         AffinityPropagation,
         HDBSCAN,
         N,
         a_clustered,
         dbscan,
-        df,
-        fig,
         k_means,
-        px,
         vectors_embedded_clustered,
     )
 
@@ -235,10 +174,10 @@ def __(all_chunk_vector_pairs, np, pd, vectors_embedded):
 @app.cell
 def __(N, a_clustered):
     from collections import Counter
-    print(Counter(a_clustered[1]))
+    # print(Counter(a_clustered[1]))
     # Take N biggest clusters
     sampled_clusters = [x[0] for x in sorted(Counter(a_clustered[1]).items(), key = lambda x : x[1], reverse=True)][:N]
-    print(sampled_clusters)
+
     return Counter, sampled_clusters
 
 
@@ -265,7 +204,7 @@ def __(N, claim, cluster_to_chunk, tqdm):
     # for each set of chunks, random sample
     from random import sample
     from llm_funcs import determine_informative, combine_claims, restate_claim
-    max_sample_count_per_cluster = 50
+    max_sample_count_per_cluster = 100
     n_chunks_needed_per_cluster = 6
 
     informative_chunks = {}
@@ -283,6 +222,8 @@ def __(N, claim, cluster_to_chunk, tqdm):
                     # print(f"{n_informatives_found} Info Chunk(s) Found!")
                     informative_chunks[clust_i].append(chu)
             if n_informatives_found >=n_chunks_needed_per_cluster:
+                print(f"Enough Info Chunk(s) Found!")
+                
                 break
 
     return (
@@ -305,6 +246,7 @@ def __(N, claim, cluster_to_chunk, tqdm):
 def __(claim, combine_claims, restate_claim):
 
     def reduce_chunks(chunks):
+        print(f"Reducing {len(chunks)} chunks...")
         intermediate_summaries = chunks
         while len(intermediate_summaries) != 1:
             temp = []
@@ -313,7 +255,7 @@ def __(claim, combine_claims, restate_claim):
                     combined_claim = combine_claims(claim, intermediate_summaries[zx], intermediate_summaries[zx+1])
                     temp.append(combined_claim)
                 else:
-                    temp.append(restate_claim(intermediate_summaries[zx]))
+                    temp.append(restate_claim(claim,intermediate_summaries[zx]))
             intermediate_summaries = temp
             # print(intermediate_summaries)
             # print(len(intermediate_summaries))

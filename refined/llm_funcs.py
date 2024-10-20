@@ -41,7 +41,7 @@ def reword_query(naive_claim):
 def combine_claims(claim, chunk1, chunk2):
     #reword logic
     query = get_llm_response(
-        f""" Given a claim and related statements, synthesize their main ideas into a single-sentence summary.
+        f""" Given a claim and related statements, synthesize the statements' main ideas into a single-sentence summary.
             Input:
             Claim: {claim}
             Statements:
@@ -52,7 +52,7 @@ def combine_claims(claim, chunk1, chunk2):
             Instructions:
             Analyze the claim and statements.
             Synthesize into one clear sentence.
-            Output: One-sentence summary encompassing the main points from the claim and statements."""
+            ONLY RETURN a one-sentence summary encompassing the main points from the claim and statements."""
                              )
     return query
 
@@ -60,7 +60,7 @@ def combine_claims(claim, chunk1, chunk2):
 def restate_claim(claim, chunk):
     #reword logic
     query = get_llm_response(
-        f""" Given a claim and related statement, synthesize the main ideas into a single-sentence summary.
+        f""" Given a claim and related statement, synthesize the statement's main ideas into a single-sentence summary.
             Input:
             Claim: {claim}
             Statement:
@@ -70,7 +70,7 @@ def restate_claim(claim, chunk):
             Instructions:
             Analyze the claim and statements.
             Synthesize into one clear sentence.
-            Output: One-sentence summary encompassing the main points from the claim and statement."""
+            ONLY RETURN a one-sentence summary encompassing the main points from the claim and statement."""
                              )
     return query
 ################################################################################################################
