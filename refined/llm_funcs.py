@@ -2,10 +2,11 @@ import ollama
 import json
 
 
-
+MODEL = "Hudson/llama3.1-uncensored:8b"
+MODEL = 'dolphin-llama3'
 
 def get_llm_response(prompt):
-    response = ollama.chat(model='dolphin-llama3', messages=[ #llama3
+    response = ollama.chat(model=MODEL, messages=[ #llama3
     {
     'role': 'user',
     'content': prompt}], options={'json':True})#, options={"temperature":.5}
@@ -14,7 +15,7 @@ def get_llm_response(prompt):
 
 
 def get_llm_json_response(prompt):
-    response = ollama.chat(model='dolphin-llama3', messages=[ #llama3
+    response = ollama.chat(model=MODEL, messages=[ #llama3
     {
     'role': 'user',
     'content': f"Return only JSON.{prompt}"}], options={'json':True})#, options={"temperature":.5}

@@ -26,16 +26,19 @@ def __():
     return (claim,)
 
 
-@app.cell
-def __(claim, reword_query):
+app._unparsable_cell(
+    r"""
     from pymojeek import Search
 
     query = reword_query(claim)
-    client = Search(api_key="HNJaxYzYNVImfHCaLJzohRSJnoKofi")
+    def
+    client = Search(api_key=\"\")
     results = client.search(query)
 
-    print(f"Found {len(results)} for query '{results.query}'")
-    return Search, client, query, results
+    print(f\"Found {len(results)} for query '{results.query}'\")
+    """,
+    name="__"
+)
 
 
 @app.cell
@@ -138,7 +141,6 @@ def __(all_chunk_vector_pairs):
     from sklearn.decomposition import PCA
 
     vectors_embedded = PCA(n_components=2).fit_transform(np.array([x[1] for x in all_chunk_vector_pairs]))
-
     return PCA, TSNE, np, pd, vectors_embedded
 
 
@@ -159,7 +161,6 @@ def __(all_chunk_vector_pairs, np):
     # fig.show()
     # print(f"{len(set(vectors_embedded_clustered))} Clusters")
     ####################################################
-
     return (
         AffinityPropagation,
         HDBSCAN,
@@ -177,7 +178,6 @@ def __(N, a_clustered):
     # print(Counter(a_clustered[1]))
     # Take N biggest clusters
     sampled_clusters = [x[0] for x in sorted(Counter(a_clustered[1]).items(), key = lambda x : x[1], reverse=True)][:N]
-
     return Counter, sampled_clusters
 
 
@@ -213,7 +213,7 @@ def __(N, claim, cluster_to_chunk, tqdm):
         # print(sampled_chunks)
         n_informatives_found = 0
         informative_chunks[clust_i] = []
-        
+
         for chu in sampled_chunks:
             informative = determine_informative(chu, claim)
             if 'response' in informative:
@@ -223,9 +223,8 @@ def __(N, claim, cluster_to_chunk, tqdm):
                     informative_chunks[clust_i].append(chu)
             if n_informatives_found >=n_chunks_needed_per_cluster:
                 print(f"Enough Info Chunk(s) Found!")
-                
-                break
 
+                break
     return (
         chu,
         clust_i,
@@ -244,7 +243,6 @@ def __(N, claim, cluster_to_chunk, tqdm):
 
 @app.cell
 def __(claim, combine_claims, restate_claim):
-
     def reduce_chunks(chunks):
         print(f"Reducing {len(chunks)} chunks...")
         intermediate_summaries = chunks
@@ -259,7 +257,7 @@ def __(claim, combine_claims, restate_claim):
             intermediate_summaries = temp
             # print(intermediate_summaries)
             # print(len(intermediate_summaries))
-        
+
         final_argument = intermediate_summaries[0]
         return final_argument
 
