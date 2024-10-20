@@ -33,7 +33,7 @@ def __(claim, reword_query):
 
 
     query = reword_query(claim)
-    client = Search(api_key="")
+    client = Search(api_key="HNJaxYzYNVImfHCaLJzohRSJnoKofi")
     results = client.search(query)
 
     print(f"Found {len(results)} for query '{results.query}'")
@@ -41,11 +41,45 @@ def __(claim, reword_query):
 
 
 @app.cell
-def __(download_webpage_html, results):
+def __():
     from tqdm import tqdm
-    for x in tqdm(results):
-        print(download_webpage_html(x.url, title=x.title.replace(" ", "").replace("\\", "").replace("/", "")))
-    return tqdm, x
+    # for x in tqdm(results):
+        # print(download_webpage_html(x.url, title=x.title.replace(" ", "").replace("\\", "").replace("/", "")))
+    return (tqdm,)
+
+
+@app.cell
+def __():
+    import re
+
+    def is_non_informative(text, min_length=100, max_menu_ratio=0.3):
+        # Check text length
+        if len(text) < min_length:
+            return True
+        
+        # Look for common web page elements
+        web_elements = ['menu', 'search', 'home', 'you are here']
+        element_count = sum(1 for element in web_elements if element.lower() in text.lower())
+        
+        # Calculate ratio of web elements to text length
+        element_ratio = element_count / len(text.split())
+        
+        # Check for excessive newlines, often indicative of menus
+        newline_ratio = text.count('\n') / len(text)
+        
+        # If many web elements or excessive newlines, likely non-informative
+        if element_ratio > max_menu_ratio or newline_ratio > 0.05:
+            return True
+        
+        # Check for repeated short phrases, often seen in menus
+        short_phrases = re.findall(r'\b\w+(?:\s+\w+)?\b', text)
+        if len(set(short_phrases)) / len(short_phrases) < 0.7:
+            return True
+        
+        return False
+
+
+    return is_non_informative, re
 
 
 @app.cell
@@ -57,8 +91,14 @@ def __():
 
 
 @app.cell
-def __(chunk_text, extract_text_from_html_file, filedir, os):
-    from tqdm import tqdm
+def __(
+    chunk_text,
+    extract_text_from_html_file,
+    filedir,
+    is_non_informative,
+    os,
+    tqdm,
+):
     all_chunks = []
 
     num_files = 0
@@ -67,11 +107,12 @@ def __(chunk_text, extract_text_from_html_file, filedir, os):
         num_files = num_files +1
         chunks = chunk_text(text)
         for c in chunks:
-            all_chunks.append(c)
-    return all_chunks, c, chunks, file, num_files, text, tqdm
+            if not is_non_informative(c):
+                all_chunks.append(c)
+    return all_chunks, c, chunks, file, num_files, text
 
 
-@app.cell
+@app.cell(hide_code=True)
 def __():
     # import spacy
     # from maverick import Maverick
@@ -100,7 +141,7 @@ def __():
     return
 
 
-@app.cell
+@app.cell(hide_code=True)
 def __():
     #DEPROUNOUNINg TOO SLOW - need vllm or ollama optimization - takes 2s per chunk
 
@@ -153,58 +194,25 @@ def __(all_chunks, tqdm):
 
 @app.cell
 def __(all_chunk_vector_pairs):
-    len(all_chunk_vector_pairs)
-    return
-
-
-@app.cell
-def __(all_chunk_vector_pairs):
     import numpy as np
-
+    import pandas as pd
     from sklearn.manifold import TSNE
     from sklearn.decomposition import PCA
 
     # vectors_embedded = TSNE(n_components=2, learning_rate='auto',init='random', perplexity=3).fit_transform(np.array([x[1] for x in all_chunk_vector_pairs]))
     vectors_embedded = PCA(n_components=2).fit_transform(np.array([x[1] for x in all_chunk_vector_pairs]))
-    import pandas as pd
+
     return PCA, TSNE, np, pd, vectors_embedded
 
 
-@app.cell
-def __():
-    return
-
-
-@app.cell
-def __():
-    return
-
-
-@app.cell
-def __():
-    return
-
-
-@app.cell
-def __():
-    return
-
-
-@app.cell
-def __(vectors_embedded_clustered):
-    vectors_embedded_clustered
-    return
-
-
-@app.cell
+@app.cell(hide_code=True)
 def __(all_chunk_vector_pairs, np, pd, vectors_embedded):
-    from sklearn.cluster import HDBSCAN, AffinityPropagation, k_means
+    from sklearn.cluster import HDBSCAN, AffinityPropagation, k_means, dbscan
 
+    N = 5
 
-    vectors_embedded_clustered = HDBSCAN( min_cluster_size=3).fit_predict(np.array([x[1] for x in all_chunk_vector_pairs]))
-    # vectors_embedded_clustered = AffinityPropagation().fit_predict(np.array([x[1] for x in all_chunk_vector_pairs]))
-    # vectors_embedded_clustered = k_means(np.array([x[1] for x in all_chunk_vector_pairs]), num_files)[1]
-
+    a_clustered = k_means(np.array([x[1] for x in all_chunk_vector_pairs]), N)
+    vectors_embedded_clustered = a_clustered[1]
     df = pd.DataFrame({"v1":vectors_embedded[:, 0], "v2":vectors_embedded[:, 1], 'text': [x[0] for x in all_chunk_vector_pairs], "cluster":vectors_embedded_clustered})
     import plotly.express as px
     fig = px.scatter(df, x='v1', y='v2', color='cluster')
@@ -213,6 +221,9 @@ def __(all_chunk_vector_pairs, np, pd, vectors_embedded):
     return (
         AffinityPropagation,
         HDBSCAN,
+        N,
+        a_clustered,
+        dbscan,
         df,
         fig,
         k_means,
@@ -222,69 +233,116 @@ def __(all_chunk_vector_pairs, np, pd, vectors_embedded):
 
 
 @app.cell
-def __():
-    return
+def __(N, a_clustered):
+    from collections import Counter
+    print(Counter(a_clustered[1]))
+    # Take N biggest clusters
+    sampled_clusters = [x[0] for x in sorted(Counter(a_clustered[1]).items(), key = lambda x : x[1], reverse=True)][:N]
+    print(sampled_clusters)
+    return Counter, sampled_clusters
 
 
 @app.cell
 def __(
     all_chunk_vector_pairs,
-    claim,
-    np,
-    ollama,
+    sampled_clusters,
     vectors_embedded_clustered,
 ):
-    from sklearn.metrics.pairwise import cosine_similarity
+    cluster_to_chunk = {}
+    i = 0
+    for clu in sampled_clusters:
+        chunks_of_cluster_n = []
+        for z,a in zip(all_chunk_vector_pairs, vectors_embedded_clustered):
+            if a == clu:
+                chunks_of_cluster_n.append(z[0])
+        cluster_to_chunk[i] = chunks_of_cluster_n
+        i = i +1
+    return a, chunks_of_cluster_n, clu, cluster_to_chunk, i, z
 
-    clustered_chunks = {}
 
-    for ch, clust in zip(all_chunk_vector_pairs, vectors_embedded_clustered):
-        if clust not in clustered_chunks:
-            clustered_chunks[clust] = []
-        clustered_chunks[clust].append(ch)
+@app.cell
+def __(N, claim, cluster_to_chunk, tqdm):
+    # for each set of chunks, random sample
+    from random import sample
+    from llm_funcs import determine_informative, combine_claims, restate_claim
+    max_sample_count_per_cluster = 50
+    n_chunks_needed_per_cluster = 6
 
+    informative_chunks = {}
+    for clust_i in tqdm(range(N)):
+        sampled_chunks = sample(cluster_to_chunk[clust_i], max_sample_count_per_cluster)
+        # print(sampled_chunks)
+        n_informatives_found = 0
+        informative_chunks[clust_i] = []
+        
+        for chu in sampled_chunks:
+            informative = determine_informative(chu, claim)
+            if 'response' in informative:
+                if informative['response'].lower() == 'true':
+                    n_informatives_found +=1
+                    # print(f"{n_informatives_found} Info Chunk(s) Found!")
+                    informative_chunks[clust_i].append(chu)
+            if n_informatives_found >=n_chunks_needed_per_cluster:
+                break
 
-
-    claim_embedding = ollama.embeddings(model="nomic-embed-text", prompt=claim)["embedding"]
-    claim_embedding = np.array(claim_embedding)
-    # print(claim_embedding)
-    clustered_sims =  {}
-    for chunk_group in clustered_chunks:
-        vec_sim = 0
-        for chv in clustered_chunks[chunk_group]:
-            vec_sim +=cosine_similarity(np.array(chv[1]).reshape(1,-1), claim_embedding.reshape(1,-1))
-        vec_sim /= len(clustered_chunks[chunk_group])
-        clustered_sims[chunk_group] = vec_sim
-        clustered_chunks[chunk_group] = [x[0] for x in clustered_chunks[chunk_group]]
-        #calculate cosine similarity to original claim
     return (
-        ch,
-        chunk_group,
-        chv,
-        claim_embedding,
-        clust,
-        clustered_chunks,
-        clustered_sims,
-        cosine_similarity,
-        vec_sim,
+        chu,
+        clust_i,
+        combine_claims,
+        determine_informative,
+        informative,
+        informative_chunks,
+        max_sample_count_per_cluster,
+        n_chunks_needed_per_cluster,
+        n_informatives_found,
+        restate_claim,
+        sample,
+        sampled_chunks,
     )
 
 
 @app.cell
-def __(clustered_chunks, clustered_sims):
-    sims_sorted = [x[0] for x in sorted(list(clustered_sims.items()), key = lambda x : x[1], reverse=True)]
+def __(claim, combine_claims, restate_claim):
 
-    for clusterid in sims_sorted:
-        #this order may help with generating the strongest reasons
-        chungs = clustered_chunks[clusterid]
-        print(len(chungs))
-    return chungs, clusterid, sims_sorted
+    def reduce_chunks(chunks):
+        intermediate_summaries = chunks
+        while len(intermediate_summaries) != 1:
+            temp = []
+            for zx in range(0,len(intermediate_summaries), 2):
+                if zx+1 < len(intermediate_summaries):
+                    combined_claim = combine_claims(claim, intermediate_summaries[zx], intermediate_summaries[zx+1])
+                    temp.append(combined_claim)
+                else:
+                    temp.append(restate_claim(intermediate_summaries[zx]))
+            intermediate_summaries = temp
+            # print(intermediate_summaries)
+            # print(len(intermediate_summaries))
+        
+        final_argument = intermediate_summaries[0]
+        return final_argument
+
+    # final_arg = reduce_chunks(informative_chunks[0])
+    return (reduce_chunks,)
+
+
+@app.cell
+def __(informative_chunks, reduce_chunks):
+    final_args = []
+    for cl in informative_chunks:
+        final_arg = reduce_chunks(informative_chunks[cl])
+        final_args.append(final_arg)
+        print(final_arg)
+    return cl, final_arg, final_args
+
+
+@app.cell
+def __(final_args):
+    final_args
+    return
 
 
 @app.cell
 def __():
-    # How to filter for useful chunks?
-    # , average of vector similarity to ai generated premises?
     return
 
 
