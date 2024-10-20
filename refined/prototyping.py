@@ -26,19 +26,27 @@ def __():
     return (claim,)
 
 
-app._unparsable_cell(
-    r"""
+@app.cell
+def __():
+    import dotenv
+    import os
+    import uuid
+    dotenv.load_dotenv(dotenv.find_dotenv(usecwd=True))
+    # Load environment variables from .env file
+    api_key = os.getenv("PYMOJEEK_API_KEY")
     from pymojeek import Search
 
-    query = reword_query(claim)
-    def
-    client = Search(api_key=\"\")
-    results = client.search(query)
 
-    print(f\"Found {len(results)} for query '{results.query}'\")
-    """,
-    name="__"
-)
+
+
+    claimid = uuid.uuid4()
+    # query = reword_query(claim)
+
+    # Initialize the client with the API key from the environment variable
+    # client = Search(api_key=api_key)
+    # results = client.search(query)
+    # print(f"Found {len(results)} results for query '{results.query}'")
+    return Search, api_key, claimid, dotenv, os, uuid
 
 
 @app.cell
@@ -55,10 +63,10 @@ def __():
 
 
 @app.cell
-def __(chunk_text, is_non_informative, tqdm):
+def __(chunk_text, claimid, is_non_informative, tqdm):
     import os
     from web_funcs import extract_text_from_html_file
-    filedir = "./documents/"
+    filedir = f"./documents/claim-{claimid}/"
     all_chunks = []
 
     num_files = 0
