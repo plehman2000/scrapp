@@ -10,9 +10,9 @@ def __():
 
 
 
-    claim = "9mm is just as effective as 0.40 caliber and 0.45 caliber bullets in gun fights"
+    claim = "It's possible that 9/11 was a false flag"
     out = None
-    for x in prover(claim):
+    for x in prover(claim, opposition_claim = "9/11 wasn't a false flag"):
         out = x
         print(out['status'])
         # if "opposition_claim" in out:

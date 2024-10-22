@@ -192,7 +192,7 @@ def get_final_args(claim,cluster_to_chunk_dict,max_sampled_chunks_per_cluster, n
 
 
 
-def prover(proposition_claim, n_argument_clusters = 3,n_chunks_needed_per_cluster = 10):
+def prover(proposition_claim, opposition_claim=None,n_argument_clusters = 3,n_chunks_needed_per_cluster = 10):
     
     # n_argument_clusters = 5
     # n_chunks_needed_per_cluster = 10
@@ -210,13 +210,14 @@ def prover(proposition_claim, n_argument_clusters = 3,n_chunks_needed_per_cluste
     yield master_dict
 
     # Generate opposition claim and queries
-    opposition_claim = reverse_claim(proposition_claim)
-    master_dict.update({
-        "opposition_claim": opposition_claim,
-        "status": "Generated opposition claim",
-        "progress": 10
-    })
-    yield master_dict
+    if opposition_claim == None:
+        opposition_claim = reverse_claim(proposition_claim)
+        master_dict.update({
+            "opposition_claim": opposition_claim,
+            "status": "Generated opposition claim",
+            "progress": 10
+        })
+        yield master_dict
     
     proposition_query = reword_query(proposition_claim)
     opposition_query = reword_query(opposition_claim)
