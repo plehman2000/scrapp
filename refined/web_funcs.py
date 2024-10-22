@@ -1,39 +1,11 @@
 import requests
 from urllib.parse import urlparse
-import uuid
 import os
-def download_webpage_html(url,title, save_folder="./documents/"):
-    try:
-        # Send a GET request to the URL
-        response = requests.get(url)
-
-        # Raise an exception for bad status codes
-        response.raise_for_status()
-
-        # Get the HTML content
-        html_content = response.text
-
-        # If save_path is not provided, create a filename based on the URL
-        filename = title+ "__" + str(uuid.uuid4())[:8] + ".html"
-        save_path = os.path.join(save_folder, filename)
-
-        # Save the HTML content to a file
-        with open(save_path, "w", encoding="utf-8") as file:
-            file.write(html_content)
-
-        print(f"HTML content saved successfully to: {save_path}")
-        return save_path
-
-    except requests.exceptions.RequestException as e:
-        print(f"An error occurred while downloading the webpage: {e}")
-        return None
-    except IOError as e:
-        print(f"An error occurred while saving the file: {e}")
-        return None
-
-
-
 import html_text
+import uuid
+import requests
+
+DEBUG = False
 
 
 def extract_text_from_html_file(file_path, guess_layout=True):
@@ -57,3 +29,78 @@ def extract_text_from_html_file(file_path, guess_layout=True):
     except Exception as e:
         print(f"An error occurred while processing the file: {e}")
         return None
+
+
+
+
+# def download_webpage_html(url, filename, save_folder="./documents/", timeout=2):
+#     try:
+
+#         #TODO should replace with https://ollama.com/library/reader-lm
+# #         filename = filename + ".html"
+#         # Ensure the save_folder exists
+#         os.makedirs(save_folder, exist_ok=True)
+        
+#         # Construct the full path to the save file
+#         save_path = os.path.join(save_folder, filename)
+        
+#         # Send a GET request to the URL
+#         response = requests.get(url, timeout=timeout)
+#         response.raise_for_status()  # Raise an exception for bad status codes
+        
+#         # Get the HTML content
+#         html_content = response.text
+        
+#         # Save the HTML content to a file
+#         with open(save_path, "w", encoding="utf-8") as file:
+#             file.write(html_content)
+        
+#         print(f"HTML content saved successfully to: {save_path[-15:]}...")
+#         return save_path
+
+#     except RequestException as e:
+#         print(f"An error occurred while accessing the webpage: {e}")
+#         return None
+#     except IOError as e:
+#         print(f"An error occurred while saving the file: {e}")
+#         return None
+#     except Exception as e:
+#         print(f"An unexpected error occurred: {e}")
+#         return None
+
+
+import os
+import asyncio
+import nest_asyncio
+from playwright.async_api import async_playwright
+from tqdm import tqdm
+# Apply nest_asyncio to allow nested event loops
+nest_asyncio.apply()
+async def download_webpage_html(urls, filenames, save_folder="./documents/", timeout=1):
+    try:
+        # Ensure the save_folder exists
+        os.makedirs(save_folder, exist_ok=True)
+        
+        # Construct the full path to the save file
+        
+        # Use Playwright to get the HTML content
+        async with async_playwright() as p:
+            browser = await p.chromium.launch(headless=True)
+            for url, filename in tqdm(zip(urls, filenames), total=len(urls)):
+                save_path = os.path.join(save_folder, filename)
+                page = await browser.new_page()
+                await page.goto(url, wait_until="domcontentloaded")
+                await asyncio.sleep(timeout)  # Wait for the specified timeout
+                html_content = await page.content()
+                # Save the HTML content to a file
+                with open(save_path, "w", encoding="utf-8") as file:
+                    file.write(html_content)
+            await browser.close()
+        
+
+        if DEBUG:
+            print(f"HTML content saved successfully to: {save_path[-15:]}...")
+    except Exception as e:
+        print(f"An error occurred: {e}")
+        return None
+

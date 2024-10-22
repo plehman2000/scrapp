@@ -2,21 +2,23 @@ from langchain_text_splitters import RecursiveCharacterTextSplitter
 import re
 
 
-def chunk_text(text, max_tokens=300, overlap_ratio=0.50):
-    splitter = RecursiveCharacterTextSplitter(
-        # Set a really small chunk size, just to show.
-        chunk_size=max_tokens,
-        chunk_overlap=int(max_tokens * overlap_ratio),
-        length_function=len,
-        is_separator_regex=False,
-        separators=['.', '\n']
-    )
-    # Split the content into chunks
-    # chunks = splitter.chunks(content)
+def chunk_text(text, max_tokens=350, overlap_ratio=0.25):
+    if text:
+        splitter = RecursiveCharacterTextSplitter(
+            # Set a really small chunk size, just to show.
+            chunk_size=max_tokens,
+            chunk_overlap=int(max_tokens * overlap_ratio),
+            length_function=len,
+            is_separator_regex=False,
+            separators=['.', '\n']
+        )
+        # Split the content into chunks
+        # chunks = splitter.chunks(content)
 
-    chunks = splitter.split_text(text)
+        chunks = splitter.split_text(text)
 
-    return chunks
+        return chunks
+    return []
 
 def is_non_informative(text, min_length=100, max_menu_ratio=0.3):
     # Check text length
@@ -43,4 +45,6 @@ def is_non_informative(text, min_length=100, max_menu_ratio=0.3):
         return True
     
     return False
+
+
 

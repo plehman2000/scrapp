@@ -10,7 +10,7 @@ from shutil import get_terminal_size
 from threading import Thread
 from time import sleep
 
-
+DEBUG = False
 global scrapp_db
 global file_name_db
 scrapp_db = TinyDB("./databases/scrapps_db.json")
@@ -164,38 +164,38 @@ from urllib.parse import urlparse
 import uuid
 
 
-def download_webpage_html(url, save_folder="./documents/"):
-    try:
-        # Send a GET request to the URL
-        response = requests.get(url)
+# def download_webpage_html(url, save_folder="./documents/"):
+#     try:
+#         # Send a GET request to the URL
+#         response = requests.get(url)
 
-        # Raise an exception for bad status codes
-        response.raise_for_status()
+#         # Raise an exception for bad status codes
+#         response.raise_for_status()
 
-        # Get the HTML content
-        html_content = response.text
+#         # Get the HTML content
+#         html_content = response.text
 
-        # If save_path is not provided, create a filename based on the URL
-        parsed_url = urlparse(url)
-        filename = parsed_url.netloc + parsed_url.path
-        if filename.endswith("/"):
-            filename += "index"
-        filename = filename.replace("/", "_") + "__" + str(uuid.uuid4())[:9] + ".html"
-        save_path = os.path.join(save_folder, filename)
+#         # If save_path is not provided, create a filename based on the URL
+#         parsed_url = urlparse(url)
+#         filename = parsed_url.netloc + parsed_url.path
+#         if filename.endswith("/"):
+#             filename += "index"
+#         filename = filename.replace("/", "_") + "__" + str(uuid.uuid4())[:9] + ".html"
+#         save_path = os.path.join(save_folder, filename)
 
-        # Save the HTML content to a file
-        with open(save_path, "w", encoding="utf-8") as file:
-            file.write(html_content)
+#         # Save the HTML content to a file
+#         with open(save_path, "w", encoding="utf-8") as file:
+#             file.write(html_content)
+#         if DEBUG:
+#             print(f"HTML content saved successfully to: {save_path}")
+#         return save_path
 
-        print(f"HTML content saved successfully to: {save_path}")
-        return save_path
-
-    except requests.exceptions.RequestException as e:
-        print(f"An error occurred while downloading the webpage: {e}")
-        return None
-    except IOError as e:
-        print(f"An error occurred while saving the file: {e}")
-        return None
+#     except requests.exceptions.RequestException as e:
+#         print(f"An error occurred while downloading the webpage: {e}")
+#         return None
+#     except IOError as e:
+#         print(f"An error occurred while saving the file: {e}")
+#         return None
 
 
 import html_text

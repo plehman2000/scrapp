@@ -1,0 +1,1760 @@
+<!DOCTYPE html><html lang="en-US" id="top"><head><meta charset="UTF-8"><script>if(navigator.userAgent.match(/MSIE|Internet Explorer/i)||navigator.userAgent.match(/Trident\/7\..*?rv:11/i)){var href=document.location.href;if(!href.match(/[?&]nowprocket/)){if(href.indexOf("?")==-1){if(href.indexOf("#")==-1){document.location.href=href+"?nowprocket=1"}else{document.location.href=href.replace("#","?nowprocket=1#")}}else{if(href.indexOf("#")==-1){document.location.href=href+"&nowprocket=1"}else{document.location.href=href.replace("#","&nowprocket=1#")}}}}</script><script>class RocketLazyLoadScripts{constructor(){this.triggerEvents=["keydown","mousedown","mousemove","touchmove","touchstart","touchend","wheel"],this.userEventHandler=this._triggerListener.bind(this),this.touchStartHandler=this._onTouchStart.bind(this),this.touchMoveHandler=this._onTouchMove.bind(this),this.touchEndHandler=this._onTouchEnd.bind(this),this.clickHandler=this._onClick.bind(this),this.interceptedClicks=[],window.addEventListener("pageshow",(e=>{this.persisted=e.persisted})),window.addEventListener("DOMContentLoaded",(()=>{this._preconnect3rdParties()})),this.delayedScripts={normal:[],async:[],defer:[]},this.allJQueries=[]}_addUserInteractionListener(e){document.hidden?e._triggerListener():(this.triggerEvents.forEach((t=>window.addEventListener(t,e.userEventHandler,{passive:!0}))),window.addEventListener("touchstart",e.touchStartHandler,{passive:!0}),window.addEventListener("mousedown",e.touchStartHandler),document.addEventListener("visibilitychange",e.userEventHandler))}_removeUserInteractionListener(){this.triggerEvents.forEach((e=>window.removeEventListener(e,this.userEventHandler,{passive:!0}))),document.removeEventListener("visibilitychange",this.userEventHandler)}_onTouchStart(e){"HTML"!==e.target.tagName&&(window.addEventListener("touchend",this.touchEndHandler),window.addEventListener("mouseup",this.touchEndHandler),window.addEventListener("touchmove",this.touchMoveHandler,{passive:!0}),window.addEventListener("mousemove",this.touchMoveHandler),e.target.addEventListener("click",this.clickHandler),this._renameDOMAttribute(e.target,"onclick","rocket-onclick"))}_onTouchMove(e){window.removeEventListener("touchend",this.touchEndHandler),window.removeEventListener("mouseup",this.touchEndHandler),window.removeEventListener("touchmove",this.touchMoveHandler,{passive:!0}),window.removeEventListener("mousemove",this.touchMoveHandler),e.target.removeEventListener("click",this.clickHandler),this._renameDOMAttribute(e.target,"rocket-onclick","onclick")}_onTouchEnd(e){window.removeEventListener("touchend",this.touchEndHandler),window.removeEventListener("mouseup",this.touchEndHandler),window.removeEventListener("touchmove",this.touchMoveHandler,{passive:!0}),window.removeEventListener("mousemove",this.touchMoveHandler)}_onClick(e){e.target.removeEventListener("click",this.clickHandler),this._renameDOMAttribute(e.target,"rocket-onclick","onclick"),this.interceptedClicks.push(e),e.preventDefault(),e.stopPropagation(),e.stopImmediatePropagation()}_replayClicks(){window.removeEventListener("touchstart",this.touchStartHandler,{passive:!0}),window.removeEventListener("mousedown",this.touchStartHandler),this.interceptedClicks.forEach((e=>{e.target.dispatchEvent(new MouseEvent("click",{view:e.view,bubbles:!0,cancelable:!0}))}))}_renameDOMAttribute(e,t,n){e.hasAttribute&&e.hasAttribute(t)&&(event.target.setAttribute(n,event.target.getAttribute(t)),event.target.removeAttribute(t))}_triggerListener(){this._removeUserInteractionListener(this),"loading"===document.readyState?document.addEventListener("DOMContentLoaded",this._loadEverythingNow.bind(this)):this._loadEverythingNow()}_preconnect3rdParties(){let e=[];document.querySelectorAll("script[type=rocketlazyloadscript]").forEach((t=>{if(t.hasAttribute("src")){const n=new URL(t.src).origin;n!==location.origin&&e.push({src:n,crossOrigin:t.crossOrigin||"module"===t.getAttribute("data-rocket-type")})}})),e=[...new Map(e.map((e=>[JSON.stringify(e),e]))).values()],this._batchInjectResourceHints(e,"preconnect")}async _loadEverythingNow(){this.lastBreath=Date.now(),this._delayEventListeners(),this._delayJQueryReady(this),this._handleDocumentWrite(),this._registerAllDelayedScripts(),this._preloadAllScripts(),await this._loadScriptsFromList(this.delayedScripts.normal),await this._loadScriptsFromList(this.delayedScripts.defer),await this._loadScriptsFromList(this.delayedScripts.async);try{await this._triggerDOMContentLoaded(),await this._triggerWindowLoad()}catch(e){}window.dispatchEvent(new Event("rocket-allScriptsLoaded")),this._replayClicks()}_registerAllDelayedScripts(){document.querySelectorAll("script[type=rocketlazyloadscript]").forEach((e=>{e.hasAttribute("src")?e.hasAttribute("async")&&!1!==e.async?this.delayedScripts.async.push(e):e.hasAttribute("defer")&&!1!==e.defer||"module"===e.getAttribute("data-rocket-type")?this.delayedScripts.defer.push(e):this.delayedScripts.normal.push(e):this.delayedScripts.normal.push(e)}))}async _transformScript(e){return await this._littleBreath(),new Promise((t=>{const n=document.createElement("script");[...e.attributes].forEach((e=>{let t=e.nodeName;"type"!==t&&("data-rocket-type"===t&&(t="type"),n.setAttribute(t,e.nodeValue))})),e.hasAttribute("src")?(n.addEventListener("load",t),n.addEventListener("error",t)):(n.text=e.text,t());try{e.parentNode.replaceChild(n,e)}catch(e){t()}}))}async _loadScriptsFromList(e){const t=e.shift();return t?(await this._transformScript(t),this._loadScriptsFromList(e)):Promise.resolve()}_preloadAllScripts(){this._batchInjectResourceHints([...this.delayedScripts.normal,...this.delayedScripts.defer,...this.delayedScripts.async],"preload")}_batchInjectResourceHints(e,t){var n=document.createDocumentFragment();e.forEach((e=>{if(e.src){const i=document.createElement("link");i.href=e.src,i.rel=t,"preconnect"!==t&&(i.as="script"),e.getAttribute&&"module"===e.getAttribute("data-rocket-type")&&(i.crossOrigin=!0),e.crossOrigin&&(i.crossOrigin=e.crossOrigin),n.appendChild(i)}})),document.head.appendChild(n)}_delayEventListeners(){let e={};function t(t,n){!function(t){function n(n){return e[t].eventsToRewrite.indexOf(n)>=0?"rocket-"+n:n}e[t]||(e[t]={originalFunctions:{add:t.addEventListener,remove:t.removeEventListener},eventsToRewrite:[]},t.addEventListener=function(){arguments[0]=n(arguments[0]),e[t].originalFunctions.add.apply(t,arguments)},t.removeEventListener=function(){arguments[0]=n(arguments[0]),e[t].originalFunctions.remove.apply(t,arguments)})}(t),e[t].eventsToRewrite.push(n)}function n(e,t){let n=e[t];Object.defineProperty(e,t,{get:()=>n||function(){},set(i){e["rocket"+t]=n=i}})}t(document,"DOMContentLoaded"),t(window,"DOMContentLoaded"),t(window,"load"),t(window,"pageshow"),t(document,"readystatechange"),n(document,"onreadystatechange"),n(window,"onload"),n(window,"onpageshow")}_delayJQueryReady(e){let t=window.jQuery;Object.defineProperty(window,"jQuery",{get:()=>t,set(n){if(n&&n.fn&&!e.allJQueries.includes(n)){n.fn.ready=n.fn.init.prototype.ready=function(t){e.domReadyFired?t.bind(document)(n):document.addEventListener("rocket-DOMContentLoaded",(()=>t.bind(document)(n)))};const t=n.fn.on;n.fn.on=n.fn.init.prototype.on=function(){if(this[0]===window){function e(e){return e.split(" ").map((e=>"load"===e||0===e.indexOf("load.")?"rocket-jquery-load":e)).join(" ")}"string"==typeof arguments[0]||arguments[0]instanceof String?arguments[0]=e(arguments[0]):"object"==typeof arguments[0]&&Object.keys(arguments[0]).forEach((t=>{delete Object.assign(arguments[0],{[e(t)]:arguments[0][t]})[t]}))}return t.apply(this,arguments),this},e.allJQueries.push(n)}t=n}})}async _triggerDOMContentLoaded(){this.domReadyFired=!0,await this._littleBreath(),document.dispatchEvent(new Event("rocket-DOMContentLoaded")),await this._littleBreath(),window.dispatchEvent(new Event("rocket-DOMContentLoaded")),await this._littleBreath(),document.dispatchEvent(new Event("rocket-readystatechange")),await this._littleBreath(),document.rocketonreadystatechange&&document.rocketonreadystatechange()}async _triggerWindowLoad(){await this._littleBreath(),window.dispatchEvent(new Event("rocket-load")),await this._littleBreath(),window.rocketonload&&window.rocketonload(),await this._littleBreath(),this.allJQueries.forEach((e=>e(window).trigger("rocket-jquery-load"))),await this._littleBreath();const e=new Event("rocket-pageshow");e.persisted=this.persisted,window.dispatchEvent(e),await this._littleBreath(),window.rocketonpageshow&&window.rocketonpageshow({persisted:this.persisted})}_handleDocumentWrite(){const e=new Map;document.write=document.writeln=function(t){const n=document.currentScript,i=document.createRange(),r=n.parentElement;let o=e.get(n);void 0===o&&(o=n.nextSibling,e.set(n,o));const s=document.createDocumentFragment();i.setStart(s,0),s.appendChild(i.createContextualFragment(t)),r.insertBefore(s,o)}}async _littleBreath(){Date.now()-this.lastBreath>45&&(await this._requestAnimFrame(),this.lastBreath=Date.now())}async _requestAnimFrame(){return document.hidden?new Promise((e=>setTimeout(e))):new Promise((e=>requestAnimationFrame(e)))}static run(){const e=new RocketLazyLoadScripts;e._addUserInteractionListener(e)}}RocketLazyLoadScripts.run();</script>
+	
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+	<meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1">
+
+	<!-- This site is optimized with the Yoast SEO Premium plugin v21.5 (Yoast SEO v21.5) - https://yoast.com/wordpress/plugins/seo/ -->
+	<title>9MM vs. .40 Cal: Which is Better for Survival &amp; EDC? - GunBacker</title><link rel="stylesheet" href="https://www.gunbacker.com/wp-content/cache/min/1/da0ffa107d62e6bc17a8872d6e439e05.css" media="all" data-minify="1">
+	<meta name="description" content="The 9mm or the .40 caliber... which is better for everyday carry? We've answered the big debate between the 9mm vs. .40 Cal in this comprehensive review.">
+	<link rel="canonical" href="https://www.gunbacker.com/9mm-vs-40-cal-round/">
+	<meta property="og:locale" content="en_US">
+	<meta property="og:type" content="article">
+	<meta property="og:title" content="9MM vs. .40 Cal: Which is Better for Survival &amp; EDC?">
+	<meta property="og:description" content="The 9mm or the .40 caliber... which is better for everyday carry? We've answered the big debate between the 9mm vs. .40 Cal in this comprehensive review.">
+	<meta property="og:url" content="https://www.gunbacker.com/9mm-vs-40-cal-round/">
+	<meta property="og:site_name" content="GunBacker">
+	<meta property="article:publisher" content="https://www.facebook.com/GunBacker/">
+	<meta property="article:author" content="https://www.facebook.com/GunBacker/">
+	<meta property="article:published_time" content="2018-09-26T21:32:35+00:00">
+	<meta property="article:modified_time" content="2022-06-19T22:06:38+00:00">
+	<meta property="og:image" content="https://www.gunbacker.com/wp-content/uploads/2017/06/9mm-vs-40-caliber-firearms.jpg">
+	<meta property="og:image:width" content="860">
+	<meta property="og:image:height" content="465">
+	<meta property="og:image:type" content="image/jpeg">
+	<meta name="author" content="Levi Frenchak">
+	<meta name="twitter:card" content="summary_large_image">
+	<meta name="twitter:creator" content="@GunBacker">
+	<meta name="twitter:site" content="@GunBacker">
+	<meta name="twitter:label1" content="Written by">
+	<meta name="twitter:data1" content="Levi Frenchak">
+	<meta name="twitter:label2" content="Est. reading time">
+	<meta name="twitter:data2" content="9 minutes">
+	<script type="application/ld+json" class="yoast-schema-graph">{"@context":"https://schema.org","@graph":[{"@type":"Article","@id":"https://www.gunbacker.com/9mm-vs-40-cal-round/#article","isPartOf":{"@id":"https://www.gunbacker.com/9mm-vs-40-cal-round/"},"author":{"name":"Levi Frenchak","@id":"https://www.gunbacker.com/#/schema/person/9f8581bceef223b401b5dd192516aaa5"},"headline":"9MM vs. .40 Cal: Which is Better for Survival &#038; EDC?","datePublished":"2018-09-26T21:32:35+00:00","dateModified":"2022-06-19T22:06:38+00:00","mainEntityOfPage":{"@id":"https://www.gunbacker.com/9mm-vs-40-cal-round/"},"wordCount":1761,"commentCount":0,"publisher":{"@id":"https://www.gunbacker.com/#organization"},"image":{"@id":"https://www.gunbacker.com/9mm-vs-40-cal-round/#primaryimage"},"thumbnailUrl":"https://www.gunbacker.com/wp-content/uploads/2017/06/9mm-vs-40-caliber-firearms.jpg","articleSection":["Ammo","Firearms"],"inLanguage":"en-US","potentialAction":[{"@type":"CommentAction","name":"Comment","target":["https://www.gunbacker.com/9mm-vs-40-cal-round/#respond"]}]},{"@type":"WebPage","@id":"https://www.gunbacker.com/9mm-vs-40-cal-round/","url":"https://www.gunbacker.com/9mm-vs-40-cal-round/","name":"9MM vs. .40 Cal: Which is Better for Survival & EDC? - GunBacker","isPartOf":{"@id":"https://www.gunbacker.com/#website"},"primaryImageOfPage":{"@id":"https://www.gunbacker.com/9mm-vs-40-cal-round/#primaryimage"},"image":{"@id":"https://www.gunbacker.com/9mm-vs-40-cal-round/#primaryimage"},"thumbnailUrl":"https://www.gunbacker.com/wp-content/uploads/2017/06/9mm-vs-40-caliber-firearms.jpg","datePublished":"2018-09-26T21:32:35+00:00","dateModified":"2022-06-19T22:06:38+00:00","description":"The 9mm or the .40 caliber... which is better for everyday carry? We've answered the big debate between the 9mm vs. .40 Cal in this comprehensive review.","breadcrumb":{"@id":"https://www.gunbacker.com/9mm-vs-40-cal-round/#breadcrumb"},"inLanguage":"en-US","potentialAction":[{"@type":"ReadAction","target":["https://www.gunbacker.com/9mm-vs-40-cal-round/"]}]},{"@type":"ImageObject","inLanguage":"en-US","@id":"https://www.gunbacker.com/9mm-vs-40-cal-round/#primaryimage","url":"https://www.gunbacker.com/wp-content/uploads/2017/06/9mm-vs-40-caliber-firearms.jpg","contentUrl":"https://www.gunbacker.com/wp-content/uploads/2017/06/9mm-vs-40-caliber-firearms.jpg","width":860,"height":465,"caption":"9mm vs .40 cal firearms"},{"@type":"BreadcrumbList","@id":"https://www.gunbacker.com/9mm-vs-40-cal-round/#breadcrumb","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://www.gunbacker.com/"},{"@type":"ListItem","position":2,"name":"9MM vs. .40 Cal: Which is Better for Survival &#038; EDC?"}]},{"@type":"WebSite","@id":"https://www.gunbacker.com/#website","url":"https://www.gunbacker.com/","name":"GunBacker.com","description":"Firearms &amp; Gear Reviews For Responsible Gun Owners","publisher":{"@id":"https://www.gunbacker.com/#organization"},"potentialAction":[{"@type":"SearchAction","target":{"@type":"EntryPoint","urlTemplate":"https://www.gunbacker.com/?s={search_term_string}"},"query-input":"required name=search_term_string"}],"inLanguage":"en-US"},{"@type":"Organization","@id":"https://www.gunbacker.com/#organization","name":"GunBacker.com","url":"https://www.gunbacker.com/","logo":{"@type":"ImageObject","inLanguage":"en-US","@id":"https://www.gunbacker.com/#/schema/logo/image/","url":"https://www.gunbacker.com/wp-content/uploads/2017/08/cropped-Favicon-1.png","contentUrl":"https://www.gunbacker.com/wp-content/uploads/2017/08/cropped-Favicon-1.png","width":512,"height":512,"caption":"GunBacker.com"},"image":{"@id":"https://www.gunbacker.com/#/schema/logo/image/"},"sameAs":["https://www.facebook.com/GunBacker/","https://twitter.com/GunBacker","https://www.instagram.com/gunbacker/","https://www.pinterest.com/gunbacker45/"]},{"@type":"Person","@id":"https://www.gunbacker.com/#/schema/person/9f8581bceef223b401b5dd192516aaa5","name":"Levi Frenchak","image":{"@type":"ImageObject","inLanguage":"en-US","@id":"https://www.gunbacker.com/#/schema/person/image/","url":"https://www.gunbacker.com/wp-content/uploads/2023/12/60435321_2548988938446524_2350809186499035136_n-150x150.jpg","contentUrl":"https://www.gunbacker.com/wp-content/uploads/2023/12/60435321_2548988938446524_2350809186499035136_n-150x150.jpg","caption":"Levi Frenchak"},"description":"Levi Frenchak has years of firearms experience between sporting and responsible concealed carry applications. Levi is a member of multiple pro-second amendment organizations including USCCA, NRA, and just as importantly, his local range. Levi is continuing a legacy of support for our rights by working with his family to increase firearms education and awareness as the lead editor of GunBacker.","sameAs":["https://www.gunbacker.com","https://www.facebook.com/GunBacker/"],"url":"https://www.gunbacker.com/author/gun-backer/"}]}</script>
+	<!-- / Yoast SEO Premium plugin. -->
+
+
+<link rel="dns-prefetch" href="//www.avantlink.com">
+
+<link rel="alternate" type="application/rss+xml" title="GunBacker » Feed" href="https://www.gunbacker.com/feed/">
+<link rel="alternate" type="application/rss+xml" title="GunBacker » Comments Feed" href="https://www.gunbacker.com/comments/feed/">
+<link rel="alternate" type="application/rss+xml" title="GunBacker » 9MM vs. .40 Cal: Which is Better for Survival &amp; EDC? Comments Feed" href="https://www.gunbacker.com/9mm-vs-40-cal-round/feed/">
+		<!-- This site uses the Google Analytics by MonsterInsights plugin v9.1.1 - Using Analytics tracking - https://www.monsterinsights.com/ -->
+							<script type="rocketlazyloadscript" src="//www.googletagmanager.com/gtag/js?id=G-DX4M0Z7NR6" data-cfasync="false" data-wpfc-render="false" data-rocket-type="text/javascript" async=""></script>
+			<script type="rocketlazyloadscript" data-cfasync="false" data-wpfc-render="false" data-rocket-type="text/javascript">
+				var mi_version = '9.1.1';
+				var mi_track_user = true;
+				var mi_no_track_reason = '';
+								var MonsterInsightsDefaultLocations = {"page_location":"https:\/\/www.gunbacker.com\/9mm-vs-40-cal-round\/"};
+				if ( typeof MonsterInsightsPrivacyGuardFilter === 'function' ) {
+					var MonsterInsightsLocations = (typeof MonsterInsightsExcludeQuery === 'object') ? MonsterInsightsPrivacyGuardFilter( MonsterInsightsExcludeQuery ) : MonsterInsightsPrivacyGuardFilter( MonsterInsightsDefaultLocations );
+				} else {
+					var MonsterInsightsLocations = (typeof MonsterInsightsExcludeQuery === 'object') ? MonsterInsightsExcludeQuery : MonsterInsightsDefaultLocations;
+				}
+
+								var disableStrs = [
+										'ga-disable-G-DX4M0Z7NR6',
+									];
+
+				/* Function to detect opted out users */
+				function __gtagTrackerIsOptedOut() {
+					for (var index = 0; index < disableStrs.length; index++) {
+						if (document.cookie.indexOf(disableStrs[index] + '=true') > -1) {
+							return true;
+						}
+					}
+
+					return false;
+				}
+
+				/* Disable tracking if the opt-out cookie exists. */
+				if (__gtagTrackerIsOptedOut()) {
+					for (var index = 0; index < disableStrs.length; index++) {
+						window[disableStrs[index]] = true;
+					}
+				}
+
+				/* Opt-out function */
+				function __gtagTrackerOptout() {
+					for (var index = 0; index < disableStrs.length; index++) {
+						document.cookie = disableStrs[index] + '=true; expires=Thu, 31 Dec 2099 23:59:59 UTC; path=/';
+						window[disableStrs[index]] = true;
+					}
+				}
+
+				if ('undefined' === typeof gaOptout) {
+					function gaOptout() {
+						__gtagTrackerOptout();
+					}
+				}
+								window.dataLayer = window.dataLayer || [];
+
+				window.MonsterInsightsDualTracker = {
+					helpers: {},
+					trackers: {},
+				};
+				if (mi_track_user) {
+					function __gtagDataLayer() {
+						dataLayer.push(arguments);
+					}
+
+					function __gtagTracker(type, name, parameters) {
+						if (!parameters) {
+							parameters = {};
+						}
+
+						if (parameters.send_to) {
+							__gtagDataLayer.apply(null, arguments);
+							return;
+						}
+
+						if (type === 'event') {
+														parameters.send_to = monsterinsights_frontend.v4_id;
+							var hookName = name;
+							if (typeof parameters['event_category'] !== 'undefined') {
+								hookName = parameters['event_category'] + ':' + name;
+							}
+
+							if (typeof MonsterInsightsDualTracker.trackers[hookName] !== 'undefined') {
+								MonsterInsightsDualTracker.trackers[hookName](parameters);
+							} else {
+								__gtagDataLayer('event', name, parameters);
+							}
+							
+						} else {
+							__gtagDataLayer.apply(null, arguments);
+						}
+					}
+
+					__gtagTracker('js', new Date());
+					__gtagTracker('set', {
+						'developer_id.dZGIzZG': true,
+											});
+					if ( MonsterInsightsLocations.page_location ) {
+						__gtagTracker('set', MonsterInsightsLocations);
+					}
+										__gtagTracker('config', 'G-DX4M0Z7NR6', {"forceSSL":"true","anonymize_ip":"true"} );
+															window.gtag = __gtagTracker;										(function () {
+						/* https://developers.google.com/analytics/devguides/collection/analyticsjs/ */
+						/* ga and __gaTracker compatibility shim. */
+						var noopfn = function () {
+							return null;
+						};
+						var newtracker = function () {
+							return new Tracker();
+						};
+						var Tracker = function () {
+							return null;
+						};
+						var p = Tracker.prototype;
+						p.get = noopfn;
+						p.set = noopfn;
+						p.send = function () {
+							var args = Array.prototype.slice.call(arguments);
+							args.unshift('send');
+							__gaTracker.apply(null, args);
+						};
+						var __gaTracker = function () {
+							var len = arguments.length;
+							if (len === 0) {
+								return;
+							}
+							var f = arguments[len - 1];
+							if (typeof f !== 'object' || f === null || typeof f.hitCallback !== 'function') {
+								if ('send' === arguments[0]) {
+									var hitConverted, hitObject = false, action;
+									if ('event' === arguments[1]) {
+										if ('undefined' !== typeof arguments[3]) {
+											hitObject = {
+												'eventAction': arguments[3],
+												'eventCategory': arguments[2],
+												'eventLabel': arguments[4],
+												'value': arguments[5] ? arguments[5] : 1,
+											}
+										}
+									}
+									if ('pageview' === arguments[1]) {
+										if ('undefined' !== typeof arguments[2]) {
+											hitObject = {
+												'eventAction': 'page_view',
+												'page_path': arguments[2],
+											}
+										}
+									}
+									if (typeof arguments[2] === 'object') {
+										hitObject = arguments[2];
+									}
+									if (typeof arguments[5] === 'object') {
+										Object.assign(hitObject, arguments[5]);
+									}
+									if ('undefined' !== typeof arguments[1].hitType) {
+										hitObject = arguments[1];
+										if ('pageview' === hitObject.hitType) {
+											hitObject.eventAction = 'page_view';
+										}
+									}
+									if (hitObject) {
+										action = 'timing' === arguments[1].hitType ? 'timing_complete' : hitObject.eventAction;
+										hitConverted = mapArgs(hitObject);
+										__gtagTracker('event', action, hitConverted);
+									}
+								}
+								return;
+							}
+
+							function mapArgs(args) {
+								var arg, hit = {};
+								var gaMap = {
+									'eventCategory': 'event_category',
+									'eventAction': 'event_action',
+									'eventLabel': 'event_label',
+									'eventValue': 'event_value',
+									'nonInteraction': 'non_interaction',
+									'timingCategory': 'event_category',
+									'timingVar': 'name',
+									'timingValue': 'value',
+									'timingLabel': 'event_label',
+									'page': 'page_path',
+									'location': 'page_location',
+									'title': 'page_title',
+									'referrer' : 'page_referrer',
+								};
+								for (arg in args) {
+																		if (!(!args.hasOwnProperty(arg) || !gaMap.hasOwnProperty(arg))) {
+										hit[gaMap[arg]] = args[arg];
+									} else {
+										hit[arg] = args[arg];
+									}
+								}
+								return hit;
+							}
+
+							try {
+								f.hitCallback();
+							} catch (ex) {
+							}
+						};
+						__gaTracker.create = newtracker;
+						__gaTracker.getByName = newtracker;
+						__gaTracker.getAll = function () {
+							return [];
+						};
+						__gaTracker.remove = noopfn;
+						__gaTracker.loaded = true;
+						window['__gaTracker'] = __gaTracker;
+					})();
+									} else {
+										console.log("");
+					(function () {
+						function __gtagTracker() {
+							return null;
+						}
+
+						window['__gtagTracker'] = __gtagTracker;
+						window['gtag'] = __gtagTracker;
+					})();
+									}
+			</script>
+				<!-- / Google Analytics by MonsterInsights -->
+		
+
+
+<style id="classic-theme-styles-inline-css" type="text/css">
+/*! This file is auto-generated */
+.wp-block-button__link{color:#fff;background-color:#32373c;border-radius:9999px;box-shadow:none;text-decoration:none;padding:calc(.667em + 2px) calc(1.333em + 2px);font-size:1.125em}.wp-block-file__button{background:#32373c;color:#fff;text-decoration:none}
+</style>
+<style id="global-styles-inline-css" type="text/css">
+body{--wp--preset--color--black: #000000;--wp--preset--color--cyan-bluish-gray: #abb8c3;--wp--preset--color--white: #ffffff;--wp--preset--color--pale-pink: #f78da7;--wp--preset--color--vivid-red: #cf2e2e;--wp--preset--color--luminous-vivid-orange: #ff6900;--wp--preset--color--luminous-vivid-amber: #fcb900;--wp--preset--color--light-green-cyan: #7bdcb5;--wp--preset--color--vivid-green-cyan: #00d084;--wp--preset--color--pale-cyan-blue: #8ed1fc;--wp--preset--color--vivid-cyan-blue: #0693e3;--wp--preset--color--vivid-purple: #9b51e0;--wp--preset--gradient--vivid-cyan-blue-to-vivid-purple: linear-gradient(135deg,rgba(6,147,227,1) 0%,rgb(155,81,224) 100%);--wp--preset--gradient--light-green-cyan-to-vivid-green-cyan: linear-gradient(135deg,rgb(122,220,180) 0%,rgb(0,208,130) 100%);--wp--preset--gradient--luminous-vivid-amber-to-luminous-vivid-orange: linear-gradient(135deg,rgba(252,185,0,1) 0%,rgba(255,105,0,1) 100%);--wp--preset--gradient--luminous-vivid-orange-to-vivid-red: linear-gradient(135deg,rgba(255,105,0,1) 0%,rgb(207,46,46) 100%);--wp--preset--gradient--very-light-gray-to-cyan-bluish-gray: linear-gradient(135deg,rgb(238,238,238) 0%,rgb(169,184,195) 100%);--wp--preset--gradient--cool-to-warm-spectrum: linear-gradient(135deg,rgb(74,234,220) 0%,rgb(151,120,209) 20%,rgb(207,42,186) 40%,rgb(238,44,130) 60%,rgb(251,105,98) 80%,rgb(254,248,76) 100%);--wp--preset--gradient--blush-light-purple: linear-gradient(135deg,rgb(255,206,236) 0%,rgb(152,150,240) 100%);--wp--preset--gradient--blush-bordeaux: linear-gradient(135deg,rgb(254,205,165) 0%,rgb(254,45,45) 50%,rgb(107,0,62) 100%);--wp--preset--gradient--luminous-dusk: linear-gradient(135deg,rgb(255,203,112) 0%,rgb(199,81,192) 50%,rgb(65,88,208) 100%);--wp--preset--gradient--pale-ocean: linear-gradient(135deg,rgb(255,245,203) 0%,rgb(182,227,212) 50%,rgb(51,167,181) 100%);--wp--preset--gradient--electric-grass: linear-gradient(135deg,rgb(202,248,128) 0%,rgb(113,206,126) 100%);--wp--preset--gradient--midnight: linear-gradient(135deg,rgb(2,3,129) 0%,rgb(40,116,252) 100%);--wp--preset--font-size--small: 13px;--wp--preset--font-size--medium: 20px;--wp--preset--font-size--large: 36px;--wp--preset--font-size--x-large: 42px;--wp--preset--spacing--20: 0.44rem;--wp--preset--spacing--30: 0.67rem;--wp--preset--spacing--40: 1rem;--wp--preset--spacing--50: 1.5rem;--wp--preset--spacing--60: 2.25rem;--wp--preset--spacing--70: 3.38rem;--wp--preset--spacing--80: 5.06rem;--wp--preset--shadow--natural: 6px 6px 9px rgba(0, 0, 0, 0.2);--wp--preset--shadow--deep: 12px 12px 50px rgba(0, 0, 0, 0.4);--wp--preset--shadow--sharp: 6px 6px 0px rgba(0, 0, 0, 0.2);--wp--preset--shadow--outlined: 6px 6px 0px -3px rgba(255, 255, 255, 1), 6px 6px rgba(0, 0, 0, 1);--wp--preset--shadow--crisp: 6px 6px 0px rgba(0, 0, 0, 1);}:where(.is-layout-flex){gap: 0.5em;}:where(.is-layout-grid){gap: 0.5em;}body .is-layout-flow > .alignleft{float: left;margin-inline-start: 0;margin-inline-end: 2em;}body .is-layout-flow > .alignright{float: right;margin-inline-start: 2em;margin-inline-end: 0;}body .is-layout-flow > .aligncenter{margin-left: auto !important;margin-right: auto !important;}body .is-layout-constrained > .alignleft{float: left;margin-inline-start: 0;margin-inline-end: 2em;}body .is-layout-constrained > .alignright{float: right;margin-inline-start: 2em;margin-inline-end: 0;}body .is-layout-constrained > .aligncenter{margin-left: auto !important;margin-right: auto !important;}body .is-layout-constrained > :where(:not(.alignleft):not(.alignright):not(.alignfull)){max-width: var(--wp--style--global--content-size);margin-left: auto !important;margin-right: auto !important;}body .is-layout-constrained > .alignwide{max-width: var(--wp--style--global--wide-size);}body .is-layout-flex{display: flex;}body .is-layout-flex{flex-wrap: wrap;align-items: center;}body .is-layout-flex > *{margin: 0;}body .is-layout-grid{display: grid;}body .is-layout-grid > *{margin: 0;}:where(.wp-block-columns.is-layout-flex){gap: 2em;}:where(.wp-block-columns.is-layout-grid){gap: 2em;}:where(.wp-block-post-template.is-layout-flex){gap: 1.25em;}:where(.wp-block-post-template.is-layout-grid){gap: 1.25em;}.has-black-color{color: var(--wp--preset--color--black) !important;}.has-cyan-bluish-gray-color{color: var(--wp--preset--color--cyan-bluish-gray) !important;}.has-white-color{color: var(--wp--preset--color--white) !important;}.has-pale-pink-color{color: var(--wp--preset--color--pale-pink) !important;}.has-vivid-red-color{color: var(--wp--preset--color--vivid-red) !important;}.has-luminous-vivid-orange-color{color: var(--wp--preset--color--luminous-vivid-orange) !important;}.has-luminous-vivid-amber-color{color: var(--wp--preset--color--luminous-vivid-amber) !important;}.has-light-green-cyan-color{color: var(--wp--preset--color--light-green-cyan) !important;}.has-vivid-green-cyan-color{color: var(--wp--preset--color--vivid-green-cyan) !important;}.has-pale-cyan-blue-color{color: var(--wp--preset--color--pale-cyan-blue) !important;}.has-vivid-cyan-blue-color{color: var(--wp--preset--color--vivid-cyan-blue) !important;}.has-vivid-purple-color{color: var(--wp--preset--color--vivid-purple) !important;}.has-black-background-color{background-color: var(--wp--preset--color--black) !important;}.has-cyan-bluish-gray-background-color{background-color: var(--wp--preset--color--cyan-bluish-gray) !important;}.has-white-background-color{background-color: var(--wp--preset--color--white) !important;}.has-pale-pink-background-color{background-color: var(--wp--preset--color--pale-pink) !important;}.has-vivid-red-background-color{background-color: var(--wp--preset--color--vivid-red) !important;}.has-luminous-vivid-orange-background-color{background-color: var(--wp--preset--color--luminous-vivid-orange) !important;}.has-luminous-vivid-amber-background-color{background-color: var(--wp--preset--color--luminous-vivid-amber) !important;}.has-light-green-cyan-background-color{background-color: var(--wp--preset--color--light-green-cyan) !important;}.has-vivid-green-cyan-background-color{background-color: var(--wp--preset--color--vivid-green-cyan) !important;}.has-pale-cyan-blue-background-color{background-color: var(--wp--preset--color--pale-cyan-blue) !important;}.has-vivid-cyan-blue-background-color{background-color: var(--wp--preset--color--vivid-cyan-blue) !important;}.has-vivid-purple-background-color{background-color: var(--wp--preset--color--vivid-purple) !important;}.has-black-border-color{border-color: var(--wp--preset--color--black) !important;}.has-cyan-bluish-gray-border-color{border-color: var(--wp--preset--color--cyan-bluish-gray) !important;}.has-white-border-color{border-color: var(--wp--preset--color--white) !important;}.has-pale-pink-border-color{border-color: var(--wp--preset--color--pale-pink) !important;}.has-vivid-red-border-color{border-color: var(--wp--preset--color--vivid-red) !important;}.has-luminous-vivid-orange-border-color{border-color: var(--wp--preset--color--luminous-vivid-orange) !important;}.has-luminous-vivid-amber-border-color{border-color: var(--wp--preset--color--luminous-vivid-amber) !important;}.has-light-green-cyan-border-color{border-color: var(--wp--preset--color--light-green-cyan) !important;}.has-vivid-green-cyan-border-color{border-color: var(--wp--preset--color--vivid-green-cyan) !important;}.has-pale-cyan-blue-border-color{border-color: var(--wp--preset--color--pale-cyan-blue) !important;}.has-vivid-cyan-blue-border-color{border-color: var(--wp--preset--color--vivid-cyan-blue) !important;}.has-vivid-purple-border-color{border-color: var(--wp--preset--color--vivid-purple) !important;}.has-vivid-cyan-blue-to-vivid-purple-gradient-background{background: var(--wp--preset--gradient--vivid-cyan-blue-to-vivid-purple) !important;}.has-light-green-cyan-to-vivid-green-cyan-gradient-background{background: var(--wp--preset--gradient--light-green-cyan-to-vivid-green-cyan) !important;}.has-luminous-vivid-amber-to-luminous-vivid-orange-gradient-background{background: var(--wp--preset--gradient--luminous-vivid-amber-to-luminous-vivid-orange) !important;}.has-luminous-vivid-orange-to-vivid-red-gradient-background{background: var(--wp--preset--gradient--luminous-vivid-orange-to-vivid-red) !important;}.has-very-light-gray-to-cyan-bluish-gray-gradient-background{background: var(--wp--preset--gradient--very-light-gray-to-cyan-bluish-gray) !important;}.has-cool-to-warm-spectrum-gradient-background{background: var(--wp--preset--gradient--cool-to-warm-spectrum) !important;}.has-blush-light-purple-gradient-background{background: var(--wp--preset--gradient--blush-light-purple) !important;}.has-blush-bordeaux-gradient-background{background: var(--wp--preset--gradient--blush-bordeaux) !important;}.has-luminous-dusk-gradient-background{background: var(--wp--preset--gradient--luminous-dusk) !important;}.has-pale-ocean-gradient-background{background: var(--wp--preset--gradient--pale-ocean) !important;}.has-electric-grass-gradient-background{background: var(--wp--preset--gradient--electric-grass) !important;}.has-midnight-gradient-background{background: var(--wp--preset--gradient--midnight) !important;}.has-small-font-size{font-size: var(--wp--preset--font-size--small) !important;}.has-medium-font-size{font-size: var(--wp--preset--font-size--medium) !important;}.has-large-font-size{font-size: var(--wp--preset--font-size--large) !important;}.has-x-large-font-size{font-size: var(--wp--preset--font-size--x-large) !important;}
+.wp-block-navigation a:where(:not(.wp-element-button)){color: inherit;}
+:where(.wp-block-post-template.is-layout-flex){gap: 1.25em;}:where(.wp-block-post-template.is-layout-grid){gap: 1.25em;}
+:where(.wp-block-columns.is-layout-flex){gap: 2em;}:where(.wp-block-columns.is-layout-grid){gap: 2em;}
+.wp-block-pullquote{font-size: 1.5em;line-height: 1.6;}
+</style>
+
+
+
+
+
+
+
+
+
+<script type="rocketlazyloadscript" data-rocket-type="text/javascript" src="https://www.gunbacker.com/wp-content/plugins/google-analytics-for-wordpress/assets/js/frontend-gtag.min.js?ver=9.1.1" id="monsterinsights-frontend-script-js" async="async" data-wp-strategy="async"></script>
+<script data-cfasync="false" data-wpfc-render="false" type="text/javascript" id="monsterinsights-frontend-script-js-extra">/* <![CDATA[ */
+var monsterinsights_frontend = {"js_events_tracking":"true","download_extensions":"doc,pdf,ppt,zip,xls,docx,pptx,xlsx","inbound_paths":"[]","home_url":"https:\/\/www.gunbacker.com","hash_tracking":"false","v4_id":"G-DX4M0Z7NR6"};/* ]]> */
+</script>
+<script type="rocketlazyloadscript" data-rocket-type="text/javascript" src="https://www.gunbacker.com/wp-content/themes/wilderness-today/assets/js/min/jquery.min.js?ver=2.2.4" id="jquery-js"></script>
+<script type="rocketlazyloadscript" data-rocket-type="text/javascript" src="https://www.gunbacker.com/wp-content/plugins/wp-user-avatar/assets/flatpickr/flatpickr.min.js?ver=4.2.0" id="ppress-flatpickr-js" defer=""></script>
+<script type="rocketlazyloadscript" data-rocket-type="text/javascript" src="https://www.gunbacker.com/wp-content/plugins/wp-user-avatar/assets/select2/select2.min.js?ver=4.2.0" id="ppress-select2-js" defer=""></script>
+<link rel="https://api.w.org/" href="https://www.gunbacker.com/wp-json/"><link rel="alternate" type="application/json" href="https://www.gunbacker.com/wp-json/wp/v2/posts/4240"><link rel="EditURI" type="application/rsd+xml" title="RSD" href="https://www.gunbacker.com/xmlrpc.php?rsd">
+<link rel="shortlink" href="https://www.gunbacker.com/?p=4240">
+<link rel="alternate" type="application/json+oembed" href="https://www.gunbacker.com/wp-json/oembed/1.0/embed?url=https%3A%2F%2Fwww.gunbacker.com%2F9mm-vs-40-cal-round%2F">
+<link rel="alternate" type="text/xml+oembed" href="https://www.gunbacker.com/wp-json/oembed/1.0/embed?url=https%3A%2F%2Fwww.gunbacker.com%2F9mm-vs-40-cal-round%2F&amp;format=xml">
+<style type="text/css">.aawp .aawp-tb__row--highlight{background-color:#256aaf;}.aawp .aawp-tb__row--highlight{color:#256aaf;}.aawp .aawp-tb__row--highlight a{color:#256aaf;}</style><style type="text/css">.aawp-tb--desktop .aawp-tb__head {
+    display: none;
+}
+ 
+.aawp-tb--mobile .aawp-tb__head {
+    display: none;
+}
+ 
+.aawp-tb--mobile .aawp-tb__data {
+    width: 100%;
+}
+.aawp .aawp-product--horizontal .aawp-product__description li { font-size: 16px; }
+
+.aawp .aawp-product--horizontal .aawp-product__image { width: auto; }
+
+img.ais450 {
+max-height: 450px;
+}
+
+img.ais350 {
+max-height: 350px;
+}
+
+img.ais300 {
+max-height: 300px;
+}
+
+img.ais250 {
+max-height: 250px;
+}
+
+img.ais200 {
+max-height: 200px;
+}
+
+img.ais200fl {
+    max-height: 200px;
+    float: left;
+    margin: 15px 15px 15px 0px;
+}
+
+img.ais250fl {
+    max-height: 250px;
+    float: left;
+    margin: 15px 15px 15px 0px;
+}
+
+img.ais300fl {
+    max-height: 300px;
+    float: left;
+    margin: 15px 15px 15px 0px;
+}
+
+img.ais200fr {
+    max-height: 200px;
+    float: right;
+    margin: 15px 0px 15px 15px;
+}
+
+img.ais250fr {
+    max-height: 250px;
+    float: right;
+    margin: 15px 0px 15px 15px;
+}
+
+img.ais300fr {
+    max-height: 300px;
+    float: right;
+    margin: 15px 0px 15px 15px;
+}
+
+img.ais300longfl {
+    max-width: 300px;
+    float: left;
+    margin: 15px 15px 15px 0px;
+}
+
+img.ais300longfr {
+    max-width: 300px;
+    float: right;
+    margin: 15px 0px 15px 15px;
+}
+
+</style><!-- HFCM by 99 Robots - Snippet # 4: Tracking -->
+<script type="rocketlazyloadscript" data-rocket-type="text/javascript">
+    (function(e,t,o,n,p,r,i){e.visitorGlobalObjectAlias=n;e[e.visitorGlobalObjectAlias]=e[e.visitorGlobalObjectAlias]||function(){(e[e.visitorGlobalObjectAlias].q=e[e.visitorGlobalObjectAlias].q||[]).push(arguments)};e[e.visitorGlobalObjectAlias].l=(new Date).getTime();r=t.createElement("script");r.src=o;r.async=true;i=t.getElementsByTagName("script")[0];i.parentNode.insertBefore(r,i)})(window,document,"https://diffuser-cdn.app-us1.com/diffuser/diffuser.js","vgo");
+    vgo('setAccount', '610463546');
+    vgo('setTrackByDefault', true);
+
+    vgo('process');
+</script>
+<!-- /end HFCM by 99 Robots -->
+
+
+<!-- This site is optimized with the Schema plugin v1.7.9.5 - https://schema.press -->
+<script type="application/ld+json">{"@context":"https:\/\/schema.org\/","@type":"BlogPosting","mainEntityOfPage":{"@type":"WebPage","@id":"https:\/\/www.gunbacker.com\/9mm-vs-40-cal-round\/"},"url":"https:\/\/www.gunbacker.com\/9mm-vs-40-cal-round\/","headline":"9MM vs. .40 Cal: Which is Better for Survival & EDC?","datePublished":"2018-09-26T21:32:35+00:00","dateModified":"2022-06-19T22:06:38+00:00","publisher":{"@type":"Organization","@id":"https:\/\/www.gunbacker.com\/#organization","name":"GunBacker","logo":{"@type":"ImageObject","url":"https:\/\/www.gunbacker.com\/wp-content\/uploads\/2019\/10\/thumbnail.png","width":600,"height":60}},"image":{"@type":"ImageObject","url":"https:\/\/www.gunbacker.com\/wp-content\/uploads\/2017\/06\/9mm-vs-40-caliber-firearms.jpg","width":860,"height":465},"articleSection":"Ammo","description":"The debate between centerfire pistol calibers for self-defense is an expansive one. Some debates are valuable, and others are primarily fanboys fighting each other over a 9mm vs. .40 Cal. The best method to see which is better is to look at both rounds objectively, which is what we","author":{"@type":"Person","name":"Levi Frenchak","url":"https:\/\/www.gunbacker.com\/author\/gun-backer\/","description":"Levi Frenchak has years of firearms experience between sporting and responsible concealed carry applications. Levi is a member of multiple pro-second amendment organizations including USCCA, NRA, and just as importantly, his local range. Levi is continuing a legacy of support for our rights by working with his family to increase firearms education and awareness as the lead editor of GunBacker.","image":{"@type":"ImageObject","url":"https:\/\/www.gunbacker.com\/wp-content\/uploads\/2023\/12\/60435321_2548988938446524_2350809186499035136_n-150x150.jpg","height":96,"width":96},"sameAs":["https:\/\/www.gunbacker.com","https:\/\/www.facebook.com\/GunBacker\/"]}}</script>
+
+<link rel="icon" href="https://www.gunbacker.com/wp-content/uploads/2017/08/cropped-Favicon-150x150.png" sizes="32x32">
+<link rel="icon" href="https://www.gunbacker.com/wp-content/uploads/2017/08/cropped-Favicon-300x300.png" sizes="192x192">
+<link rel="apple-touch-icon" href="https://www.gunbacker.com/wp-content/uploads/2017/08/cropped-Favicon-300x300.png">
+<meta name="msapplication-TileImage" content="https://www.gunbacker.com/wp-content/uploads/2017/08/cropped-Favicon-300x300.png">
+		<style type="text/css" id="wp-custom-css">
+			.formkit-form[data-uid="ae895a737f"] .formkit-button, .formkit-form[data-uid="ae895a737f"] .formkit-submit{
+width: 100% !important;
+}
+.formkit-form[data-uid="8efba578f3"] .formkit-field:last-of-type input {
+    padding-right: 72px;
+}
+.formkit-form[data-uid="8efba578f3"] .formkit-fields{
+	width:110%;
+}
+.formkit-form[data-uid="8efba578f3"], .formkit-modal, .formkit-slide-in{
+	background-color: transparent !important;
+}
+.formkit-form[data-uid="8efba578f3"] .formkit-column:first-child, .formkit-form[data-uid="8efba578f3"] .formkit-subheader, .formkit-form[data-uid="8efba578f3"] .formkit-guarantee{
+	display:none;
+}
+.formkit-form[data-uid="8efba578f3"] .formkit-submit{
+	width: 100%;
+}
+.formkit-form[data-uid="5a310590e7"] {
+    margin: 0 auto;
+}
+input.paypal_btn{
+	margin: 0 auto;
+	cursor: pointer;
+	width: auto;
+}
+
+/*Ebooks WooCommerce*/
+ul.products > li > div.quantity, div.quantity > label.screen-reader-text {
+	display: none;
+}
+li.mv-content-wrapper.product.type-product {
+    list-style: none;
+    margin-left: 0;
+}
+
+h2.woocommerce-loop-product__title, span.price {
+    line-height: 130%;
+    font-size: 1.625rem;
+    text-align: center;
+		font-weight: 700;
+}
+
+span.price {
+    display: block;
+    text-align: center;
+    text-decoration: none;
+    color: #000000;
+}
+
+a.add_to_cart_btns {
+    text-align: center;
+    display: block;
+    margin-top: 10px !important;
+}
+/* Ebook menu item */
+#nav-menu-item-7927 a svg path {
+    stroke: #961e1e;
+}
+#nav-menu-item-7927 a:hover svg path {
+    stroke: #6f2222;
+}
+
+/* Ebook page */
+.page-id-7842 input[type="image"] {
+    height: auto;
+    border: 0;
+    width: auto;
+    cursor: pointer;
+    margin: 0 auto;
+}
+
+
+/* ebook pop-up */
+.popup-content-wrap {
+    padding: 2em 0;
+}
+.popup-content-wrap h3 {
+    max-width: 338px;
+    margin: 0 auto 1em;
+}
+.popup-content-wrap a {
+    background: #961e1e;
+    max-width: 320px;
+    display: block;
+    margin: 0 auto;
+    padding: 15px 17px;
+    color: #fff;
+    border-radius: 5px;
+}
+
+@media screen and (max-width: 670px) {
+	.popup-content-wrap a {
+		max-width: 280px;
+	}
+}
+
+body.home .wpb-main-wrapper{
+	background-size: cover;
+}
+body.home .wpb-popup-content {
+    float: right;
+}
+
+body.home .wpb_close_btn {
+	background: url("https://www.gunbacker.com/wp-content/uploads/2020/09/close-button.png") no-repeat;
+	background-size: contain;
+	width: 32px;
+	height: 32px;
+}
+.showm {display:none;color:#fff}
+@media (max-width:480px) {._form_13 form{max-width:100% !important;margin-top:-10px !important}
+	.free.showm {font-size:16px !important;padding-bottom:0px !important}
+	.showm {display:block;color:#fff;font-size:14px;padding:5px 20px !important;font-weight:500;text-transform:none}
+	.wpb-background-content {width:100%}
+	.wpb-main-wrapper {background:#333 !important}
+}
+		</style>
+		<noscript><style id="rocket-lazyload-nojs-css">.rll-youtube-player, [data-lazy-src]{display:none !important;}</style></noscript>
+	<!-- Preload Fonts -->
+	<link rel="preload" href="https://www.gunbacker.com/wp-content/themes/wilderness-today/assets/fonts/Oswald/Oswald-Medium.woff2" as="font" crossorigin="anonymous">
+    <link rel="preload" href="https://www.gunbacker.com/wp-content/themes/wilderness-today/assets/fonts/Oswald/Oswald-Medium.woff" as="font" crossorigin="anonymous">
+	<link rel="preload" href="https://www.gunbacker.com/wp-content/themes/wilderness-today/assets/fonts/Oswald/Oswald-Bold.woff2" as="font" crossorigin="anonymous">
+    <link rel="preload" href="https://www.gunbacker.com/wp-content/themes/wilderness-today/assets/fonts/Oswald/Oswald-Bold.woff" as="font" crossorigin="anonymous">
+	<link rel="preload" href="https://www.gunbacker.com/wp-content/themes/wilderness-today/assets/fonts/Poppins/Poppins-Regular.woff2" as="font" crossorigin="anonymous">
+    <link rel="preload" href="https://www.gunbacker.com/wp-content/themes/wilderness-today/assets/fonts/Poppins/Poppins-Regular.woff" as="font" crossorigin="anonymous">
+	<link rel="preload" href="https://www.gunbacker.com/wp-content/themes/wilderness-today/assets/fonts/Poppins/Poppins-Bold.woff2" as="font" crossorigin="anonymous">
+    <link rel="preload" href="https://www.gunbacker.com/wp-content/themes/wilderness-today/assets/fonts/Poppins/Poppins-Bold.woff" as="font" crossorigin="anonymous">
+<link href="https://www.googletagmanager.com" rel="preconnect"><link href="https://f.convertkit.com" rel="preconnect"><link href="https://www.avantlink.com" rel="preconnect"><link href="https://classic.avantlink.com" rel="preconnect"></head>
+<body data-rsssl="1" class="post-template-default single single-post postid-4240 single-format-standard aawp-custom no-touch no-js site-scroll--inactive">
+	<section data-modal="search" class="modal modal--search">
+		<div class="modal__outer">
+			<div class="modal__inner">
+				<h2 class="modal__title">Search</h2>
+				<form method="get" class="search-form" action="https://www.gunbacker.com/">
+	<input type="text" class="search-form__field" placeholder="Search for..." value="" name="s">
+	<button class="search-form__btn">Go</button>
+</form>			</div>
+		</div>
+	</section>
+
+	
+	<header class="site-header site-header--sticky">
+		<div class="site-header__inner">
+			<div class="site-header__section site-header__section--logo">
+				<a class="site-logo" href="https://www.gunbacker.com">
+					<span class="site-logo__icon">
+						<svg xmlns="http://www.w3.org/2000/svg" width="70" height="70.07" viewBox="0 0 70 70.07"><defs><style>.\33 a5144e0-43a4-436b-8091-17713609bc06{fill:#971e1e}</style></defs><title>logo-icon</title><g id="ee2899d8-9236-4ee5-b78e-24dd4889665f" data-name="Layer 2"><g id="ae3f3f41-062c-4580-a269-6519abc4e2a9" data-name="Layer 1"><path class="3a5144e0-43a4-436b-8091-17713609bc06" d="M70 25.07V8.47a1 1 0 0 0-.79-1L35 0 .79 7.48a1 1 0 0 0-.79 1v25.93c0 19.12 15 35.2 34.16 35.65A35 35 0 0 0 70 35.07v-2a1 1 0 0 0-1-1H41v6h22.85A29.05 29.05 0 0 1 38 63.91v-4.83a1 1 0 0 0-1-1h-4a1 1 0 0 0-1 1v4.84A29.05 29.05 0 0 1 6.16 38.07H11a1 1 0 0 0 1-1v-4a1 1 0 0 0-1-1H6V12.49L32 6.8v4.26a1 1 0 0 0 1 1h4a1 1 0 0 0 1-1V6.8l26 5.69v12.58z"></path><circle class="3a5144e0-43a4-436b-8091-17713609bc06" cx="35" cy="35.07" r="3"></circle><path class="3a5144e0-43a4-436b-8091-17713609bc06" d="M44.71 42.07a12 12 0 1 1 0-14h6.84a18 18 0 1 0 0 14z"></path></g></g></svg>					</span>
+				</a>
+			</div>
+			<div class="site-header__section site-header__section--bar site-header__section--menu">
+				<a class="toggle-menu js-toggle-menu" href="#">
+					<span class="toggle-menu__icon">
+						<span class="toggle-menu__line"></span>
+						<span class="toggle-menu__line"></span>
+						<span class="toggle-menu__line"></span>
+					</span>
+					<span class="toggle-menu__txt">
+						Categories
+					</span>
+				</a>
+
+				<nav class="site-menu"><ul id="menu-header" class="menu"><li id="nav-menu-item-4511" class="site-menu__item site-menu__item--depth-0  menu-item-icon menu-item menu-item-type-taxonomy menu-item-object-category current-post-ancestor current-menu-parent current-post-parent menu-item-has-children"><a href="https://www.gunbacker.com/category/firearms/" class="menu-link main-menu-link"><span class="menu-icon"><span aria-label=""><svg xmlns="http://www.w3.org/2000/svg" width="26" height="21" viewBox="0 0 26 21"><title>gun</title><path d="M26 0h-2v1H7V0H5v1H3.22l-1 4H0v2h2.28l1.77 5.32L1.68 21h9.12l2-9H16a3.5 3.5 0 0 0 3.5-3.5 3.46 3.46 0 0 0-.35-1.5H26zM4.78 3h1.9l-.55 2H4.28zm-.39 4h1.18L5 8.94zM9.2 19H4.32L7.65 7h3v.09a5 5 0 0 0 .27 3.85l.09.18zm8.3-10.5A1.5 1.5 0 0 1 16 10h-3.38a3 3 0 0 1-.15-2.27l.25-.73H16a1.5 1.5 0 0 1 1.5 1.5zM24 5H8.2l.56-2H24z" data-name="Layer 1"></path></svg></span></span> Firearms</a>
+<ul class="sub-menu">
+	<li id="nav-menu-item-5790" class=" site-menu__sub-item site-menu__sub-item--depth-1 menu-item menu-item-type-taxonomy menu-item-object-category"><a href="https://www.gunbacker.com/category/firearms/pistols/" class="menu-link sub-menu-link"><span class="menu-icon"><span aria-label=""><svg xmlns="http://www.w3.org/2000/svg" width="26" height="21" viewBox="0 0 26 21"><title>gun</title><path d="M26 0h-2v1H7V0H5v1H3.22l-1 4H0v2h2.28l1.77 5.32L1.68 21h9.12l2-9H16a3.5 3.5 0 0 0 3.5-3.5 3.46 3.46 0 0 0-.35-1.5H26zM4.78 3h1.9l-.55 2H4.28zm-.39 4h1.18L5 8.94zM9.2 19H4.32L7.65 7h3v.09a5 5 0 0 0 .27 3.85l.09.18zm8.3-10.5A1.5 1.5 0 0 1 16 10h-3.38a3 3 0 0 1-.15-2.27l.25-.73H16a1.5 1.5 0 0 1 1.5 1.5zM24 5H8.2l.56-2H24z" data-name="Layer 1"></path></svg></span></span> Pistols<span class="site-menu__sub-desc"></span></a></li>
+	<li id="nav-menu-item-5791" class=" site-menu__sub-item site-menu__sub-item--depth-1 menu-item menu-item-type-taxonomy menu-item-object-category"><a href="https://www.gunbacker.com/category/firearms/rifles/" class="menu-link sub-menu-link"><span class="menu-icon"><span aria-label=""><svg xmlns="http://www.w3.org/2000/svg" width="26" height="21" viewBox="0 0 26 21"><title>gun</title><path d="M26 0h-2v1H7V0H5v1H3.22l-1 4H0v2h2.28l1.77 5.32L1.68 21h9.12l2-9H16a3.5 3.5 0 0 0 3.5-3.5 3.46 3.46 0 0 0-.35-1.5H26zM4.78 3h1.9l-.55 2H4.28zm-.39 4h1.18L5 8.94zM9.2 19H4.32L7.65 7h3v.09a5 5 0 0 0 .27 3.85l.09.18zm8.3-10.5A1.5 1.5 0 0 1 16 10h-3.38a3 3 0 0 1-.15-2.27l.25-.73H16a1.5 1.5 0 0 1 1.5 1.5zM24 5H8.2l.56-2H24z" data-name="Layer 1"></path></svg></span></span> Rifles<span class="site-menu__sub-desc"></span></a></li>
+	<li id="nav-menu-item-5792" class=" site-menu__sub-item site-menu__sub-item--depth-1 menu-item menu-item-type-taxonomy menu-item-object-category"><a href="https://www.gunbacker.com/category/firearms/shotguns/" class="menu-link sub-menu-link"><span class="menu-icon"><span aria-label=""><svg xmlns="http://www.w3.org/2000/svg" width="26" height="21" viewBox="0 0 26 21"><title>gun</title><path d="M26 0h-2v1H7V0H5v1H3.22l-1 4H0v2h2.28l1.77 5.32L1.68 21h9.12l2-9H16a3.5 3.5 0 0 0 3.5-3.5 3.46 3.46 0 0 0-.35-1.5H26zM4.78 3h1.9l-.55 2H4.28zm-.39 4h1.18L5 8.94zM9.2 19H4.32L7.65 7h3v.09a5 5 0 0 0 .27 3.85l.09.18zm8.3-10.5A1.5 1.5 0 0 1 16 10h-3.38a3 3 0 0 1-.15-2.27l.25-.73H16a1.5 1.5 0 0 1 1.5 1.5zM24 5H8.2l.56-2H24z" data-name="Layer 1"></path></svg></span></span> Shotguns<span class="site-menu__sub-desc"></span></a></li>
+	<li id="nav-menu-item-5789" class=" site-menu__sub-item site-menu__sub-item--depth-1 menu-item menu-item-type-taxonomy menu-item-object-category current-post-ancestor current-menu-parent current-post-parent"><a href="https://www.gunbacker.com/category/firearms/ammo/" class="menu-link sub-menu-link"><span class="menu-icon"><span aria-label=""><svg xmlns="http://www.w3.org/2000/svg" width="26" height="21" viewBox="0 0 26 21"><title>gun</title><path d="M26 0h-2v1H7V0H5v1H3.22l-1 4H0v2h2.28l1.77 5.32L1.68 21h9.12l2-9H16a3.5 3.5 0 0 0 3.5-3.5 3.46 3.46 0 0 0-.35-1.5H26zM4.78 3h1.9l-.55 2H4.28zm-.39 4h1.18L5 8.94zM9.2 19H4.32L7.65 7h3v.09a5 5 0 0 0 .27 3.85l.09.18zm8.3-10.5A1.5 1.5 0 0 1 16 10h-3.38a3 3 0 0 1-.15-2.27l.25-.73H16a1.5 1.5 0 0 1 1.5 1.5zM24 5H8.2l.56-2H24z" data-name="Layer 1"></path></svg></span></span> Ammo<span class="site-menu__sub-desc"></span></a></li>
+</ul>
+</li>
+<li id="nav-menu-item-4513" class="site-menu__item site-menu__item--depth-0  menu-item-icon menu-item menu-item-type-taxonomy menu-item-object-category menu-item-has-children"><a href="https://www.gunbacker.com/category/optics/" class="menu-link main-menu-link"><span class="menu-icon"><span aria-label=""><svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" viewBox="0 0 26 26"><title>bullseye</title><g data-name="Layer 1"><path d="M26 12h-1.05A12 12 0 0 0 14 1.05V0h-2v1.05A12 12 0 0 0 1.05 12H0v2h1.05A12 12 0 0 0 12 24.95V26h2v-1.05A12 12 0 0 0 24.95 14H26zm-3.05 0h-3A7 7 0 0 0 14 6.08v-3A10 10 0 0 1 22.95 12zM13 18a5 5 0 1 1 5-5 5 5 0 0 1-5 5zM12 3.05v3A7 7 0 0 0 6.08 12h-3A10 10 0 0 1 12 3.05zM3.05 14h3A7 7 0 0 0 12 19.92v3A10 10 0 0 1 3.05 14zM14 22.95v-3A7 7 0 0 0 19.92 14h3A10 10 0 0 1 14 22.95z"></path><circle cx="13" cy="13" r="2"></circle></g></svg></span></span> Optics</a>
+<ul class="sub-menu">
+	<li id="nav-menu-item-5793" class=" site-menu__sub-item site-menu__sub-item--depth-1 menu-item menu-item-type-taxonomy menu-item-object-category"><a href="https://www.gunbacker.com/category/optics/pistol/" class="menu-link sub-menu-link"><span class="menu-icon"><span aria-label=""><svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" viewBox="0 0 26 26"><title>bullseye</title><g data-name="Layer 1"><path d="M26 12h-1.05A12 12 0 0 0 14 1.05V0h-2v1.05A12 12 0 0 0 1.05 12H0v2h1.05A12 12 0 0 0 12 24.95V26h2v-1.05A12 12 0 0 0 24.95 14H26zm-3.05 0h-3A7 7 0 0 0 14 6.08v-3A10 10 0 0 1 22.95 12zM13 18a5 5 0 1 1 5-5 5 5 0 0 1-5 5zM12 3.05v3A7 7 0 0 0 6.08 12h-3A10 10 0 0 1 12 3.05zM3.05 14h3A7 7 0 0 0 12 19.92v3A10 10 0 0 1 3.05 14zM14 22.95v-3A7 7 0 0 0 19.92 14h3A10 10 0 0 1 14 22.95z"></path><circle cx="13" cy="13" r="2"></circle></g></svg></span></span> Pistol<span class="site-menu__sub-desc"></span></a></li>
+	<li id="nav-menu-item-5794" class=" site-menu__sub-item site-menu__sub-item--depth-1 menu-item menu-item-type-taxonomy menu-item-object-category"><a href="https://www.gunbacker.com/category/optics/rifle/" class="menu-link sub-menu-link"><span class="menu-icon"><span aria-label=""><svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" viewBox="0 0 26 26"><title>bullseye</title><g data-name="Layer 1"><path d="M26 12h-1.05A12 12 0 0 0 14 1.05V0h-2v1.05A12 12 0 0 0 1.05 12H0v2h1.05A12 12 0 0 0 12 24.95V26h2v-1.05A12 12 0 0 0 24.95 14H26zm-3.05 0h-3A7 7 0 0 0 14 6.08v-3A10 10 0 0 1 22.95 12zM13 18a5 5 0 1 1 5-5 5 5 0 0 1-5 5zM12 3.05v3A7 7 0 0 0 6.08 12h-3A10 10 0 0 1 12 3.05zM3.05 14h3A7 7 0 0 0 12 19.92v3A10 10 0 0 1 3.05 14zM14 22.95v-3A7 7 0 0 0 19.92 14h3A10 10 0 0 1 14 22.95z"></path><circle cx="13" cy="13" r="2"></circle></g></svg></span></span> Rifle<span class="site-menu__sub-desc"></span></a></li>
+	<li id="nav-menu-item-5884" class=" site-menu__sub-item site-menu__sub-item--depth-1 menu-item menu-item-type-taxonomy menu-item-object-category"><a href="https://www.gunbacker.com/category/optics/handheld/" class="menu-link sub-menu-link"><span class="menu-icon"><span aria-label=""><svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" viewBox="0 0 26 26"><title>bullseye</title><g data-name="Layer 1"><path d="M26 12h-1.05A12 12 0 0 0 14 1.05V0h-2v1.05A12 12 0 0 0 1.05 12H0v2h1.05A12 12 0 0 0 12 24.95V26h2v-1.05A12 12 0 0 0 24.95 14H26zm-3.05 0h-3A7 7 0 0 0 14 6.08v-3A10 10 0 0 1 22.95 12zM13 18a5 5 0 1 1 5-5 5 5 0 0 1-5 5zM12 3.05v3A7 7 0 0 0 6.08 12h-3A10 10 0 0 1 12 3.05zM3.05 14h3A7 7 0 0 0 12 19.92v3A10 10 0 0 1 3.05 14zM14 22.95v-3A7 7 0 0 0 19.92 14h3A10 10 0 0 1 14 22.95z"></path><circle cx="13" cy="13" r="2"></circle></g></svg></span></span> Handheld<span class="site-menu__sub-desc"></span></a></li>
+</ul>
+</li>
+<li id="nav-menu-item-4510" class="site-menu__item site-menu__item--depth-0  menu-item-icon menu-item menu-item-type-taxonomy menu-item-object-category menu-item-has-children"><a href="https://www.gunbacker.com/category/gear/" class="menu-link main-menu-link"><span class="menu-icon"><span aria-label=""><svg xmlns="http://www.w3.org/2000/svg" width="26" height="26.12" viewBox="0 0 26 26.12"><title>bullets</title><g data-name="Layer 1"><path d="M7 7C7 1.63 4.71.35 4.45.22L4 0l-.45.22C3.29.35 1 1.63 1 7c-.07.14-.23.4-.34.59A3.27 3.27 0 0 0 0 9.12v14h8v-14a3.27 3.27 0 0 0-.66-1.56C7.23 7.37 7.07 7.11 7 7zM4 2.53a8.23 8.23 0 0 1 1 4.59H3a8.29 8.29 0 0 1 1-4.59zm2 18.59H2V9.25l.07-.13h3.86l.07.13z"></path><path d="M0 24.12H8V26.12H0z"></path><path d="M16 11c0-5.33-2.29-6.62-2.55-6.75L13 4l-.45.22C12.29 4.35 10 5.63 10 11c-.07.14-.23.4-.34.59A3.27 3.27 0 0 0 9 13.12v10h8v-10a3.27 3.27 0 0 0-.66-1.56c-.11-.19-.27-.45-.34-.56zm-3-4.47a8.23 8.23 0 0 1 1 4.59h-2a8.29 8.29 0 0 1 1-4.59zm2 14.59h-4v-7.87l.07-.13h3.86l.07.13z"></path><path d="M9 24.12H17V26.12H9z"></path><path d="M25.34 15.56c-.11-.18-.27-.44-.34-.59 0-5.33-2.29-6.62-2.55-6.75L22 8l-.45.22C21.29 8.35 19 9.63 19 15c-.07.14-.23.4-.34.59a3.27 3.27 0 0 0-.66 1.53v6h8v-6a3.27 3.27 0 0 0-.66-1.56zm-3.34-5a8.23 8.23 0 0 1 1 4.59h-2a8.29 8.29 0 0 1 1-4.62zm2 10.59h-4v-3.9l.07-.13h3.86l.07.13z"></path><path d="M18 24.12H26V26.12H18z"></path></g></svg></span></span> Gear</a>
+<ul class="sub-menu">
+	<li id="nav-menu-item-5888" class=" site-menu__sub-item site-menu__sub-item--depth-1 menu-item menu-item-type-taxonomy menu-item-object-category"><a href="https://www.gunbacker.com/category/gear/apparel-body/" class="menu-link sub-menu-link"><span class="menu-icon"><span aria-label=""><svg xmlns="http://www.w3.org/2000/svg" width="26" height="26.12" viewBox="0 0 26 26.12"><title>bullets</title><g data-name="Layer 1"><path d="M7 7C7 1.63 4.71.35 4.45.22L4 0l-.45.22C3.29.35 1 1.63 1 7c-.07.14-.23.4-.34.59A3.27 3.27 0 0 0 0 9.12v14h8v-14a3.27 3.27 0 0 0-.66-1.56C7.23 7.37 7.07 7.11 7 7zM4 2.53a8.23 8.23 0 0 1 1 4.59H3a8.29 8.29 0 0 1 1-4.59zm2 18.59H2V9.25l.07-.13h3.86l.07.13z"></path><path d="M0 24.12H8V26.12H0z"></path><path d="M16 11c0-5.33-2.29-6.62-2.55-6.75L13 4l-.45.22C12.29 4.35 10 5.63 10 11c-.07.14-.23.4-.34.59A3.27 3.27 0 0 0 9 13.12v10h8v-10a3.27 3.27 0 0 0-.66-1.56c-.11-.19-.27-.45-.34-.56zm-3-4.47a8.23 8.23 0 0 1 1 4.59h-2a8.29 8.29 0 0 1 1-4.59zm2 14.59h-4v-7.87l.07-.13h3.86l.07.13z"></path><path d="M9 24.12H17V26.12H9z"></path><path d="M25.34 15.56c-.11-.18-.27-.44-.34-.59 0-5.33-2.29-6.62-2.55-6.75L22 8l-.45.22C21.29 8.35 19 9.63 19 15c-.07.14-.23.4-.34.59a3.27 3.27 0 0 0-.66 1.53v6h8v-6a3.27 3.27 0 0 0-.66-1.56zm-3.34-5a8.23 8.23 0 0 1 1 4.59h-2a8.29 8.29 0 0 1 1-4.62zm2 10.59h-4v-3.9l.07-.13h3.86l.07.13z"></path><path d="M18 24.12H26V26.12H18z"></path></g></svg></span></span> Apparel/Body<span class="site-menu__sub-desc"></span></a></li>
+	<li id="nav-menu-item-5889" class=" site-menu__sub-item site-menu__sub-item--depth-1 menu-item menu-item-type-taxonomy menu-item-object-category"><a href="https://www.gunbacker.com/category/gear/firearms-gear/" class="menu-link sub-menu-link"><span class="menu-icon"><span aria-label=""><svg xmlns="http://www.w3.org/2000/svg" width="26" height="26.12" viewBox="0 0 26 26.12"><title>bullets</title><g data-name="Layer 1"><path d="M7 7C7 1.63 4.71.35 4.45.22L4 0l-.45.22C3.29.35 1 1.63 1 7c-.07.14-.23.4-.34.59A3.27 3.27 0 0 0 0 9.12v14h8v-14a3.27 3.27 0 0 0-.66-1.56C7.23 7.37 7.07 7.11 7 7zM4 2.53a8.23 8.23 0 0 1 1 4.59H3a8.29 8.29 0 0 1 1-4.59zm2 18.59H2V9.25l.07-.13h3.86l.07.13z"></path><path d="M0 24.12H8V26.12H0z"></path><path d="M16 11c0-5.33-2.29-6.62-2.55-6.75L13 4l-.45.22C12.29 4.35 10 5.63 10 11c-.07.14-.23.4-.34.59A3.27 3.27 0 0 0 9 13.12v10h8v-10a3.27 3.27 0 0 0-.66-1.56c-.11-.19-.27-.45-.34-.56zm-3-4.47a8.23 8.23 0 0 1 1 4.59h-2a8.29 8.29 0 0 1 1-4.59zm2 14.59h-4v-7.87l.07-.13h3.86l.07.13z"></path><path d="M9 24.12H17V26.12H9z"></path><path d="M25.34 15.56c-.11-.18-.27-.44-.34-.59 0-5.33-2.29-6.62-2.55-6.75L22 8l-.45.22C21.29 8.35 19 9.63 19 15c-.07.14-.23.4-.34.59a3.27 3.27 0 0 0-.66 1.53v6h8v-6a3.27 3.27 0 0 0-.66-1.56zm-3.34-5a8.23 8.23 0 0 1 1 4.59h-2a8.29 8.29 0 0 1 1-4.62zm2 10.59h-4v-3.9l.07-.13h3.86l.07.13z"></path><path d="M18 24.12H26V26.12H18z"></path></g></svg></span></span> Firearms<span class="site-menu__sub-desc"></span></a></li>
+	<li id="nav-menu-item-5890" class=" site-menu__sub-item site-menu__sub-item--depth-1 menu-item menu-item-type-taxonomy menu-item-object-category"><a href="https://www.gunbacker.com/category/gear/maintenance/" class="menu-link sub-menu-link"> Maintenance<span class="site-menu__sub-desc"></span></a></li>
+	<li id="nav-menu-item-5892" class=" site-menu__sub-item site-menu__sub-item--depth-1 menu-item menu-item-type-taxonomy menu-item-object-category"><a href="https://www.gunbacker.com/category/gear/storage/" class="menu-link sub-menu-link"><span class="menu-icon"><span aria-label=""><svg xmlns="http://www.w3.org/2000/svg" width="26" height="26.12" viewBox="0 0 26 26.12"><title>bullets</title><g data-name="Layer 1"><path d="M7 7C7 1.63 4.71.35 4.45.22L4 0l-.45.22C3.29.35 1 1.63 1 7c-.07.14-.23.4-.34.59A3.27 3.27 0 0 0 0 9.12v14h8v-14a3.27 3.27 0 0 0-.66-1.56C7.23 7.37 7.07 7.11 7 7zM4 2.53a8.23 8.23 0 0 1 1 4.59H3a8.29 8.29 0 0 1 1-4.59zm2 18.59H2V9.25l.07-.13h3.86l.07.13z"></path><path d="M0 24.12H8V26.12H0z"></path><path d="M16 11c0-5.33-2.29-6.62-2.55-6.75L13 4l-.45.22C12.29 4.35 10 5.63 10 11c-.07.14-.23.4-.34.59A3.27 3.27 0 0 0 9 13.12v10h8v-10a3.27 3.27 0 0 0-.66-1.56c-.11-.19-.27-.45-.34-.56zm-3-4.47a8.23 8.23 0 0 1 1 4.59h-2a8.29 8.29 0 0 1 1-4.59zm2 14.59h-4v-7.87l.07-.13h3.86l.07.13z"></path><path d="M9 24.12H17V26.12H9z"></path><path d="M25.34 15.56c-.11-.18-.27-.44-.34-.59 0-5.33-2.29-6.62-2.55-6.75L22 8l-.45.22C21.29 8.35 19 9.63 19 15c-.07.14-.23.4-.34.59a3.27 3.27 0 0 0-.66 1.53v6h8v-6a3.27 3.27 0 0 0-.66-1.56zm-3.34-5a8.23 8.23 0 0 1 1 4.59h-2a8.29 8.29 0 0 1 1-4.62zm2 10.59h-4v-3.9l.07-.13h3.86l.07.13z"></path><path d="M18 24.12H26V26.12H18z"></path></g></svg></span></span> Storage<span class="site-menu__sub-desc"></span></a></li>
+	<li id="nav-menu-item-5891" class=" site-menu__sub-item site-menu__sub-item--depth-1 menu-item menu-item-type-taxonomy menu-item-object-category"><a href="https://www.gunbacker.com/category/gear/other-gear/" class="menu-link sub-menu-link"><span class="menu-icon"><span aria-label=""><svg xmlns="http://www.w3.org/2000/svg" width="26" height="26.12" viewBox="0 0 26 26.12"><title>bullets</title><g data-name="Layer 1"><path d="M7 7C7 1.63 4.71.35 4.45.22L4 0l-.45.22C3.29.35 1 1.63 1 7c-.07.14-.23.4-.34.59A3.27 3.27 0 0 0 0 9.12v14h8v-14a3.27 3.27 0 0 0-.66-1.56C7.23 7.37 7.07 7.11 7 7zM4 2.53a8.23 8.23 0 0 1 1 4.59H3a8.29 8.29 0 0 1 1-4.59zm2 18.59H2V9.25l.07-.13h3.86l.07.13z"></path><path d="M0 24.12H8V26.12H0z"></path><path d="M16 11c0-5.33-2.29-6.62-2.55-6.75L13 4l-.45.22C12.29 4.35 10 5.63 10 11c-.07.14-.23.4-.34.59A3.27 3.27 0 0 0 9 13.12v10h8v-10a3.27 3.27 0 0 0-.66-1.56c-.11-.19-.27-.45-.34-.56zm-3-4.47a8.23 8.23 0 0 1 1 4.59h-2a8.29 8.29 0 0 1 1-4.59zm2 14.59h-4v-7.87l.07-.13h3.86l.07.13z"></path><path d="M9 24.12H17V26.12H9z"></path><path d="M25.34 15.56c-.11-.18-.27-.44-.34-.59 0-5.33-2.29-6.62-2.55-6.75L22 8l-.45.22C21.29 8.35 19 9.63 19 15c-.07.14-.23.4-.34.59a3.27 3.27 0 0 0-.66 1.53v6h8v-6a3.27 3.27 0 0 0-.66-1.56zm-3.34-5a8.23 8.23 0 0 1 1 4.59h-2a8.29 8.29 0 0 1 1-4.62zm2 10.59h-4v-3.9l.07-.13h3.86l.07.13z"></path><path d="M18 24.12H26V26.12H18z"></path></g></svg></span></span> Other<span class="site-menu__sub-desc"></span></a></li>
+</ul>
+</li>
+<li id="nav-menu-item-4512" class="site-menu__item site-menu__item--depth-0  menu-item-icon menu-item menu-item-type-taxonomy menu-item-object-category"><a href="https://www.gunbacker.com/category/news/" class="menu-link main-menu-link"><span class="menu-icon"><span aria-label=""><svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" viewBox="0 0 26 26"><title>globe</title><path d="M13 0a13 13 0 1 0 13 13A13 13 0 0 0 13 0zm10.95 12h-4a16.47 16.47 0 0 0-.89-4.49 13 13 0 0 0 2.34-1.6A11 11 0 0 1 23.95 12zM13 23.93a14.49 14.49 0 0 1-3.42-4.38 10.92 10.92 0 0 1 6.84 0A14.49 14.49 0 0 1 13 23.93zm5.26-3.59A11 11 0 0 1 20 21.5a11 11 0 0 1-3.8 2 16.42 16.42 0 0 0 2.06-3.16zm-8.44 3.19a11 11 0 0 1-3.8-2 11 11 0 0 1 1.71-1.15 16.42 16.42 0 0 0 2.09 3.15zM13 17a13 13 0 0 0-4.22.71A14.48 14.48 0 0 1 8.06 14h9.89a14.48 14.48 0 0 1-.73 3.71A13 13 0 0 0 13 17zm-4.94-5a14.48 14.48 0 0 1 .73-3.71A13 13 0 0 0 13 9a13 13 0 0 0 4.22-.71 14.48 14.48 0 0 1 .72 3.71zM13 2.07a14.49 14.49 0 0 1 3.42 4.38A11 11 0 0 1 13 7a11 11 0 0 1-3.42-.55A14.49 14.49 0 0 1 13 2.07zM7.74 5.66A11 11 0 0 1 6 4.5a11 11 0 0 1 3.8-2 16.42 16.42 0 0 0-2.06 3.16zm8.44-3.18a11 11 0 0 1 3.8 2 11 11 0 0 1-1.71 1.15 16.42 16.42 0 0 0-2.09-3.16zM4.6 5.91a13 13 0 0 0 2.34 1.6A16.47 16.47 0 0 0 6.06 12h-4A11 11 0 0 1 4.6 5.91zM2.05 14h4a16.47 16.47 0 0 0 .89 4.49 13 13 0 0 0-2.34 1.6A11 11 0 0 1 2.05 14zm19.35 6.09a13 13 0 0 0-2.34-1.6 16.47 16.47 0 0 0 .88-4.49h4a11 11 0 0 1-2.54 6.09z" data-name="Layer 1"></path></svg></span></span> News</a></li>
+<li id="nav-menu-item-4716" class="site-menu__item site-menu__item--depth-0  menu-item-icon menu-item menu-item-type-taxonomy menu-item-object-category menu-item-has-children"><a href="https://www.gunbacker.com/category/safety/" class="menu-link main-menu-link"><span class="menu-icon"><span aria-label=""><svg xmlns="http://www.w3.org/2000/svg" width="22" height="26.16" viewBox="0 0 22 26.16"><title>shield</title><path d="M11 0L0 2.2v12c0 .26 1.19 6.54 10.5 11.71l.49.27.49-.27C20.8 20.72 21.94 14.45 22 14.18V2.2zM2 3.84l8-1.6V11H2zm0 10.08V13h8v10.26c-6.6-4.19-7.86-8.75-8-9.34zm18 0c-.13.6-1.35 5.13-8 9.33V13h8zM20 11h-8V2.24l8 1.6z" data-name="Layer 1"></path></svg></span></span> Safety</a>
+<ul class="sub-menu">
+	<li id="nav-menu-item-5885" class=" site-menu__sub-item site-menu__sub-item--depth-1 menu-item menu-item-type-taxonomy menu-item-object-category"><a href="https://www.gunbacker.com/category/safety/gun/" class="menu-link sub-menu-link"><span class="menu-icon"><span aria-label=""><svg xmlns="http://www.w3.org/2000/svg" width="22" height="26.16" viewBox="0 0 22 26.16"><title>shield</title><path d="M11 0L0 2.2v12c0 .26 1.19 6.54 10.5 11.71l.49.27.49-.27C20.8 20.72 21.94 14.45 22 14.18V2.2zM2 3.84l8-1.6V11H2zm0 10.08V13h8v10.26c-6.6-4.19-7.86-8.75-8-9.34zm18 0c-.13.6-1.35 5.13-8 9.33V13h8zM20 11h-8V2.24l8 1.6z" data-name="Layer 1"></path></svg></span></span> Gun<span class="site-menu__sub-desc"></span></a></li>
+	<li id="nav-menu-item-5886" class=" site-menu__sub-item site-menu__sub-item--depth-1 menu-item menu-item-type-taxonomy menu-item-object-category"><a href="https://www.gunbacker.com/category/safety/medical/" class="menu-link sub-menu-link"><span class="menu-icon"><span aria-label=""><svg xmlns="http://www.w3.org/2000/svg" width="22" height="26.16" viewBox="0 0 22 26.16"><title>shield</title><path d="M11 0L0 2.2v12c0 .26 1.19 6.54 10.5 11.71l.49.27.49-.27C20.8 20.72 21.94 14.45 22 14.18V2.2zM2 3.84l8-1.6V11H2zm0 10.08V13h8v10.26c-6.6-4.19-7.86-8.75-8-9.34zm18 0c-.13.6-1.35 5.13-8 9.33V13h8zM20 11h-8V2.24l8 1.6z" data-name="Layer 1"></path></svg></span></span> Medical<span class="site-menu__sub-desc"></span></a></li>
+	<li id="nav-menu-item-5887" class=" site-menu__sub-item site-menu__sub-item--depth-1 menu-item menu-item-type-taxonomy menu-item-object-category"><a href="https://www.gunbacker.com/category/safety/other/" class="menu-link sub-menu-link"><span class="menu-icon"><span aria-label=""><svg xmlns="http://www.w3.org/2000/svg" width="22" height="26.16" viewBox="0 0 22 26.16"><title>shield</title><path d="M11 0L0 2.2v12c0 .26 1.19 6.54 10.5 11.71l.49.27.49-.27C20.8 20.72 21.94 14.45 22 14.18V2.2zM2 3.84l8-1.6V11H2zm0 10.08V13h8v10.26c-6.6-4.19-7.86-8.75-8-9.34zm18 0c-.13.6-1.35 5.13-8 9.33V13h8zM20 11h-8V2.24l8 1.6z" data-name="Layer 1"></path></svg></span></span> Other<span class="site-menu__sub-desc"></span></a></li>
+</ul>
+</li>
+<li id="nav-menu-item-5817" class="site-menu__item site-menu__item--depth-0  menu-item-icon menu-item menu-item-type-taxonomy menu-item-object-category"><a href="https://www.gunbacker.com/category/videos/" class="menu-link main-menu-link"><span class="menu-icon"><span aria-label=""><!--?xml version="1.0" encoding="UTF-8"?--> <svg xmlns="http://www.w3.org/2000/svg" width="26" height="24" viewBox="0 0 26 24"><title>videos</title><path d="M26,24H0V0H26ZM2,22H24V2H2Z"></path><path d="M9,18.94336V5.05664L18.7207,12Zm2-10v6.11328L15.2793,12Z"></path></svg> </span></span> Videos</a></li>
+</ul></nav>			</div>
+			<div class="site-header__section site-header__section--bar site-header__section--social">
+				
+	<ul class="social">
+									<li class="social__item social__item--facebook">
+					<a href="https://www.facebook.com/GunBacker/" target="_blank">
+						<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M18.9 0H1.1A1.1 1.1 0 0 0 0 1.1v17.8A1.1 1.1 0 0 0 1.1 20h9.58v-7.74h-2.6v-3h2.61V7a3.64 3.64 0 0 1 3.88-4 21.39 21.39 0 0 1 2.33.12v2.7h-1.6c-1.25 0-1.5.6-1.5 1.47v1.95h3l-.39 3H13.8V20h5.1a1.1 1.1 0 0 0 1.1-1.1V1.1A1.1 1.1 0 0 0 18.9 0z"></path></svg>					</a>
+				</li>
+												<li class="social__item social__item--instagram">
+					<a href="https://www.instagram.com/gunbacker/" target="_blank">
+						<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M10 1.8c2.67 0 3 0 4 .06a5.53 5.53 0 0 1 1.86.34A3.1 3.1 0 0 1 17 3a3.1 3.1 0 0 1 .8 1.1 5.53 5.53 0 0 1 .34 1.9c0 1.05.06 1.37.06 4s0 3-.06 4a5.53 5.53 0 0 1-.34 1.86 3.31 3.31 0 0 1-1.9 1.9 5.53 5.53 0 0 1-1.86.34c-1.05 0-1.37.06-4 .06s-3 0-4-.06a5.53 5.53 0 0 1-1.94-.3A3.1 3.1 0 0 1 3 17a3.1 3.1 0 0 1-.8-1.1 5.53 5.53 0 0 1-.34-1.9c0-1.05-.06-1.37-.06-4s0-3 .06-4a5.53 5.53 0 0 1 .34-1.9A3.1 3.1 0 0 1 3 3a3.1 3.1 0 0 1 1.1-.8A5.53 5.53 0 0 1 6 1.86c1.05 0 1.37-.06 4-.06M10 0C7.28 0 6.94 0 5.88.06a7.34 7.34 0 0 0-2.43.46 4.9 4.9 0 0 0-1.77 1.16A4.9 4.9 0 0 0 .52 3.45a7.34 7.34 0 0 0-.46 2.43C0 6.94 0 7.28 0 10s0 3.06.06 4.12a7.34 7.34 0 0 0 .46 2.43 4.9 4.9 0 0 0 1.15 1.77 4.9 4.9 0 0 0 1.77 1.15 7.34 7.34 0 0 0 2.43.46C6.94 20 7.28 20 10 20s3.06 0 4.12-.06a7.34 7.34 0 0 0 2.43-.46 5.11 5.11 0 0 0 2.92-2.92 7.34 7.34 0 0 0 .46-2.43c0-1.07.06-1.41.06-4.12s0-3.06-.06-4.12a7.34 7.34 0 0 0-.46-2.43 4.9 4.9 0 0 0-1.15-1.77A4.9 4.9 0 0 0 16.55.52a7.34 7.34 0 0 0-2.43-.46C13.06 0 12.72 0 10 0z"></path><path d="M10 4.86A5.14 5.14 0 1 0 15.14 10 5.14 5.14 0 0 0 10 4.86zm0 8.47A3.33 3.33 0 1 1 13.33 10 3.33 3.33 0 0 1 10 13.33z"></path><circle cx="15.34" cy="4.66" r="1.2"></circle></svg>					</a>
+				</li>
+												<li class="social__item social__item--pinterest">
+					<a href="https://www.pinterest.com/gunbacker45/" target="_blank">
+						<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 15.83 20"><path d="M4.24 19.64a13.85 13.85 0 0 0 1.54-3.25l.77-2.95a3.32 3.32 0 0 0 2.85 1.42c3.74 0 6.43-3.44 6.43-7.71C15.83 3.06 12.49 0 8.19 0 2.84 0 0 3.59 0 7.5c0 1.82 1 4.08 2.52 4.8.23.11.36.06.41-.17l.34-1.41a.37.37 0 0 0-.09-.36 4.82 4.82 0 0 1-.92-2.83 5.36 5.36 0 0 1 5.6-5.38 4.89 4.89 0 0 1 5.18 5c0 3.35-1.69 5.67-3.9 5.67a1.8 1.8 0 0 1-1.83-2.24 25 25 0 0 0 1-4.13 1.56 1.56 0 0 0-1.55-1.68c-1.24 0-2.24 1.29-2.24 3a4.47 4.47 0 0 0 .37 1.84s-1.23 5.19-1.45 6.16a11.91 11.91 0 0 0 0 3.56s.14 1.27.8.31z"></path></svg>					</a>
+				</li>
+												<li class="social__item social__item--twitter">
+					<a href="https://twitter.com/GunBacker" target="_blank">
+						<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 29.95 24.34"><path d="M26.88 6.06v.79c.02 8.13-6.16 17.49-17.43 17.49a17.39 17.39 0 0 1-9.42-2.76 12.46 12.46 0 0 0 1.47.09 12.33 12.33 0 0 0 7.63-2.63 6.15 6.15 0 0 1-5.74-4.27 6.16 6.16 0 0 0 2.77-.11 6.15 6.15 0 0 1-4.93-6v-.08a6.12 6.12 0 0 0 2.78.77 6.15 6.15 0 0 1-1.9-8.2 17.44 17.44 0 0 0 12.66 6.42 6.15 6.15 0 0 1 10.47-5.6 12.3 12.3 0 0 0 3.9-1.49 6.16 6.16 0 0 1-2.7 3.4 12.28 12.28 0 0 0 3.53-1 12.48 12.48 0 0 1-3.09 3.18z"></path></svg>					</a>
+				</li>
+												<li class="social__item social__item--youtube">
+					<a href="https://www.youtube.com/channel/UCPyXtFrQGNAw3hJ6-XEYPzg/featured?disable_polymer=1" target="_blank">
+						<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 30 22"><path d="M25 0H5a5 5 0 0 0-5 5v12a5 5 0 0 0 5 5h20a5 5 0 0 0 5-5V5a5 5 0 0 0-5-5zM10 17V5l12 6z"></path></svg>					</a>
+				</li>
+						</ul>
+				<a class="site-header__search" data-modal-target="search" href="#">
+					<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 18.71 18.71"><path d="M18.71 17.29l-6.11-6.11a7 7 0 1 0-1.41 1.41l6.11 6.11zM7 12a5 5 0 1 1 5-5 5 5 0 0 1-5 5z"></path></svg>				</a>
+			</div>
+		</div>
+	</header>
+
+	<header class="site-header site-header--static">
+		<div class="site-header__inner">
+			<div class="site-header__top">
+				<div class="site-header__section site-header__section--logo">
+					<a class="site-logo" href="https://www.gunbacker.com">
+						<span class="site-logo__icon">
+						<svg xmlns="http://www.w3.org/2000/svg" width="70" height="70.07" viewBox="0 0 70 70.07"><defs><style>.\33 a5144e0-43a4-436b-8091-17713609bc06{fill:#971e1e}</style></defs><title>logo-icon</title><g id="ee2899d8-9236-4ee5-b78e-24dd4889665f" data-name="Layer 2"><g id="ae3f3f41-062c-4580-a269-6519abc4e2a9" data-name="Layer 1"><path class="3a5144e0-43a4-436b-8091-17713609bc06" d="M70 25.07V8.47a1 1 0 0 0-.79-1L35 0 .79 7.48a1 1 0 0 0-.79 1v25.93c0 19.12 15 35.2 34.16 35.65A35 35 0 0 0 70 35.07v-2a1 1 0 0 0-1-1H41v6h22.85A29.05 29.05 0 0 1 38 63.91v-4.83a1 1 0 0 0-1-1h-4a1 1 0 0 0-1 1v4.84A29.05 29.05 0 0 1 6.16 38.07H11a1 1 0 0 0 1-1v-4a1 1 0 0 0-1-1H6V12.49L32 6.8v4.26a1 1 0 0 0 1 1h4a1 1 0 0 0 1-1V6.8l26 5.69v12.58z"></path><circle class="3a5144e0-43a4-436b-8091-17713609bc06" cx="35" cy="35.07" r="3"></circle><path class="3a5144e0-43a4-436b-8091-17713609bc06" d="M44.71 42.07a12 12 0 1 1 0-14h6.84a18 18 0 1 0 0 14z"></path></g></g></svg>						</span>
+						<span class="site-logo__txt">
+							<svg xmlns="http://www.w3.org/2000/svg" width="266.4" height="29" viewBox="0 0 266.4 29"><defs><style>.\39 d4a783b-9578-4476-9715-2191d409389a{fill:#fff}</style></defs><title>logo-text</title><g id="abfabaee-d313-40f8-a66b-a684391a7f8f" data-name="Layer 2"><g id="7a71c26b-4818-45e6-8f91-9008c7af4b33" data-name="Layer 1"><path class="9d4a783b-9578-4476-9715-2191d409389a" d="M15.37 14.61v14h-2.24l-.8-2.41A5.88 5.88 0 0 1 7 29a6.37 6.37 0 0 1-5.83-3.29C.3 23.89 0 22.08 0 18.19v-7.76C0 6 .34 4.35 1.65 2.62A7.11 7.11 0 0 1 7.6 0a7 7 0 0 1 6.63 3.76 12.41 12.41 0 0 1 1 5.82h-4.34c0-3.88-1-5.49-3.34-5.49A2.75 2.75 0 0 0 5 5.53c-.51.93-.63 1.77-.63 4.05v8.61a14.87 14.87 0 0 0 .46 4.6 3 3 0 0 0 3 2.11C10 24.91 11 23.26 11 19.33v-1.14H7.43v-3.58zM46.77.42V19.5c0 3.55-.42 5.36-1.6 7a7 7 0 0 1-5.83 2.5 7 7 0 0 1-5.87-2.53c-1.18-1.6-1.6-3.42-1.6-7V.42h4.35v19.8c0 3.34.89 4.69 3.12 4.69s3.08-1.35 3.08-4.69V.42zm32.54 28.16h-3.89l-7.6-18.75v18.75h-4.13V.42h4.39l7.09 17.52V.42h4.14zM96.23.42h6.5C108 .42 111 3 111 7.56c0 3.33-1.48 5.32-4.64 6.29 3.8 1.1 5.32 3 5.32 6.75 0 5-3.12 8-8.36 8h-7zm5.91 11.48c2.66 0 4.39-1.56 4.39-4a3.53 3.53 0 0 0-1.06-2.62 4.48 4.48 0 0 0-3.25-.89h-1.65v7.51zm.63 12.66c2.79 0 4.35-1.43 4.35-4 0-2.83-1.94-4.69-5-4.69h-1.56v8.65zm29.54-2.1l-1.14 6.12h-4.26l5.4-28.16h6L144 28.58h-4.47l-1.18-6.12zm3-16.63L133 18.45h4.6zM170 9.58V9c0-3.25-1.14-4.9-3.29-4.9a2.75 2.75 0 0 0-2.57 1.39c-.55.93-.68 1.77-.68 4.05v9.37a12 12 0 0 0 .46 4.18 2.93 2.93 0 0 0 2.79 1.82c1.6 0 2.66-.93 3.12-2.79a15.94 15.94 0 0 0 .25-3.42h4.39v1c0 6.12-2.66 9.33-7.72 9.33-2.83 0-5.07-1.1-6.29-3.12-1.06-1.73-1.35-3.38-1.35-7.56v-7.92c0-4.47.34-6 1.65-7.81a7.06 7.06 0 0 1 6-2.62c4.81 0 7.64 3.21 7.64 8.74v.84zm25.2 2.49L201.49.42h4.69l-6 10.22L207 28.58h-4.77l-4.73-13.3-2.32 3.93v9.37h-4.35V.42h4.35zm40.31-7.64h-8.4v7.43h6.2v4h-6.2v8.7h8.4v4h-12.75V.42h12.75zm20 24.15h-4.35V.42H258c2.58 0 4.22.51 5.57 1.69a7.94 7.94 0 0 1 2.53 6.37c0 3.55-1.27 6-3.8 7.3l4.14 12.79h-4.56L258.13 17h-2.62zm1.6-15.58c1.86 0 2.7-.21 3.38-.89a4.67 4.67 0 0 0 1.06-3.42 4.63 4.63 0 0 0-1.06-3.38c-.68-.67-1.52-.89-3.38-.89h-1.6V13z"></path></g></g></svg>						</span>
+					</a>
+				</div>
+				<div class="site-header__section site-header__section--social">
+					
+	<ul class="social">
+									<li class="social__item social__item--facebook">
+					<a href="https://www.facebook.com/GunBacker/" target="_blank">
+						<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M18.9 0H1.1A1.1 1.1 0 0 0 0 1.1v17.8A1.1 1.1 0 0 0 1.1 20h9.58v-7.74h-2.6v-3h2.61V7a3.64 3.64 0 0 1 3.88-4 21.39 21.39 0 0 1 2.33.12v2.7h-1.6c-1.25 0-1.5.6-1.5 1.47v1.95h3l-.39 3H13.8V20h5.1a1.1 1.1 0 0 0 1.1-1.1V1.1A1.1 1.1 0 0 0 18.9 0z"></path></svg>					</a>
+				</li>
+												<li class="social__item social__item--instagram">
+					<a href="https://www.instagram.com/gunbacker/" target="_blank">
+						<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M10 1.8c2.67 0 3 0 4 .06a5.53 5.53 0 0 1 1.86.34A3.1 3.1 0 0 1 17 3a3.1 3.1 0 0 1 .8 1.1 5.53 5.53 0 0 1 .34 1.9c0 1.05.06 1.37.06 4s0 3-.06 4a5.53 5.53 0 0 1-.34 1.86 3.31 3.31 0 0 1-1.9 1.9 5.53 5.53 0 0 1-1.86.34c-1.05 0-1.37.06-4 .06s-3 0-4-.06a5.53 5.53 0 0 1-1.94-.3A3.1 3.1 0 0 1 3 17a3.1 3.1 0 0 1-.8-1.1 5.53 5.53 0 0 1-.34-1.9c0-1.05-.06-1.37-.06-4s0-3 .06-4a5.53 5.53 0 0 1 .34-1.9A3.1 3.1 0 0 1 3 3a3.1 3.1 0 0 1 1.1-.8A5.53 5.53 0 0 1 6 1.86c1.05 0 1.37-.06 4-.06M10 0C7.28 0 6.94 0 5.88.06a7.34 7.34 0 0 0-2.43.46 4.9 4.9 0 0 0-1.77 1.16A4.9 4.9 0 0 0 .52 3.45a7.34 7.34 0 0 0-.46 2.43C0 6.94 0 7.28 0 10s0 3.06.06 4.12a7.34 7.34 0 0 0 .46 2.43 4.9 4.9 0 0 0 1.15 1.77 4.9 4.9 0 0 0 1.77 1.15 7.34 7.34 0 0 0 2.43.46C6.94 20 7.28 20 10 20s3.06 0 4.12-.06a7.34 7.34 0 0 0 2.43-.46 5.11 5.11 0 0 0 2.92-2.92 7.34 7.34 0 0 0 .46-2.43c0-1.07.06-1.41.06-4.12s0-3.06-.06-4.12a7.34 7.34 0 0 0-.46-2.43 4.9 4.9 0 0 0-1.15-1.77A4.9 4.9 0 0 0 16.55.52a7.34 7.34 0 0 0-2.43-.46C13.06 0 12.72 0 10 0z"></path><path d="M10 4.86A5.14 5.14 0 1 0 15.14 10 5.14 5.14 0 0 0 10 4.86zm0 8.47A3.33 3.33 0 1 1 13.33 10 3.33 3.33 0 0 1 10 13.33z"></path><circle cx="15.34" cy="4.66" r="1.2"></circle></svg>					</a>
+				</li>
+												<li class="social__item social__item--pinterest">
+					<a href="https://www.pinterest.com/gunbacker45/" target="_blank">
+						<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 15.83 20"><path d="M4.24 19.64a13.85 13.85 0 0 0 1.54-3.25l.77-2.95a3.32 3.32 0 0 0 2.85 1.42c3.74 0 6.43-3.44 6.43-7.71C15.83 3.06 12.49 0 8.19 0 2.84 0 0 3.59 0 7.5c0 1.82 1 4.08 2.52 4.8.23.11.36.06.41-.17l.34-1.41a.37.37 0 0 0-.09-.36 4.82 4.82 0 0 1-.92-2.83 5.36 5.36 0 0 1 5.6-5.38 4.89 4.89 0 0 1 5.18 5c0 3.35-1.69 5.67-3.9 5.67a1.8 1.8 0 0 1-1.83-2.24 25 25 0 0 0 1-4.13 1.56 1.56 0 0 0-1.55-1.68c-1.24 0-2.24 1.29-2.24 3a4.47 4.47 0 0 0 .37 1.84s-1.23 5.19-1.45 6.16a11.91 11.91 0 0 0 0 3.56s.14 1.27.8.31z"></path></svg>					</a>
+				</li>
+												<li class="social__item social__item--twitter">
+					<a href="https://twitter.com/GunBacker" target="_blank">
+						<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 29.95 24.34"><path d="M26.88 6.06v.79c.02 8.13-6.16 17.49-17.43 17.49a17.39 17.39 0 0 1-9.42-2.76 12.46 12.46 0 0 0 1.47.09 12.33 12.33 0 0 0 7.63-2.63 6.15 6.15 0 0 1-5.74-4.27 6.16 6.16 0 0 0 2.77-.11 6.15 6.15 0 0 1-4.93-6v-.08a6.12 6.12 0 0 0 2.78.77 6.15 6.15 0 0 1-1.9-8.2 17.44 17.44 0 0 0 12.66 6.42 6.15 6.15 0 0 1 10.47-5.6 12.3 12.3 0 0 0 3.9-1.49 6.16 6.16 0 0 1-2.7 3.4 12.28 12.28 0 0 0 3.53-1 12.48 12.48 0 0 1-3.09 3.18z"></path></svg>					</a>
+				</li>
+												<li class="social__item social__item--youtube">
+					<a href="https://www.youtube.com/channel/UCPyXtFrQGNAw3hJ6-XEYPzg/featured?disable_polymer=1" target="_blank">
+						<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 30 22"><path d="M25 0H5a5 5 0 0 0-5 5v12a5 5 0 0 0 5 5h20a5 5 0 0 0 5-5V5a5 5 0 0 0-5-5zM10 17V5l12 6z"></path></svg>					</a>
+				</li>
+						</ul>
+					<a class="site-header__search" data-modal-target="search" href="#">
+						<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 18.71 18.71"><path d="M18.71 17.29l-6.11-6.11a7 7 0 1 0-1.41 1.41l6.11 6.11zM7 12a5 5 0 1 1 5-5 5 5 0 0 1-5 5z"></path></svg>					</a>
+				</div>
+			</div>
+			<div class="site-header__bottom">
+				<div class="site-header__section site-header__section--bar site-header__section--menu">
+					<a class="toggle-menu js-toggle-menu" href="#">
+						<span class="toggle-menu__icon">
+							<span class="toggle-menu__line"></span>
+							<span class="toggle-menu__line"></span>
+							<span class="toggle-menu__line"></span>
+						</span>
+						<span class="toggle-menu__txt">
+							Categories
+						</span>
+					</a>
+					<div class="site-menu-wrap">
+						<a class="site-menu__close js-toggle-menu" href="#">
+							Close
+						</a>
+						<nav class="site-menu"><ul id="menu-header-1" class="menu"><li id="nav-menu-item-4511" class="site-menu__item site-menu__item--depth-0  menu-item-icon menu-item menu-item-type-taxonomy menu-item-object-category current-post-ancestor current-menu-parent current-post-parent menu-item-has-children"><a href="https://www.gunbacker.com/category/firearms/" class="menu-link main-menu-link"><span class="menu-icon"><span aria-label=""><svg xmlns="http://www.w3.org/2000/svg" width="26" height="21" viewBox="0 0 26 21"><title>gun</title><path d="M26 0h-2v1H7V0H5v1H3.22l-1 4H0v2h2.28l1.77 5.32L1.68 21h9.12l2-9H16a3.5 3.5 0 0 0 3.5-3.5 3.46 3.46 0 0 0-.35-1.5H26zM4.78 3h1.9l-.55 2H4.28zm-.39 4h1.18L5 8.94zM9.2 19H4.32L7.65 7h3v.09a5 5 0 0 0 .27 3.85l.09.18zm8.3-10.5A1.5 1.5 0 0 1 16 10h-3.38a3 3 0 0 1-.15-2.27l.25-.73H16a1.5 1.5 0 0 1 1.5 1.5zM24 5H8.2l.56-2H24z" data-name="Layer 1"></path></svg></span></span> Firearms</a>
+<ul class="sub-menu">
+	<li id="nav-menu-item-5790" class=" site-menu__sub-item site-menu__sub-item--depth-1 menu-item menu-item-type-taxonomy menu-item-object-category"><a href="https://www.gunbacker.com/category/firearms/pistols/" class="menu-link sub-menu-link"><span class="menu-icon"><span aria-label=""><svg xmlns="http://www.w3.org/2000/svg" width="26" height="21" viewBox="0 0 26 21"><title>gun</title><path d="M26 0h-2v1H7V0H5v1H3.22l-1 4H0v2h2.28l1.77 5.32L1.68 21h9.12l2-9H16a3.5 3.5 0 0 0 3.5-3.5 3.46 3.46 0 0 0-.35-1.5H26zM4.78 3h1.9l-.55 2H4.28zm-.39 4h1.18L5 8.94zM9.2 19H4.32L7.65 7h3v.09a5 5 0 0 0 .27 3.85l.09.18zm8.3-10.5A1.5 1.5 0 0 1 16 10h-3.38a3 3 0 0 1-.15-2.27l.25-.73H16a1.5 1.5 0 0 1 1.5 1.5zM24 5H8.2l.56-2H24z" data-name="Layer 1"></path></svg></span></span> Pistols<span class="site-menu__sub-desc"></span></a></li>
+	<li id="nav-menu-item-5791" class=" site-menu__sub-item site-menu__sub-item--depth-1 menu-item menu-item-type-taxonomy menu-item-object-category"><a href="https://www.gunbacker.com/category/firearms/rifles/" class="menu-link sub-menu-link"><span class="menu-icon"><span aria-label=""><svg xmlns="http://www.w3.org/2000/svg" width="26" height="21" viewBox="0 0 26 21"><title>gun</title><path d="M26 0h-2v1H7V0H5v1H3.22l-1 4H0v2h2.28l1.77 5.32L1.68 21h9.12l2-9H16a3.5 3.5 0 0 0 3.5-3.5 3.46 3.46 0 0 0-.35-1.5H26zM4.78 3h1.9l-.55 2H4.28zm-.39 4h1.18L5 8.94zM9.2 19H4.32L7.65 7h3v.09a5 5 0 0 0 .27 3.85l.09.18zm8.3-10.5A1.5 1.5 0 0 1 16 10h-3.38a3 3 0 0 1-.15-2.27l.25-.73H16a1.5 1.5 0 0 1 1.5 1.5zM24 5H8.2l.56-2H24z" data-name="Layer 1"></path></svg></span></span> Rifles<span class="site-menu__sub-desc"></span></a></li>
+	<li id="nav-menu-item-5792" class=" site-menu__sub-item site-menu__sub-item--depth-1 menu-item menu-item-type-taxonomy menu-item-object-category"><a href="https://www.gunbacker.com/category/firearms/shotguns/" class="menu-link sub-menu-link"><span class="menu-icon"><span aria-label=""><svg xmlns="http://www.w3.org/2000/svg" width="26" height="21" viewBox="0 0 26 21"><title>gun</title><path d="M26 0h-2v1H7V0H5v1H3.22l-1 4H0v2h2.28l1.77 5.32L1.68 21h9.12l2-9H16a3.5 3.5 0 0 0 3.5-3.5 3.46 3.46 0 0 0-.35-1.5H26zM4.78 3h1.9l-.55 2H4.28zm-.39 4h1.18L5 8.94zM9.2 19H4.32L7.65 7h3v.09a5 5 0 0 0 .27 3.85l.09.18zm8.3-10.5A1.5 1.5 0 0 1 16 10h-3.38a3 3 0 0 1-.15-2.27l.25-.73H16a1.5 1.5 0 0 1 1.5 1.5zM24 5H8.2l.56-2H24z" data-name="Layer 1"></path></svg></span></span> Shotguns<span class="site-menu__sub-desc"></span></a></li>
+	<li id="nav-menu-item-5789" class=" site-menu__sub-item site-menu__sub-item--depth-1 menu-item menu-item-type-taxonomy menu-item-object-category current-post-ancestor current-menu-parent current-post-parent"><a href="https://www.gunbacker.com/category/firearms/ammo/" class="menu-link sub-menu-link"><span class="menu-icon"><span aria-label=""><svg xmlns="http://www.w3.org/2000/svg" width="26" height="21" viewBox="0 0 26 21"><title>gun</title><path d="M26 0h-2v1H7V0H5v1H3.22l-1 4H0v2h2.28l1.77 5.32L1.68 21h9.12l2-9H16a3.5 3.5 0 0 0 3.5-3.5 3.46 3.46 0 0 0-.35-1.5H26zM4.78 3h1.9l-.55 2H4.28zm-.39 4h1.18L5 8.94zM9.2 19H4.32L7.65 7h3v.09a5 5 0 0 0 .27 3.85l.09.18zm8.3-10.5A1.5 1.5 0 0 1 16 10h-3.38a3 3 0 0 1-.15-2.27l.25-.73H16a1.5 1.5 0 0 1 1.5 1.5zM24 5H8.2l.56-2H24z" data-name="Layer 1"></path></svg></span></span> Ammo<span class="site-menu__sub-desc"></span></a></li>
+</ul>
+</li>
+<li id="nav-menu-item-4513" class="site-menu__item site-menu__item--depth-0  menu-item-icon menu-item menu-item-type-taxonomy menu-item-object-category menu-item-has-children"><a href="https://www.gunbacker.com/category/optics/" class="menu-link main-menu-link"><span class="menu-icon"><span aria-label=""><svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" viewBox="0 0 26 26"><title>bullseye</title><g data-name="Layer 1"><path d="M26 12h-1.05A12 12 0 0 0 14 1.05V0h-2v1.05A12 12 0 0 0 1.05 12H0v2h1.05A12 12 0 0 0 12 24.95V26h2v-1.05A12 12 0 0 0 24.95 14H26zm-3.05 0h-3A7 7 0 0 0 14 6.08v-3A10 10 0 0 1 22.95 12zM13 18a5 5 0 1 1 5-5 5 5 0 0 1-5 5zM12 3.05v3A7 7 0 0 0 6.08 12h-3A10 10 0 0 1 12 3.05zM3.05 14h3A7 7 0 0 0 12 19.92v3A10 10 0 0 1 3.05 14zM14 22.95v-3A7 7 0 0 0 19.92 14h3A10 10 0 0 1 14 22.95z"></path><circle cx="13" cy="13" r="2"></circle></g></svg></span></span> Optics</a>
+<ul class="sub-menu">
+	<li id="nav-menu-item-5793" class=" site-menu__sub-item site-menu__sub-item--depth-1 menu-item menu-item-type-taxonomy menu-item-object-category"><a href="https://www.gunbacker.com/category/optics/pistol/" class="menu-link sub-menu-link"><span class="menu-icon"><span aria-label=""><svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" viewBox="0 0 26 26"><title>bullseye</title><g data-name="Layer 1"><path d="M26 12h-1.05A12 12 0 0 0 14 1.05V0h-2v1.05A12 12 0 0 0 1.05 12H0v2h1.05A12 12 0 0 0 12 24.95V26h2v-1.05A12 12 0 0 0 24.95 14H26zm-3.05 0h-3A7 7 0 0 0 14 6.08v-3A10 10 0 0 1 22.95 12zM13 18a5 5 0 1 1 5-5 5 5 0 0 1-5 5zM12 3.05v3A7 7 0 0 0 6.08 12h-3A10 10 0 0 1 12 3.05zM3.05 14h3A7 7 0 0 0 12 19.92v3A10 10 0 0 1 3.05 14zM14 22.95v-3A7 7 0 0 0 19.92 14h3A10 10 0 0 1 14 22.95z"></path><circle cx="13" cy="13" r="2"></circle></g></svg></span></span> Pistol<span class="site-menu__sub-desc"></span></a></li>
+	<li id="nav-menu-item-5794" class=" site-menu__sub-item site-menu__sub-item--depth-1 menu-item menu-item-type-taxonomy menu-item-object-category"><a href="https://www.gunbacker.com/category/optics/rifle/" class="menu-link sub-menu-link"><span class="menu-icon"><span aria-label=""><svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" viewBox="0 0 26 26"><title>bullseye</title><g data-name="Layer 1"><path d="M26 12h-1.05A12 12 0 0 0 14 1.05V0h-2v1.05A12 12 0 0 0 1.05 12H0v2h1.05A12 12 0 0 0 12 24.95V26h2v-1.05A12 12 0 0 0 24.95 14H26zm-3.05 0h-3A7 7 0 0 0 14 6.08v-3A10 10 0 0 1 22.95 12zM13 18a5 5 0 1 1 5-5 5 5 0 0 1-5 5zM12 3.05v3A7 7 0 0 0 6.08 12h-3A10 10 0 0 1 12 3.05zM3.05 14h3A7 7 0 0 0 12 19.92v3A10 10 0 0 1 3.05 14zM14 22.95v-3A7 7 0 0 0 19.92 14h3A10 10 0 0 1 14 22.95z"></path><circle cx="13" cy="13" r="2"></circle></g></svg></span></span> Rifle<span class="site-menu__sub-desc"></span></a></li>
+	<li id="nav-menu-item-5884" class=" site-menu__sub-item site-menu__sub-item--depth-1 menu-item menu-item-type-taxonomy menu-item-object-category"><a href="https://www.gunbacker.com/category/optics/handheld/" class="menu-link sub-menu-link"><span class="menu-icon"><span aria-label=""><svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" viewBox="0 0 26 26"><title>bullseye</title><g data-name="Layer 1"><path d="M26 12h-1.05A12 12 0 0 0 14 1.05V0h-2v1.05A12 12 0 0 0 1.05 12H0v2h1.05A12 12 0 0 0 12 24.95V26h2v-1.05A12 12 0 0 0 24.95 14H26zm-3.05 0h-3A7 7 0 0 0 14 6.08v-3A10 10 0 0 1 22.95 12zM13 18a5 5 0 1 1 5-5 5 5 0 0 1-5 5zM12 3.05v3A7 7 0 0 0 6.08 12h-3A10 10 0 0 1 12 3.05zM3.05 14h3A7 7 0 0 0 12 19.92v3A10 10 0 0 1 3.05 14zM14 22.95v-3A7 7 0 0 0 19.92 14h3A10 10 0 0 1 14 22.95z"></path><circle cx="13" cy="13" r="2"></circle></g></svg></span></span> Handheld<span class="site-menu__sub-desc"></span></a></li>
+</ul>
+</li>
+<li id="nav-menu-item-4510" class="site-menu__item site-menu__item--depth-0  menu-item-icon menu-item menu-item-type-taxonomy menu-item-object-category menu-item-has-children"><a href="https://www.gunbacker.com/category/gear/" class="menu-link main-menu-link"><span class="menu-icon"><span aria-label=""><svg xmlns="http://www.w3.org/2000/svg" width="26" height="26.12" viewBox="0 0 26 26.12"><title>bullets</title><g data-name="Layer 1"><path d="M7 7C7 1.63 4.71.35 4.45.22L4 0l-.45.22C3.29.35 1 1.63 1 7c-.07.14-.23.4-.34.59A3.27 3.27 0 0 0 0 9.12v14h8v-14a3.27 3.27 0 0 0-.66-1.56C7.23 7.37 7.07 7.11 7 7zM4 2.53a8.23 8.23 0 0 1 1 4.59H3a8.29 8.29 0 0 1 1-4.59zm2 18.59H2V9.25l.07-.13h3.86l.07.13z"></path><path d="M0 24.12H8V26.12H0z"></path><path d="M16 11c0-5.33-2.29-6.62-2.55-6.75L13 4l-.45.22C12.29 4.35 10 5.63 10 11c-.07.14-.23.4-.34.59A3.27 3.27 0 0 0 9 13.12v10h8v-10a3.27 3.27 0 0 0-.66-1.56c-.11-.19-.27-.45-.34-.56zm-3-4.47a8.23 8.23 0 0 1 1 4.59h-2a8.29 8.29 0 0 1 1-4.59zm2 14.59h-4v-7.87l.07-.13h3.86l.07.13z"></path><path d="M9 24.12H17V26.12H9z"></path><path d="M25.34 15.56c-.11-.18-.27-.44-.34-.59 0-5.33-2.29-6.62-2.55-6.75L22 8l-.45.22C21.29 8.35 19 9.63 19 15c-.07.14-.23.4-.34.59a3.27 3.27 0 0 0-.66 1.53v6h8v-6a3.27 3.27 0 0 0-.66-1.56zm-3.34-5a8.23 8.23 0 0 1 1 4.59h-2a8.29 8.29 0 0 1 1-4.62zm2 10.59h-4v-3.9l.07-.13h3.86l.07.13z"></path><path d="M18 24.12H26V26.12H18z"></path></g></svg></span></span> Gear</a>
+<ul class="sub-menu">
+	<li id="nav-menu-item-5888" class=" site-menu__sub-item site-menu__sub-item--depth-1 menu-item menu-item-type-taxonomy menu-item-object-category"><a href="https://www.gunbacker.com/category/gear/apparel-body/" class="menu-link sub-menu-link"><span class="menu-icon"><span aria-label=""><svg xmlns="http://www.w3.org/2000/svg" width="26" height="26.12" viewBox="0 0 26 26.12"><title>bullets</title><g data-name="Layer 1"><path d="M7 7C7 1.63 4.71.35 4.45.22L4 0l-.45.22C3.29.35 1 1.63 1 7c-.07.14-.23.4-.34.59A3.27 3.27 0 0 0 0 9.12v14h8v-14a3.27 3.27 0 0 0-.66-1.56C7.23 7.37 7.07 7.11 7 7zM4 2.53a8.23 8.23 0 0 1 1 4.59H3a8.29 8.29 0 0 1 1-4.59zm2 18.59H2V9.25l.07-.13h3.86l.07.13z"></path><path d="M0 24.12H8V26.12H0z"></path><path d="M16 11c0-5.33-2.29-6.62-2.55-6.75L13 4l-.45.22C12.29 4.35 10 5.63 10 11c-.07.14-.23.4-.34.59A3.27 3.27 0 0 0 9 13.12v10h8v-10a3.27 3.27 0 0 0-.66-1.56c-.11-.19-.27-.45-.34-.56zm-3-4.47a8.23 8.23 0 0 1 1 4.59h-2a8.29 8.29 0 0 1 1-4.59zm2 14.59h-4v-7.87l.07-.13h3.86l.07.13z"></path><path d="M9 24.12H17V26.12H9z"></path><path d="M25.34 15.56c-.11-.18-.27-.44-.34-.59 0-5.33-2.29-6.62-2.55-6.75L22 8l-.45.22C21.29 8.35 19 9.63 19 15c-.07.14-.23.4-.34.59a3.27 3.27 0 0 0-.66 1.53v6h8v-6a3.27 3.27 0 0 0-.66-1.56zm-3.34-5a8.23 8.23 0 0 1 1 4.59h-2a8.29 8.29 0 0 1 1-4.62zm2 10.59h-4v-3.9l.07-.13h3.86l.07.13z"></path><path d="M18 24.12H26V26.12H18z"></path></g></svg></span></span> Apparel/Body<span class="site-menu__sub-desc"></span></a></li>
+	<li id="nav-menu-item-5889" class=" site-menu__sub-item site-menu__sub-item--depth-1 menu-item menu-item-type-taxonomy menu-item-object-category"><a href="https://www.gunbacker.com/category/gear/firearms-gear/" class="menu-link sub-menu-link"><span class="menu-icon"><span aria-label=""><svg xmlns="http://www.w3.org/2000/svg" width="26" height="26.12" viewBox="0 0 26 26.12"><title>bullets</title><g data-name="Layer 1"><path d="M7 7C7 1.63 4.71.35 4.45.22L4 0l-.45.22C3.29.35 1 1.63 1 7c-.07.14-.23.4-.34.59A3.27 3.27 0 0 0 0 9.12v14h8v-14a3.27 3.27 0 0 0-.66-1.56C7.23 7.37 7.07 7.11 7 7zM4 2.53a8.23 8.23 0 0 1 1 4.59H3a8.29 8.29 0 0 1 1-4.59zm2 18.59H2V9.25l.07-.13h3.86l.07.13z"></path><path d="M0 24.12H8V26.12H0z"></path><path d="M16 11c0-5.33-2.29-6.62-2.55-6.75L13 4l-.45.22C12.29 4.35 10 5.63 10 11c-.07.14-.23.4-.34.59A3.27 3.27 0 0 0 9 13.12v10h8v-10a3.27 3.27 0 0 0-.66-1.56c-.11-.19-.27-.45-.34-.56zm-3-4.47a8.23 8.23 0 0 1 1 4.59h-2a8.29 8.29 0 0 1 1-4.59zm2 14.59h-4v-7.87l.07-.13h3.86l.07.13z"></path><path d="M9 24.12H17V26.12H9z"></path><path d="M25.34 15.56c-.11-.18-.27-.44-.34-.59 0-5.33-2.29-6.62-2.55-6.75L22 8l-.45.22C21.29 8.35 19 9.63 19 15c-.07.14-.23.4-.34.59a3.27 3.27 0 0 0-.66 1.53v6h8v-6a3.27 3.27 0 0 0-.66-1.56zm-3.34-5a8.23 8.23 0 0 1 1 4.59h-2a8.29 8.29 0 0 1 1-4.62zm2 10.59h-4v-3.9l.07-.13h3.86l.07.13z"></path><path d="M18 24.12H26V26.12H18z"></path></g></svg></span></span> Firearms<span class="site-menu__sub-desc"></span></a></li>
+	<li id="nav-menu-item-5890" class=" site-menu__sub-item site-menu__sub-item--depth-1 menu-item menu-item-type-taxonomy menu-item-object-category"><a href="https://www.gunbacker.com/category/gear/maintenance/" class="menu-link sub-menu-link"> Maintenance<span class="site-menu__sub-desc"></span></a></li>
+	<li id="nav-menu-item-5892" class=" site-menu__sub-item site-menu__sub-item--depth-1 menu-item menu-item-type-taxonomy menu-item-object-category"><a href="https://www.gunbacker.com/category/gear/storage/" class="menu-link sub-menu-link"><span class="menu-icon"><span aria-label=""><svg xmlns="http://www.w3.org/2000/svg" width="26" height="26.12" viewBox="0 0 26 26.12"><title>bullets</title><g data-name="Layer 1"><path d="M7 7C7 1.63 4.71.35 4.45.22L4 0l-.45.22C3.29.35 1 1.63 1 7c-.07.14-.23.4-.34.59A3.27 3.27 0 0 0 0 9.12v14h8v-14a3.27 3.27 0 0 0-.66-1.56C7.23 7.37 7.07 7.11 7 7zM4 2.53a8.23 8.23 0 0 1 1 4.59H3a8.29 8.29 0 0 1 1-4.59zm2 18.59H2V9.25l.07-.13h3.86l.07.13z"></path><path d="M0 24.12H8V26.12H0z"></path><path d="M16 11c0-5.33-2.29-6.62-2.55-6.75L13 4l-.45.22C12.29 4.35 10 5.63 10 11c-.07.14-.23.4-.34.59A3.27 3.27 0 0 0 9 13.12v10h8v-10a3.27 3.27 0 0 0-.66-1.56c-.11-.19-.27-.45-.34-.56zm-3-4.47a8.23 8.23 0 0 1 1 4.59h-2a8.29 8.29 0 0 1 1-4.59zm2 14.59h-4v-7.87l.07-.13h3.86l.07.13z"></path><path d="M9 24.12H17V26.12H9z"></path><path d="M25.34 15.56c-.11-.18-.27-.44-.34-.59 0-5.33-2.29-6.62-2.55-6.75L22 8l-.45.22C21.29 8.35 19 9.63 19 15c-.07.14-.23.4-.34.59a3.27 3.27 0 0 0-.66 1.53v6h8v-6a3.27 3.27 0 0 0-.66-1.56zm-3.34-5a8.23 8.23 0 0 1 1 4.59h-2a8.29 8.29 0 0 1 1-4.62zm2 10.59h-4v-3.9l.07-.13h3.86l.07.13z"></path><path d="M18 24.12H26V26.12H18z"></path></g></svg></span></span> Storage<span class="site-menu__sub-desc"></span></a></li>
+	<li id="nav-menu-item-5891" class=" site-menu__sub-item site-menu__sub-item--depth-1 menu-item menu-item-type-taxonomy menu-item-object-category"><a href="https://www.gunbacker.com/category/gear/other-gear/" class="menu-link sub-menu-link"><span class="menu-icon"><span aria-label=""><svg xmlns="http://www.w3.org/2000/svg" width="26" height="26.12" viewBox="0 0 26 26.12"><title>bullets</title><g data-name="Layer 1"><path d="M7 7C7 1.63 4.71.35 4.45.22L4 0l-.45.22C3.29.35 1 1.63 1 7c-.07.14-.23.4-.34.59A3.27 3.27 0 0 0 0 9.12v14h8v-14a3.27 3.27 0 0 0-.66-1.56C7.23 7.37 7.07 7.11 7 7zM4 2.53a8.23 8.23 0 0 1 1 4.59H3a8.29 8.29 0 0 1 1-4.59zm2 18.59H2V9.25l.07-.13h3.86l.07.13z"></path><path d="M0 24.12H8V26.12H0z"></path><path d="M16 11c0-5.33-2.29-6.62-2.55-6.75L13 4l-.45.22C12.29 4.35 10 5.63 10 11c-.07.14-.23.4-.34.59A3.27 3.27 0 0 0 9 13.12v10h8v-10a3.27 3.27 0 0 0-.66-1.56c-.11-.19-.27-.45-.34-.56zm-3-4.47a8.23 8.23 0 0 1 1 4.59h-2a8.29 8.29 0 0 1 1-4.59zm2 14.59h-4v-7.87l.07-.13h3.86l.07.13z"></path><path d="M9 24.12H17V26.12H9z"></path><path d="M25.34 15.56c-.11-.18-.27-.44-.34-.59 0-5.33-2.29-6.62-2.55-6.75L22 8l-.45.22C21.29 8.35 19 9.63 19 15c-.07.14-.23.4-.34.59a3.27 3.27 0 0 0-.66 1.53v6h8v-6a3.27 3.27 0 0 0-.66-1.56zm-3.34-5a8.23 8.23 0 0 1 1 4.59h-2a8.29 8.29 0 0 1 1-4.62zm2 10.59h-4v-3.9l.07-.13h3.86l.07.13z"></path><path d="M18 24.12H26V26.12H18z"></path></g></svg></span></span> Other<span class="site-menu__sub-desc"></span></a></li>
+</ul>
+</li>
+<li id="nav-menu-item-4512" class="site-menu__item site-menu__item--depth-0  menu-item-icon menu-item menu-item-type-taxonomy menu-item-object-category"><a href="https://www.gunbacker.com/category/news/" class="menu-link main-menu-link"><span class="menu-icon"><span aria-label=""><svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" viewBox="0 0 26 26"><title>globe</title><path d="M13 0a13 13 0 1 0 13 13A13 13 0 0 0 13 0zm10.95 12h-4a16.47 16.47 0 0 0-.89-4.49 13 13 0 0 0 2.34-1.6A11 11 0 0 1 23.95 12zM13 23.93a14.49 14.49 0 0 1-3.42-4.38 10.92 10.92 0 0 1 6.84 0A14.49 14.49 0 0 1 13 23.93zm5.26-3.59A11 11 0 0 1 20 21.5a11 11 0 0 1-3.8 2 16.42 16.42 0 0 0 2.06-3.16zm-8.44 3.19a11 11 0 0 1-3.8-2 11 11 0 0 1 1.71-1.15 16.42 16.42 0 0 0 2.09 3.15zM13 17a13 13 0 0 0-4.22.71A14.48 14.48 0 0 1 8.06 14h9.89a14.48 14.48 0 0 1-.73 3.71A13 13 0 0 0 13 17zm-4.94-5a14.48 14.48 0 0 1 .73-3.71A13 13 0 0 0 13 9a13 13 0 0 0 4.22-.71 14.48 14.48 0 0 1 .72 3.71zM13 2.07a14.49 14.49 0 0 1 3.42 4.38A11 11 0 0 1 13 7a11 11 0 0 1-3.42-.55A14.49 14.49 0 0 1 13 2.07zM7.74 5.66A11 11 0 0 1 6 4.5a11 11 0 0 1 3.8-2 16.42 16.42 0 0 0-2.06 3.16zm8.44-3.18a11 11 0 0 1 3.8 2 11 11 0 0 1-1.71 1.15 16.42 16.42 0 0 0-2.09-3.16zM4.6 5.91a13 13 0 0 0 2.34 1.6A16.47 16.47 0 0 0 6.06 12h-4A11 11 0 0 1 4.6 5.91zM2.05 14h4a16.47 16.47 0 0 0 .89 4.49 13 13 0 0 0-2.34 1.6A11 11 0 0 1 2.05 14zm19.35 6.09a13 13 0 0 0-2.34-1.6 16.47 16.47 0 0 0 .88-4.49h4a11 11 0 0 1-2.54 6.09z" data-name="Layer 1"></path></svg></span></span> News</a></li>
+<li id="nav-menu-item-4716" class="site-menu__item site-menu__item--depth-0  menu-item-icon menu-item menu-item-type-taxonomy menu-item-object-category menu-item-has-children"><a href="https://www.gunbacker.com/category/safety/" class="menu-link main-menu-link"><span class="menu-icon"><span aria-label=""><svg xmlns="http://www.w3.org/2000/svg" width="22" height="26.16" viewBox="0 0 22 26.16"><title>shield</title><path d="M11 0L0 2.2v12c0 .26 1.19 6.54 10.5 11.71l.49.27.49-.27C20.8 20.72 21.94 14.45 22 14.18V2.2zM2 3.84l8-1.6V11H2zm0 10.08V13h8v10.26c-6.6-4.19-7.86-8.75-8-9.34zm18 0c-.13.6-1.35 5.13-8 9.33V13h8zM20 11h-8V2.24l8 1.6z" data-name="Layer 1"></path></svg></span></span> Safety</a>
+<ul class="sub-menu">
+	<li id="nav-menu-item-5885" class=" site-menu__sub-item site-menu__sub-item--depth-1 menu-item menu-item-type-taxonomy menu-item-object-category"><a href="https://www.gunbacker.com/category/safety/gun/" class="menu-link sub-menu-link"><span class="menu-icon"><span aria-label=""><svg xmlns="http://www.w3.org/2000/svg" width="22" height="26.16" viewBox="0 0 22 26.16"><title>shield</title><path d="M11 0L0 2.2v12c0 .26 1.19 6.54 10.5 11.71l.49.27.49-.27C20.8 20.72 21.94 14.45 22 14.18V2.2zM2 3.84l8-1.6V11H2zm0 10.08V13h8v10.26c-6.6-4.19-7.86-8.75-8-9.34zm18 0c-.13.6-1.35 5.13-8 9.33V13h8zM20 11h-8V2.24l8 1.6z" data-name="Layer 1"></path></svg></span></span> Gun<span class="site-menu__sub-desc"></span></a></li>
+	<li id="nav-menu-item-5886" class=" site-menu__sub-item site-menu__sub-item--depth-1 menu-item menu-item-type-taxonomy menu-item-object-category"><a href="https://www.gunbacker.com/category/safety/medical/" class="menu-link sub-menu-link"><span class="menu-icon"><span aria-label=""><svg xmlns="http://www.w3.org/2000/svg" width="22" height="26.16" viewBox="0 0 22 26.16"><title>shield</title><path d="M11 0L0 2.2v12c0 .26 1.19 6.54 10.5 11.71l.49.27.49-.27C20.8 20.72 21.94 14.45 22 14.18V2.2zM2 3.84l8-1.6V11H2zm0 10.08V13h8v10.26c-6.6-4.19-7.86-8.75-8-9.34zm18 0c-.13.6-1.35 5.13-8 9.33V13h8zM20 11h-8V2.24l8 1.6z" data-name="Layer 1"></path></svg></span></span> Medical<span class="site-menu__sub-desc"></span></a></li>
+	<li id="nav-menu-item-5887" class=" site-menu__sub-item site-menu__sub-item--depth-1 menu-item menu-item-type-taxonomy menu-item-object-category"><a href="https://www.gunbacker.com/category/safety/other/" class="menu-link sub-menu-link"><span class="menu-icon"><span aria-label=""><svg xmlns="http://www.w3.org/2000/svg" width="22" height="26.16" viewBox="0 0 22 26.16"><title>shield</title><path d="M11 0L0 2.2v12c0 .26 1.19 6.54 10.5 11.71l.49.27.49-.27C20.8 20.72 21.94 14.45 22 14.18V2.2zM2 3.84l8-1.6V11H2zm0 10.08V13h8v10.26c-6.6-4.19-7.86-8.75-8-9.34zm18 0c-.13.6-1.35 5.13-8 9.33V13h8zM20 11h-8V2.24l8 1.6z" data-name="Layer 1"></path></svg></span></span> Other<span class="site-menu__sub-desc"></span></a></li>
+</ul>
+</li>
+<li id="nav-menu-item-5817" class="site-menu__item site-menu__item--depth-0  menu-item-icon menu-item menu-item-type-taxonomy menu-item-object-category"><a href="https://www.gunbacker.com/category/videos/" class="menu-link main-menu-link"><span class="menu-icon"><span aria-label=""><!--?xml version="1.0" encoding="UTF-8"?--> <svg xmlns="http://www.w3.org/2000/svg" width="26" height="24" viewBox="0 0 26 24"><title>videos</title><path d="M26,24H0V0H26ZM2,22H24V2H2Z"></path><path d="M9,18.94336V5.05664L18.7207,12Zm2-10v6.11328L15.2793,12Z"></path></svg> </span></span> Videos</a></li>
+</ul></nav>						
+	<ul class="social">
+									<li class="social__item social__item--facebook">
+					<a href="https://www.facebook.com/GunBacker/" target="_blank">
+						<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M18.9 0H1.1A1.1 1.1 0 0 0 0 1.1v17.8A1.1 1.1 0 0 0 1.1 20h9.58v-7.74h-2.6v-3h2.61V7a3.64 3.64 0 0 1 3.88-4 21.39 21.39 0 0 1 2.33.12v2.7h-1.6c-1.25 0-1.5.6-1.5 1.47v1.95h3l-.39 3H13.8V20h5.1a1.1 1.1 0 0 0 1.1-1.1V1.1A1.1 1.1 0 0 0 18.9 0z"></path></svg>					</a>
+				</li>
+												<li class="social__item social__item--instagram">
+					<a href="https://www.instagram.com/gunbacker/" target="_blank">
+						<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M10 1.8c2.67 0 3 0 4 .06a5.53 5.53 0 0 1 1.86.34A3.1 3.1 0 0 1 17 3a3.1 3.1 0 0 1 .8 1.1 5.53 5.53 0 0 1 .34 1.9c0 1.05.06 1.37.06 4s0 3-.06 4a5.53 5.53 0 0 1-.34 1.86 3.31 3.31 0 0 1-1.9 1.9 5.53 5.53 0 0 1-1.86.34c-1.05 0-1.37.06-4 .06s-3 0-4-.06a5.53 5.53 0 0 1-1.94-.3A3.1 3.1 0 0 1 3 17a3.1 3.1 0 0 1-.8-1.1 5.53 5.53 0 0 1-.34-1.9c0-1.05-.06-1.37-.06-4s0-3 .06-4a5.53 5.53 0 0 1 .34-1.9A3.1 3.1 0 0 1 3 3a3.1 3.1 0 0 1 1.1-.8A5.53 5.53 0 0 1 6 1.86c1.05 0 1.37-.06 4-.06M10 0C7.28 0 6.94 0 5.88.06a7.34 7.34 0 0 0-2.43.46 4.9 4.9 0 0 0-1.77 1.16A4.9 4.9 0 0 0 .52 3.45a7.34 7.34 0 0 0-.46 2.43C0 6.94 0 7.28 0 10s0 3.06.06 4.12a7.34 7.34 0 0 0 .46 2.43 4.9 4.9 0 0 0 1.15 1.77 4.9 4.9 0 0 0 1.77 1.15 7.34 7.34 0 0 0 2.43.46C6.94 20 7.28 20 10 20s3.06 0 4.12-.06a7.34 7.34 0 0 0 2.43-.46 5.11 5.11 0 0 0 2.92-2.92 7.34 7.34 0 0 0 .46-2.43c0-1.07.06-1.41.06-4.12s0-3.06-.06-4.12a7.34 7.34 0 0 0-.46-2.43 4.9 4.9 0 0 0-1.15-1.77A4.9 4.9 0 0 0 16.55.52a7.34 7.34 0 0 0-2.43-.46C13.06 0 12.72 0 10 0z"></path><path d="M10 4.86A5.14 5.14 0 1 0 15.14 10 5.14 5.14 0 0 0 10 4.86zm0 8.47A3.33 3.33 0 1 1 13.33 10 3.33 3.33 0 0 1 10 13.33z"></path><circle cx="15.34" cy="4.66" r="1.2"></circle></svg>					</a>
+				</li>
+												<li class="social__item social__item--pinterest">
+					<a href="https://www.pinterest.com/gunbacker45/" target="_blank">
+						<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 15.83 20"><path d="M4.24 19.64a13.85 13.85 0 0 0 1.54-3.25l.77-2.95a3.32 3.32 0 0 0 2.85 1.42c3.74 0 6.43-3.44 6.43-7.71C15.83 3.06 12.49 0 8.19 0 2.84 0 0 3.59 0 7.5c0 1.82 1 4.08 2.52 4.8.23.11.36.06.41-.17l.34-1.41a.37.37 0 0 0-.09-.36 4.82 4.82 0 0 1-.92-2.83 5.36 5.36 0 0 1 5.6-5.38 4.89 4.89 0 0 1 5.18 5c0 3.35-1.69 5.67-3.9 5.67a1.8 1.8 0 0 1-1.83-2.24 25 25 0 0 0 1-4.13 1.56 1.56 0 0 0-1.55-1.68c-1.24 0-2.24 1.29-2.24 3a4.47 4.47 0 0 0 .37 1.84s-1.23 5.19-1.45 6.16a11.91 11.91 0 0 0 0 3.56s.14 1.27.8.31z"></path></svg>					</a>
+				</li>
+												<li class="social__item social__item--twitter">
+					<a href="https://twitter.com/GunBacker" target="_blank">
+						<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 29.95 24.34"><path d="M26.88 6.06v.79c.02 8.13-6.16 17.49-17.43 17.49a17.39 17.39 0 0 1-9.42-2.76 12.46 12.46 0 0 0 1.47.09 12.33 12.33 0 0 0 7.63-2.63 6.15 6.15 0 0 1-5.74-4.27 6.16 6.16 0 0 0 2.77-.11 6.15 6.15 0 0 1-4.93-6v-.08a6.12 6.12 0 0 0 2.78.77 6.15 6.15 0 0 1-1.9-8.2 17.44 17.44 0 0 0 12.66 6.42 6.15 6.15 0 0 1 10.47-5.6 12.3 12.3 0 0 0 3.9-1.49 6.16 6.16 0 0 1-2.7 3.4 12.28 12.28 0 0 0 3.53-1 12.48 12.48 0 0 1-3.09 3.18z"></path></svg>					</a>
+				</li>
+												<li class="social__item social__item--youtube">
+					<a href="https://www.youtube.com/channel/UCPyXtFrQGNAw3hJ6-XEYPzg/featured?disable_polymer=1" target="_blank">
+						<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 30 22"><path d="M25 0H5a5 5 0 0 0-5 5v12a5 5 0 0 0 5 5h20a5 5 0 0 0 5-5V5a5 5 0 0 0-5-5zM10 17V5l12 6z"></path></svg>					</a>
+				</li>
+						</ul>
+					</div>
+				</div>
+				<div class="site-header__section site-header__section--logo">
+					<a class="site-logo" href="https://www.gunbacker.com">
+						<span class="site-logo__icon">
+							<svg xmlns="http://www.w3.org/2000/svg" width="70" height="70.07" viewBox="0 0 70 70.07"><defs><style>.\33 a5144e0-43a4-436b-8091-17713609bc06{fill:#971e1e}</style></defs><title>logo-icon</title><g id="ee2899d8-9236-4ee5-b78e-24dd4889665f" data-name="Layer 2"><g id="ae3f3f41-062c-4580-a269-6519abc4e2a9" data-name="Layer 1"><path class="3a5144e0-43a4-436b-8091-17713609bc06" d="M70 25.07V8.47a1 1 0 0 0-.79-1L35 0 .79 7.48a1 1 0 0 0-.79 1v25.93c0 19.12 15 35.2 34.16 35.65A35 35 0 0 0 70 35.07v-2a1 1 0 0 0-1-1H41v6h22.85A29.05 29.05 0 0 1 38 63.91v-4.83a1 1 0 0 0-1-1h-4a1 1 0 0 0-1 1v4.84A29.05 29.05 0 0 1 6.16 38.07H11a1 1 0 0 0 1-1v-4a1 1 0 0 0-1-1H6V12.49L32 6.8v4.26a1 1 0 0 0 1 1h4a1 1 0 0 0 1-1V6.8l26 5.69v12.58z"></path><circle class="3a5144e0-43a4-436b-8091-17713609bc06" cx="35" cy="35.07" r="3"></circle><path class="3a5144e0-43a4-436b-8091-17713609bc06" d="M44.71 42.07a12 12 0 1 1 0-14h6.84a18 18 0 1 0 0 14z"></path></g></g></svg>						</span>
+					</a>
+				</div>
+				<div class="site-header__section site-header__section--bar site-header__section--social">
+					
+	<ul class="social">
+									<li class="social__item social__item--facebook">
+					<a href="https://www.facebook.com/GunBacker/" target="_blank">
+						<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M18.9 0H1.1A1.1 1.1 0 0 0 0 1.1v17.8A1.1 1.1 0 0 0 1.1 20h9.58v-7.74h-2.6v-3h2.61V7a3.64 3.64 0 0 1 3.88-4 21.39 21.39 0 0 1 2.33.12v2.7h-1.6c-1.25 0-1.5.6-1.5 1.47v1.95h3l-.39 3H13.8V20h5.1a1.1 1.1 0 0 0 1.1-1.1V1.1A1.1 1.1 0 0 0 18.9 0z"></path></svg>					</a>
+				</li>
+												<li class="social__item social__item--instagram">
+					<a href="https://www.instagram.com/gunbacker/" target="_blank">
+						<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M10 1.8c2.67 0 3 0 4 .06a5.53 5.53 0 0 1 1.86.34A3.1 3.1 0 0 1 17 3a3.1 3.1 0 0 1 .8 1.1 5.53 5.53 0 0 1 .34 1.9c0 1.05.06 1.37.06 4s0 3-.06 4a5.53 5.53 0 0 1-.34 1.86 3.31 3.31 0 0 1-1.9 1.9 5.53 5.53 0 0 1-1.86.34c-1.05 0-1.37.06-4 .06s-3 0-4-.06a5.53 5.53 0 0 1-1.94-.3A3.1 3.1 0 0 1 3 17a3.1 3.1 0 0 1-.8-1.1 5.53 5.53 0 0 1-.34-1.9c0-1.05-.06-1.37-.06-4s0-3 .06-4a5.53 5.53 0 0 1 .34-1.9A3.1 3.1 0 0 1 3 3a3.1 3.1 0 0 1 1.1-.8A5.53 5.53 0 0 1 6 1.86c1.05 0 1.37-.06 4-.06M10 0C7.28 0 6.94 0 5.88.06a7.34 7.34 0 0 0-2.43.46 4.9 4.9 0 0 0-1.77 1.16A4.9 4.9 0 0 0 .52 3.45a7.34 7.34 0 0 0-.46 2.43C0 6.94 0 7.28 0 10s0 3.06.06 4.12a7.34 7.34 0 0 0 .46 2.43 4.9 4.9 0 0 0 1.15 1.77 4.9 4.9 0 0 0 1.77 1.15 7.34 7.34 0 0 0 2.43.46C6.94 20 7.28 20 10 20s3.06 0 4.12-.06a7.34 7.34 0 0 0 2.43-.46 5.11 5.11 0 0 0 2.92-2.92 7.34 7.34 0 0 0 .46-2.43c0-1.07.06-1.41.06-4.12s0-3.06-.06-4.12a7.34 7.34 0 0 0-.46-2.43 4.9 4.9 0 0 0-1.15-1.77A4.9 4.9 0 0 0 16.55.52a7.34 7.34 0 0 0-2.43-.46C13.06 0 12.72 0 10 0z"></path><path d="M10 4.86A5.14 5.14 0 1 0 15.14 10 5.14 5.14 0 0 0 10 4.86zm0 8.47A3.33 3.33 0 1 1 13.33 10 3.33 3.33 0 0 1 10 13.33z"></path><circle cx="15.34" cy="4.66" r="1.2"></circle></svg>					</a>
+				</li>
+												<li class="social__item social__item--pinterest">
+					<a href="https://www.pinterest.com/gunbacker45/" target="_blank">
+						<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 15.83 20"><path d="M4.24 19.64a13.85 13.85 0 0 0 1.54-3.25l.77-2.95a3.32 3.32 0 0 0 2.85 1.42c3.74 0 6.43-3.44 6.43-7.71C15.83 3.06 12.49 0 8.19 0 2.84 0 0 3.59 0 7.5c0 1.82 1 4.08 2.52 4.8.23.11.36.06.41-.17l.34-1.41a.37.37 0 0 0-.09-.36 4.82 4.82 0 0 1-.92-2.83 5.36 5.36 0 0 1 5.6-5.38 4.89 4.89 0 0 1 5.18 5c0 3.35-1.69 5.67-3.9 5.67a1.8 1.8 0 0 1-1.83-2.24 25 25 0 0 0 1-4.13 1.56 1.56 0 0 0-1.55-1.68c-1.24 0-2.24 1.29-2.24 3a4.47 4.47 0 0 0 .37 1.84s-1.23 5.19-1.45 6.16a11.91 11.91 0 0 0 0 3.56s.14 1.27.8.31z"></path></svg>					</a>
+				</li>
+												<li class="social__item social__item--twitter">
+					<a href="https://twitter.com/GunBacker" target="_blank">
+						<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 29.95 24.34"><path d="M26.88 6.06v.79c.02 8.13-6.16 17.49-17.43 17.49a17.39 17.39 0 0 1-9.42-2.76 12.46 12.46 0 0 0 1.47.09 12.33 12.33 0 0 0 7.63-2.63 6.15 6.15 0 0 1-5.74-4.27 6.16 6.16 0 0 0 2.77-.11 6.15 6.15 0 0 1-4.93-6v-.08a6.12 6.12 0 0 0 2.78.77 6.15 6.15 0 0 1-1.9-8.2 17.44 17.44 0 0 0 12.66 6.42 6.15 6.15 0 0 1 10.47-5.6 12.3 12.3 0 0 0 3.9-1.49 6.16 6.16 0 0 1-2.7 3.4 12.28 12.28 0 0 0 3.53-1 12.48 12.48 0 0 1-3.09 3.18z"></path></svg>					</a>
+				</li>
+												<li class="social__item social__item--youtube">
+					<a href="https://www.youtube.com/channel/UCPyXtFrQGNAw3hJ6-XEYPzg/featured?disable_polymer=1" target="_blank">
+						<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 30 22"><path d="M25 0H5a5 5 0 0 0-5 5v12a5 5 0 0 0 5 5h20a5 5 0 0 0 5-5V5a5 5 0 0 0-5-5zM10 17V5l12 6z"></path></svg>					</a>
+				</li>
+						</ul>
+					<a class="site-header__search" data-modal-target="search" href="#">
+						<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 18.71 18.71"><path d="M18.71 17.29l-6.11-6.11a7 7 0 1 0-1.41 1.41l6.11 6.11zM7 12a5 5 0 1 1 5-5 5 5 0 0 1-5 5z"></path></svg>					</a>
+				</div>
+			</div>
+		</div>
+	</header>
+
+	<div class="menu-overlay"></div>
+
+	
+	
+<section class="spacing-large">
+			<article class="">
+			<div class="section section--medium spacing-medium-bottom post-top">
+				<div class="post-styles">
+					<h1 class="post-title">
+						9MM vs. .40 Cal: Which is Better for Survival &amp; EDC?					</h1>
+				</div>
+							</div>
+
+			
+			<div class="section section--medium spacing-small-bottom section--m-full">
+									<span class="post-cat-icon cat-icon">
+						<a href="https://www.gunbacker.com/category/firearms/"><img src="https://www.gunbacker.com/wp-content/uploads/2017/08/gun.svg" alt="" data-lazy-src="https://www.gunbacker.com/wp-content/uploads/2017/08/gun.svg" data-ll-status="loaded" class="entered lazyloaded"><noscript><img src='https://www.gunbacker.com/wp-content/uploads/2017/08/gun.svg' alt=''></noscript></a>					</span>
+																		<picture class="img-full">
+						<source data-lazy-srcset="https://www.gunbacker.com/wp-content/uploads/2017/06/9mm-vs-40-caliber-firearms-740x400.jpg 1x, https://www.gunbacker.com/wp-content/uploads/2017/06/9mm-vs-40-caliber-firearms.jpg 2x" media="(min-width: 375px)">
+						<img width="740" class="img-full" srcset="https://www.gunbacker.com/wp-content/uploads/2017/06/9mm-vs-40-caliber-firearms-375x203.jpg 1x, https://www.gunbacker.com/wp-content/uploads/2017/06/9mm-vs-40-caliber-firearms-750x406.jpg 2x">
+					</picture>
+							</div>
+			<div class="section section--medium post-styles">
+				
+				<p>The debate between centerfire pistol calibers for self-defense is an expansive one. Some debates are valuable, and others are primarily fanboys fighting each other over a 9mm vs. .40 Cal.</p>
+<p>The best method to see which is better is to look at both rounds objectively, which is what we are doing in this article as we compare the <a href="https://www.gunbacker.com/best-9mm-pistols-handguns/" target="_blank" rel="noopener noreferrer">9mm</a> vs. the <a href="https://en.wikipedia.org/wiki/.40_S%26W">40 caliber</a> pistol rounds.</p>
+<p>We break down these two popular calibers in seven different categories to find out which is most effective for survival &amp; <a href="https://www.gunbacker.com/a-review-of-nexbelt-for-concealed-carry-and-edc/" target="_blank" rel="noopener noreferrer">EDC</a>.</p>
+<div id="toc_container" class="no_bullets"><p class="toc_title">Contents</p><ul class="toc_list"><li><a href="#The_9mm_vs_40_Cal_Top_7_Factors">The 9mm vs. .40 Cal: Top 7 Factors</a><ul><li><a href="#1_Price_of_Ammunition">1. Price of Ammunition</a></li><li><a href="#2_Availability_of_Ammunition">2. Availability of Ammunition</a></li><li><a href="#3_Ballistic_Penetration_Comparison">3. Ballistic Penetration Comparison</a></li><li><a href="#4_Firearms_Capacity">4. Firearms Capacity</a></li><li><a href="#5_Caliber_Recoil_Comparison">5. Caliber Recoil Comparison</a></li><li><a href="#6_Handgun_Options">6. Handgun Options</a></li><li><a href="#7_Terminal_Performance_of_the_Round">7. Terminal Performance of the Round</a></li></ul></li><li><a href="#9mm_vs_40_Cal_Overall_Winner">9mm vs. .40 Cal: Overall Winner</a></li></ul></div>
+
+<p><a href="https://www.avantlink.com/click.php?tt=ml&amp;ti=689721&amp;pw=248217&amp;ctc=4400" target="_blank" rel="noopener noreferrer">Up to 60% Off Daily Deal Products. Palmetto State Armory – Bulk Ammo, MSR Rifles, Magazines &amp; More<img decoding="async" style="visibility: hidden; border: none !important; margin: 0px !important;" src="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%200%200'%3E%3C/svg%3E" alt="" width="0" height="0" data-lazy-src="//www.avantlink.com/tpv/16017/689721/196229/248217/4400/ml/image.png"><noscript><img decoding="async" style="visibility: hidden; border: none !important; margin: 0px !important;" src="//www.avantlink.com/tpv/16017/689721/196229/248217/4400/ml/image.png" alt="" width="0" height="0" /></noscript></a></p>
+<hr>
+<h2><span id="The_9mm_vs_40_Cal_Top_7_Factors">The 9mm vs. .40 Cal: Top 7 Factors</span></h2>
+<h3><span id="1_Price_of_Ammunition">1. Price of Ammunition</span></h3>
+<p>Ammunition prices are an interesting aspect that comes into play when deciding a caliber. Going the cheapest route isn’t always the wisest, however, being budget conscious is an admirable goal. This is especially true when it comes to buying in bulk.</p>
+<p>Out of the gate, <a href="https://www.gunbacker.com/best-9mm-pistols-handguns/">the 9mm</a> is slightly cheaper with the average price being 10 dollars for a box of 50 rounds, compared to 40 S&amp;W 13 dollars per box. These are priced for big-box retailers on standard FMJ cartridges.</p>
+<p>Self-defense ammunition narrows the price gap to the point of no discernible difference. Looking at the popular Hornady Critical Duty for both the 9mm and 40 S&amp;W and you get a price difference of 68 cents per box of 20 from online retailers.</p>
+<p>The price between firearms chambered for the cartridge rarely differs either. Both calibers are incredibly popular with civilian shooters and law enforcement, so most major companies produce firearms in both 9mm and 40 S&amp;W. Unlike <a href="https://www.gunbacker.com/9mm-vs-22/">the 9mm and the 22lr</a>, there is rarely any price difference between the 9mm and 40 S&amp;W variants.</p>
+<p>9mm clearly holds the better price for bulk purchases and for cheaper target or practice ammunition. The difference between defensive ammunition is rarely more than a dollar per box and isn’t discernible.</p>
+<p><strong>9mm vs. .40 Cal Winner: 9mm (Just barely)</strong></p>
+<hr>
+<h3><span id="2_Availability_of_Ammunition">2. Availability of Ammunition</span></h3>
+<p>Both ammo types are quite popular and easy to find at any ammo retailer. From big box stores to mom and pop gun shops both calibers are everywhere. Both calibers also have a variety of different target and self-defense loads available to them.</p>
+<p>Both calibers can easily be bought in bulk online as well. The main difference in availability was mostly noticed from 2012 to 2014 when there was an ammunition drought. 9mm was difficult to find and almost impossible to buy in bulk just like the ammo <a href="https://www.gunbacker.com/best-22-pistols/">for .22 pistols</a>.</p>
+<p>40 S&amp;W, however, remained available. This could be due to 9mm being more popular and therefore more people purchasing it. Or it could be that until very recently the 40 S&amp;W has been the choice for law enforcement since the early 1990s.</p>
+<p>This means more 40 S&amp;W is produced than 9mm for these law enforcement contracts leading to more on the shelves perhaps? Regardless of the reasoning 40 S&amp;W and <a href="https://www.gunbacker.com/a-shotgun-calibers-guide-an-intro-into-calibers/" target="_blank" rel="noopener noreferrer">12 gauge</a> were the only calibers widely available for almost two years.</p>
+<p>That can change, but as of now, 40 S&amp;W has proven to be the more available ammunition.</p>
+<p><strong>9mm vs. .40 Cal Winner: 40 S&amp;W</strong></p>
+<hr>
+<h3><span id="3_Ballistic_Penetration_Comparison">3. Ballistic Penetration Comparison</span></h3>
+<p>Both of these rounds were designed initially for military or police work. With that in mind, they had to have the ability to stop an aggressive attacker. To do so the round needs to be capable of penetrating at least 12 inches of ballistic gel.</p>
+<p>If it can penetrate 12 inches of ballistic gel it can strike a vital organ and stop an attacker.</p>
+<p>These are more dependent on a round’s specific load more than the round itself. However, both the 9mm and 40 S&amp;W are generally capable of exceeding that 12-inch limit, and both rounds have an excellent choice of self-defense loads.</p>
+<p>Modern defensive loads make the 40 S&amp;W and 9mm quite equal on soft flesh. The biggest difference comes from barrier penetration. 40 S&amp;W, when loaded with a defensive load, penetrates barriers better than 45 ACP and 9mm.</p>
+<p>The round is less likely to be deflected when penetrating a hard barrier and this could be a concern for law enforcement and military applications. Concealed carriers may not have the same concern. Regardless 40 S&amp;W edges ahead for this category.</p>
+<p><strong>9mm vs. .40 Cal Winner: 40 S&amp;W</strong></p>
+<hr>
+<h3><span id="4_Firearms_Capacity">4. Firearms Capacity</span></h3>
+<p>Due to the initial size difference between 9mm and 40 S&amp;W one of the biggest differences is capacity. Guns in 40 S&amp;W are often built to the same specifications as the 9mm version. For example, the Glock 22 and Glock 17 are nearly identical.</p>
+<p>Because of this, the space to house ammunition is typically the same.</p>
+<p>This leads to the 9mm often being able to hold more ammunition overall with standard magazines. Using the <a href="http://www.avantlink.com/click.php?tt=cl&amp;merchant_id=7614c6a9-9343-418a-9fab-5db64d366e41&amp;website_id=66dec568-0d96-4e3c-bdb8-34256c2186d7&amp;url=https%3A%2F%2Fwww.rainierarms.com%2Fglock-17-gen-5-9mm-17-rd%2F" target="_blank" rel="noopener noreferrer">Glock 17</a> and the Glock 22 as examples once more you’ll see the Glock 17 can hold 17 rounds and the <a href="http://www.avantlink.com/click.php?tt=cl&amp;merchant_id=366d8fa6-2a72-4d59-bc31-583f74cfd91b&amp;website_id=66dec568-0d96-4e3c-bdb8-34256c2186d7&amp;url=https%3A%2F%2Fpalmettostatearmory.com%2Fglock-22-gen4-40-s-w-pistol-battlefield-green-pg2250203bfg.html" target="_blank" rel="noopener noreferrer">Glock 22</a> can hold 15 rounds.</p>
+<p>This remains the same in almost every weapon out there. From single to double stacks the 9mm most often holds more rounds than the 40 S&amp;W. This is an important consideration when you consider that no one ever asked for less ammo in a gunfight. &nbsp;Just make sure you have a <a href="https://www.gunbacker.com/best-range-bags/">big enough range bag</a> to carry it all.</p>
+<p><strong>9mm vs. .40 Cal Winner: 9mm</strong></p>
+<hr>
+<h3><span id="5_Caliber_Recoil_Comparison">5. Caliber Recoil Comparison</span></h3>
+<p>Recoil and recoil mitigation is a major consideration for any self-defense or duty firearm. The less recoil the more pleasant the weapon is to shoot, and the faster it can be mastered, and the faster it can be fired accurately. 40 S&amp;W is a better barrier penetrator hands down, however, to propel a projectile that is fast and heavy enough to pierce barrier shooters have to compromise on recoil.</p>
+<p>Recoil on the 40 S&amp;W can range from kind of snappy with a full-sized pistol to downright annoying with a compact. Small guns like the Glock 27 will often drift out of that perfect grip after a few shots and require readjustment.</p>
+<p>9mm is downright pleasant to shoot, even in small, lightweight guns. Rarely would anyone describe the recoil effects on 9mm as harsh. 9mm also has a wide variety of loads designed for lowered recoil for those who are super recoil sensitive.</p>
+<p>9mms recoil allows for faster follow up shots, more pleasant shooting, and less wear and tear on most firearms.</p>
+<p><strong>9MM vs. .40 Cal Winner: 9mm</strong></p>
+<hr>
+<h3><span id="6_Handgun_Options">6. Handgun Options</span></h3>
+<p>Both rounds are chambered in a wide variety of automatic pistols both big and small. &nbsp;They can both be <a href="https://www.gunbacker.com/concealed-carry-reciprocity/">carried concealed</a> effectively. &nbsp;The 9mm round seems to be the current fad alongside single stack concealed carry pistols. 9mm has also been around much longer than 40 S&amp;W so by that metric alone provides overall more firearms.</p>
+<p>Both rounds even have offerings in revolvers, although the 40 S&amp;W seems to only have one while 9mm has quite a few. When it comes to pistol caliber carbines the 9mm has the 40 S&amp;W beat. Sure you can find 40 S&amp;W carbines, but modern pistol caliber carbines all lean towards the 9mm.</p>
+<p>This includes the <a href="http://www.avantlink.com/click.php?tt=cl&amp;merchant_id=366d8fa6-2a72-4d59-bc31-583f74cfd91b&amp;website_id=66dec568-0d96-4e3c-bdb8-34256c2186d7&amp;url=https%3A%2F%2Fpalmettostatearmory.com%2Fcz-scorpion-evo-3-s1-9mm-carbine-with-faux-suppressor-08507.html&amp;ctc=4400">CZ Scorpion</a>, the SIG MPX, <a href="http://www.avantlink.com/click.php?tt=cl&amp;merchant_id=366d8fa6-2a72-4d59-bc31-583f74cfd91b&amp;website_id=66dec568-0d96-4e3c-bdb8-34256c2186d7&amp;url=https%3A%2F%2Fpalmettostatearmory.com%2Fpsa-gen4-4-9mm-1-10-gx-m-lok-moe-ept-shockwave-pistol3.html&amp;ctc=4400">PSA’s Glock based AR</a>, and more. The 9mm simply finds its way into more carbines than the 40 S&amp;W.</p>
+<p><strong>9mm vs. .40 Cal Winner: 9mm</strong></p>
+<hr>
+<h3><span id="7_Terminal_Performance_of_the_Round">7. Terminal Performance of the Round</span></h3>
+<p>Terminal performance of a round deals with a variety of factors that come together to create a round that can incapacitate an attacker. These factors include penetration, expansion, and velocity. Different ammunition loads do perform differently, so comparisons will only be made between ammunition that is the same line.</p>
+<p>Modern defensive ammo needs to penetrate at least 12 inches into 10% ballistic gel. At the same time, it needs to strike with enough velocity to allow the round to expand. Since most modern defensive ammo is hollow point, ammo expansion allows the round to grow and create more damage.</p>
+<p>Bullets stop a violent attacker by striking something vital or causing blood loss. If a shooter misses something vital, blood loss acts as a secondary effect. Typically, the bigger the hole the more blood is lost, except for arteries which would be considered vital areas regardless.</p>
+<p>The bigger a bullet expands the greater likelihood of blood loss it entails. So the bullet needs to penetrate, needs to hit fast enough to allow expansions and then needs to expand once it strikes a target.</p>
+<p>When comparing similar defensive loads we begin to see why the 9mm has had a resurgence in popularity. Modern defensive ammunition has bridged the gap between rounds like the 9mm and 40 S&amp;W when compared defensively.</p>
+<p>The Remington Golden Saber rounds and SIG V Crown JHPs provide some interesting numbers. The SIG V Crown 124 grain 9mm round penetrates 16 inches, expands to .54” and has a velocity of 1070 feet per second when fired from a compact weapon. The Sig V Crown 40 S&amp;W penetration 20 inches, expanded to .55” and had a velocity of 1014 feet per second.</p>
+<p>The Golden Saber 124 grain 9mm penetrates 17.9 inches, expands to .66” and has a velocity of 1170 feet per second. The Golden Saber 165 grain 40 S&amp;W had 19.9 inches of penetration, expanded to .66’’ and had a velocity of 1113 feet per second.</p>
+<p>We’ve established the 40 S&amp;W is a better penetrator, but in a soft target, anything beyond 18 inches runs the risk of over penetrating a person. The difference between the two rounds isn’t discernible or is barely discernible.</p>
+<p><strong>9mm vs. .40 Cal Winner: Too close to call.</strong></p>
+<hr>
+<h2><span id="9mm_vs_40_Cal_Overall_Winner">9mm vs. .40 Cal: Overall Winner</span></h2>
+<p>Between the 9mm vs. .40 Cal, the 9mm is our top pick overall.</p>
+<p>Most of the guys on our editorial staff said they would choose the 9mm in favor of the 40 caliber if they could only choose one firearm of choice. &nbsp;A few of them said they’d prefer a <a href="https://www.gunbacker.com/best-1911-holsters/">1911 paired with its favorite holster</a> over the 9mm, but given the choice of 40 cal comparison, the 9mm won hands down. In the important fields it does very well. It delivers similar penetration and expansion with a higher capacity and noticeably reduced recoil.</p>
+<p>The 40 S&amp;W is superior for barrier penetration but is getting stale as the 9mm catches up.</p>
+<p>The 9mm was designed in 1902 and is an excellent example of how life in firearms is a marathon and not a sprint. &nbsp;Not to mention, the 9mm is synonymous with one of our favorite model handguns, the CZ 75B. &nbsp;Hard to go wrong with a classic caliber and a classic handgun.</p>
+<hr>
+<img fetchpriority="high" decoding="async" class="aligncenter wp-image-6878 size-large" src="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20860%20482'%3E%3C/svg%3E" alt="9MM vs. .40 Cal" width="860" height="482" data-lazy-srcset="https://www.gunbacker.com/wp-content/uploads/2020/01/GunBacker_Updated_Image2-1024x574.jpg 1024w, https://www.gunbacker.com/wp-content/uploads/2020/01/GunBacker_Updated_Image2-600x336.jpg 600w, https://www.gunbacker.com/wp-content/uploads/2020/01/GunBacker_Updated_Image2-300x168.jpg 300w, https://www.gunbacker.com/wp-content/uploads/2020/01/GunBacker_Updated_Image2-768x431.jpg 768w, https://www.gunbacker.com/wp-content/uploads/2020/01/GunBacker_Updated_Image2-860x482.jpg 860w, https://www.gunbacker.com/wp-content/uploads/2020/01/GunBacker_Updated_Image2-150x84.jpg 150w, https://www.gunbacker.com/wp-content/uploads/2020/01/GunBacker_Updated_Image2-740x415.jpg 740w, https://www.gunbacker.com/wp-content/uploads/2020/01/GunBacker_Updated_Image2-1480x830.jpg 1480w, https://www.gunbacker.com/wp-content/uploads/2020/01/GunBacker_Updated_Image2-375x210.jpg 375w, https://www.gunbacker.com/wp-content/uploads/2020/01/GunBacker_Updated_Image2-750x421.jpg 750w, https://www.gunbacker.com/wp-content/uploads/2020/01/GunBacker_Updated_Image2-287x160.jpg 287w, https://www.gunbacker.com/wp-content/uploads/2020/01/GunBacker_Updated_Image2.jpg 1500w" data-lazy-sizes="(max-width: 860px) 100vw, 860px" data-lazy-src="https://www.gunbacker.com/wp-content/uploads/2020/01/GunBacker_Updated_Image2-1024x574.jpg"><noscript><img fetchpriority="high" decoding="async" class="aligncenter wp-image-6878 size-large" src="https://www.gunbacker.com/wp-content/uploads/2020/01/GunBacker_Updated_Image2-1024x574.jpg" alt="9MM vs. .40 Cal" width="860" height="482" srcset="https://www.gunbacker.com/wp-content/uploads/2020/01/GunBacker_Updated_Image2-1024x574.jpg 1024w, https://www.gunbacker.com/wp-content/uploads/2020/01/GunBacker_Updated_Image2-600x336.jpg 600w, https://www.gunbacker.com/wp-content/uploads/2020/01/GunBacker_Updated_Image2-300x168.jpg 300w, https://www.gunbacker.com/wp-content/uploads/2020/01/GunBacker_Updated_Image2-768x431.jpg 768w, https://www.gunbacker.com/wp-content/uploads/2020/01/GunBacker_Updated_Image2-860x482.jpg 860w, https://www.gunbacker.com/wp-content/uploads/2020/01/GunBacker_Updated_Image2-150x84.jpg 150w, https://www.gunbacker.com/wp-content/uploads/2020/01/GunBacker_Updated_Image2-740x415.jpg 740w, https://www.gunbacker.com/wp-content/uploads/2020/01/GunBacker_Updated_Image2-1480x830.jpg 1480w, https://www.gunbacker.com/wp-content/uploads/2020/01/GunBacker_Updated_Image2-375x210.jpg 375w, https://www.gunbacker.com/wp-content/uploads/2020/01/GunBacker_Updated_Image2-750x421.jpg 750w, https://www.gunbacker.com/wp-content/uploads/2020/01/GunBacker_Updated_Image2-287x160.jpg 287w, https://www.gunbacker.com/wp-content/uploads/2020/01/GunBacker_Updated_Image2.jpg 1500w" sizes="(max-width: 860px) 100vw, 860px" /></noscript>
+<p style="text-align: center;">[gravityform id=”3″ title=”false” description=”false”]</p>
+			</div>
+		</article>
+	
+					<div class="section section--medium spacing-small-top">
+			<div class="author-box author-box--alt">
+				<div class="author-box__img">
+					<a href="https://www.gunbacker.com/author/gun-backer/">
+						<img data-del="avatar" src="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20130%20130'%3E%3C/svg%3E" class="avatar pp-user-avatar avatar-130 photo " height="130" width="130" data-lazy-src="https://www.gunbacker.com/wp-content/uploads/2023/12/60435321_2548988938446524_2350809186499035136_n-150x150.jpg"><noscript><img data-del="avatar" src='https://www.gunbacker.com/wp-content/uploads/2023/12/60435321_2548988938446524_2350809186499035136_n-150x150.jpg' class='avatar pp-user-avatar avatar-130 photo ' height='130' width='130'/></noscript>					</a>
+				</div>
+				<div class="author-box__desc">
+					<div class="post-styles">
+						<h6>
+							By <a href="https://www.gunbacker.com/author/gun-backer/" title="Posts by Levi Frenchak" rel="author">Levi Frenchak</a>						</h6>
+						<p>Levi Frenchak has years of firearms experience between sporting and responsible concealed carry applications. Levi is a member of multiple pro-second amendment organizations including USCCA, NRA, and just as importantly, his local range. Levi is continuing a legacy of support for our rights by working with his family to increase firearms education and awareness as the lead editor of GunBacker.</p>
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+
+
+<section class="spacing-large-bottom">
+	<div class="scroll-ads-bottom"></div>
+	<div class="share">
+		<h2 class="share__title">
+			<span class="share__title-txt">
+				Share Our Stuff			</span>
+		</h2>
+		<ul class="share__inner">
+			<li class="share__item share__item--facebook">
+				<a class="js-popup" href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fwww.gunbacker.com%2F9mm-vs-40-cal-round%2F" target="_blank">
+					<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M18.9 0H1.1A1.1 1.1 0 0 0 0 1.1v17.8A1.1 1.1 0 0 0 1.1 20h9.58v-7.74h-2.6v-3h2.61V7a3.64 3.64 0 0 1 3.88-4 21.39 21.39 0 0 1 2.33.12v2.7h-1.6c-1.25 0-1.5.6-1.5 1.47v1.95h3l-.39 3H13.8V20h5.1a1.1 1.1 0 0 0 1.1-1.1V1.1A1.1 1.1 0 0 0 18.9 0z"></path></svg>				</a>
+			</li>
+							<li class="share__item share__item--pinterest">
+					<a class="js-popup" href="https://pinterest.com/pin/create/button/?url=https%3A%2F%2Fwww.gunbacker.com%2F9mm-vs-40-cal-round%2F&nbsp;media=https://www.gunbacker.com/wp-content/uploads/2017/06/9mm-vs-40-caliber-firearms.jpg" target="_blank">
+						<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 15.83 20"><path d="M4.24 19.64a13.85 13.85 0 0 0 1.54-3.25l.77-2.95a3.32 3.32 0 0 0 2.85 1.42c3.74 0 6.43-3.44 6.43-7.71C15.83 3.06 12.49 0 8.19 0 2.84 0 0 3.59 0 7.5c0 1.82 1 4.08 2.52 4.8.23.11.36.06.41-.17l.34-1.41a.37.37 0 0 0-.09-.36 4.82 4.82 0 0 1-.92-2.83 5.36 5.36 0 0 1 5.6-5.38 4.89 4.89 0 0 1 5.18 5c0 3.35-1.69 5.67-3.9 5.67a1.8 1.8 0 0 1-1.83-2.24 25 25 0 0 0 1-4.13 1.56 1.56 0 0 0-1.55-1.68c-1.24 0-2.24 1.29-2.24 3a4.47 4.47 0 0 0 .37 1.84s-1.23 5.19-1.45 6.16a11.91 11.91 0 0 0 0 3.56s.14 1.27.8.31z"></path></svg>					</a>
+				</li>
+			            <li class="share__item share__item--twitter">
+				<a class="js-popup" href="https://twitter.com/intent/tweet?=text=9MM+vs.+.40+Cal%3A+Which+is+Better+for+Survival+%26%23038%3B+EDC%3F&amp;url=https%3A%2F%2Fwww.gunbacker.com%2F9mm-vs-40-cal-round%2F" target="_blank">
+					<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 29.95 24.34"><path d="M26.88 6.06v.79c.02 8.13-6.16 17.49-17.43 17.49a17.39 17.39 0 0 1-9.42-2.76 12.46 12.46 0 0 0 1.47.09 12.33 12.33 0 0 0 7.63-2.63 6.15 6.15 0 0 1-5.74-4.27 6.16 6.16 0 0 0 2.77-.11 6.15 6.15 0 0 1-4.93-6v-.08a6.12 6.12 0 0 0 2.78.77 6.15 6.15 0 0 1-1.9-8.2 17.44 17.44 0 0 0 12.66 6.42 6.15 6.15 0 0 1 10.47-5.6 12.3 12.3 0 0 0 3.9-1.49 6.16 6.16 0 0 1-2.7 3.4 12.28 12.28 0 0 0 3.53-1 12.48 12.48 0 0 1-3.09 3.18z"></path></svg>				</a>
+			</li>
+		</ul>
+	</div>
+</section>
+
+
+	<section class="section section--medium spacing-large-bottom">
+		<article class="post-card-2">
+			<figure class="post-card-2__thumb">
+				<a href="https://www.gunbacker.com/best-range-bags/">
+					<img width="860" height="445" src="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20860%20445'%3E%3C/svg%3E" class="img-full wp-post-image" alt="Best Range Bags for Shooting Pistols and Handguns at the Range" decoding="async" data-lazy-srcset="https://www.gunbacker.com/wp-content/uploads/2017/06/Best-Range-Bags-for-Shooting-Pistols-and-Handguns-at-the-Range-860x445.jpg 860w, https://www.gunbacker.com/wp-content/uploads/2017/06/Best-Range-Bags-for-Shooting-Pistols-and-Handguns-at-the-Range-524x271.jpg 524w, https://www.gunbacker.com/wp-content/uploads/2017/06/Best-Range-Bags-for-Shooting-Pistols-and-Handguns-at-the-Range-296x153.jpg 296w, https://www.gunbacker.com/wp-content/uploads/2017/06/Best-Range-Bags-for-Shooting-Pistols-and-Handguns-at-the-Range-1300x674.jpg 1300w" data-lazy-sizes="(max-width: 860px) 100vw, 860px" data-lazy-src="https://www.gunbacker.com/wp-content/uploads/2017/06/Best-Range-Bags-for-Shooting-Pistols-and-Handguns-at-the-Range-860x445.jpg"><noscript><img width="860" height="445" src="https://www.gunbacker.com/wp-content/uploads/2017/06/Best-Range-Bags-for-Shooting-Pistols-and-Handguns-at-the-Range-860x445.jpg" class="img-full wp-post-image" alt="Best Range Bags for Shooting Pistols and Handguns at the Range" decoding="async" srcset="https://www.gunbacker.com/wp-content/uploads/2017/06/Best-Range-Bags-for-Shooting-Pistols-and-Handguns-at-the-Range-860x445.jpg 860w, https://www.gunbacker.com/wp-content/uploads/2017/06/Best-Range-Bags-for-Shooting-Pistols-and-Handguns-at-the-Range-524x271.jpg 524w, https://www.gunbacker.com/wp-content/uploads/2017/06/Best-Range-Bags-for-Shooting-Pistols-and-Handguns-at-the-Range-296x153.jpg 296w, https://www.gunbacker.com/wp-content/uploads/2017/06/Best-Range-Bags-for-Shooting-Pistols-and-Handguns-at-the-Range-1300x674.jpg 1300w" sizes="(max-width: 860px) 100vw, 860px" /></noscript>				</a>
+			</figure>
+			<a class="post-card-2__main" href="https://www.gunbacker.com/best-range-bags/">
+				<p class="post-card-2__txt">
+					Recommended For You
+				</p>
+				<h2 class="post-card-2__title">
+					The 10 Best Range Bags For Handguns/Pistols at the Shooting Range				</h2>
+			</a>
+		</article>
+	</section>
+
+
+<div class="site-cta">
+	<div class="site-cta__inner">
+		<div class="site-cta__side">
+			<h2 class="site-cta__title">
+				<span class="site-cta__title-txt site-cta__title-txt--small">
+					The				</span>
+				<span class="site-cta__title-txt site-cta__title-txt-2">
+					<span class="site-cta__title-txt--large">
+						Daily					</span>
+					<span class="site-cta__title-txt--large">
+						Ammo					</span>
+				</span>
+			</h2>
+		</div>
+		<div class="site-cta__main">
+							<p>
+					The latest firearms reviews, gear reviews and safe shooting tips for responsible gun owners.				</p>
+			
+							<div class="site-cta__ck-form">
+					<script type="rocketlazyloadscript" src="https://f.convertkit.com/ckjs/ck.5.js" defer=""></script>
+					<form action="https://app.convertkit.com/forms/2066613/subscriptions" class="seva-form formkit-form" method="post" data-sv-form="2066613" data-uid="ae895a737f" data-format="inline" data-version="5" data-options="{&quot;settings&quot;:{&quot;after_subscribe&quot;:{&quot;action&quot;:&quot;message&quot;,&quot;success_message&quot;:&quot;Thanks for signing up!&quot;,&quot;redirect_url&quot;:&quot;&quot;},&quot;analytics&quot;:{&quot;google&quot;:null,&quot;facebook&quot;:null,&quot;segment&quot;:null,&quot;pinterest&quot;:null,&quot;sparkloop&quot;:null,&quot;googletagmanager&quot;:null},&quot;modal&quot;:{&quot;trigger&quot;:&quot;timer&quot;,&quot;scroll_percentage&quot;:null,&quot;timer&quot;:5,&quot;devices&quot;:&quot;all&quot;,&quot;show_once_every&quot;:15},&quot;powered_by&quot;:{&quot;show&quot;:false,&quot;url&quot;:&quot;https://convertkit.com/?utm_source=dynamic&amp;utm_medium=referral&amp;utm_campaign=poweredby&amp;utm_content=form&quot;},&quot;recaptcha&quot;:{&quot;enabled&quot;:false},&quot;return_visitor&quot;:{&quot;action&quot;:&quot;show&quot;,&quot;custom_content&quot;:&quot;&quot;},&quot;slide_in&quot;:{&quot;display_in&quot;:&quot;bottom_right&quot;,&quot;trigger&quot;:&quot;timer&quot;,&quot;scroll_percentage&quot;:null,&quot;timer&quot;:5,&quot;devices&quot;:&quot;all&quot;,&quot;show_once_every&quot;:15},&quot;sticky_bar&quot;:{&quot;display_in&quot;:&quot;top&quot;,&quot;trigger&quot;:&quot;timer&quot;,&quot;scroll_percentage&quot;:null,&quot;timer&quot;:5,&quot;devices&quot;:&quot;all&quot;,&quot;show_once_every&quot;:15}},&quot;version&quot;:&quot;5&quot;}">
+						<div data-style="card">
+							<div data-element="column" class="formkit-column">
+								<div class="formkit-subheader" data-element="subheader" style="color: rgb(125, 125, 125); font-size: 0px;">Subscribe to get our latest content by email.</div>
+								<ul class="formkit-alert formkit-alert-error" data-element="errors" data-group="alert"></ul>
+								<div data-element="fields" class="seva-fields formkit-fields">
+									<div class="formkit-field" style="margin-bottom: 10px;">
+										<input class="formkit-input" name="email_address" aria-label="Type your email" placeholder="Type your email" required="" type="email" style="color: rgb(0, 0, 0); border-color: rgb(227, 227, 227); border-radius: 0px; font-weight: 400;">
+									</div>
+									<button data-element="submit" class="formkit-submit formkit-submit" style="color: rgb(255, 255, 255); background-color: rgb(51, 51, 51); border-radius: 0px; font-weight: 400;">
+										<div class="formkit-spinner">
+											<div></div>
+											<div></div>
+											<div></div>
+										</div>
+										<span class="">Submit</span>
+									</button>
+								</div>
+								<div class="formkit-guarantee" data-element="guarantee" style="color: rgb(125, 125, 125); font-size: 0px; font-weight: 400;">
+									<p>​</p>
+								</div>
+							</div>
+						</div>
+					</form>
+					<!--
+					<form method="POST" action="https://gunbacker.activehosted.com/proc.php" id="_form_9_" class="_form _form_9 _inline-form _inline-style _dark" novalidate>
+						<input type="hidden" name="u" value="9" />
+						<input type="hidden" name="f" value="9" />
+						<input type="hidden" name="s" />
+						<input type="hidden" name="c" value="0" />
+						<input type="hidden" name="m" value="0" />
+						<input type="hidden" name="act" value="sub" />
+						<input type="hidden" name="v" value="2" />
+						<div class="_form-content">
+						<div class="_form_element _x24567573 _inline-style " >
+							<div class="_field-wrapper">
+							<input type="text" name="email" placeholder="Type your email" required/>
+							</div>
+						</div>
+						<div class="_button-wrapper _inline-style">
+							<button id="_form_9_submit" class="_submit" type="submit">
+							Subscribe
+							</button>
+						</div>
+						<div class="_clear-element">
+						</div>
+						</div>
+						<div class="_form-thank-you" style="display:none;">
+						</div>
+					</form>
+					-->
+				</div>
+				<script type="rocketlazyloadscript" data-rocket-type="text/javascript">
+					window.cfields = [];
+					window._show_thank_you = function(id, message, trackcmp_url) {
+					var form = document.getElementById('_form_' + id + '_'), thank_you = form.querySelector('._form-thank-you');
+					form.querySelector('._form-content').style.display = 'none';
+					thank_you.innerHTML = message;
+					thank_you.style.display = 'block';
+					if (typeof(trackcmp_url) != 'undefined' && trackcmp_url) {
+						// Site tracking URL to use after inline form submission.
+						_load_script(trackcmp_url);
+					}
+					if (typeof window._form_callback !== 'undefined') window._form_callback(id);
+					};
+					window._show_error = function(id, message, html) {
+					var form = document.getElementById('_form_' + id + '_'), err = document.createElement('div'), button = form.querySelector('button'), old_error = form.querySelector('._form_error');
+					if (old_error) old_error.parentNode.removeChild(old_error);
+					err.innerHTML = message;
+					err.className = '_error-inner _form_error _no_arrow';
+					var wrapper = document.createElement('div');
+					wrapper.className = '_form-inner';
+					wrapper.appendChild(err);
+					button.parentNode.insertBefore(wrapper, button);
+					document.querySelector('[id^="_form"][id$="_submit"]').disabled = false;
+					if (html) {
+						var div = document.createElement('div');
+						div.className = '_error-html';
+						div.innerHTML = html;
+						err.appendChild(div);
+					}
+					};
+					window._load_script = function(url, callback) {
+					var head = document.querySelector('head'), script = document.createElement('script'), r = false;
+					script.type = 'text/javascript';
+					script.charset = 'utf-8';
+					script.src = url;
+					if (callback) {
+						script.onload = script.onreadystatechange = function() {
+						if (!r && (!this.readyState || this.readyState == 'complete')) {
+							r = true;
+							callback();
+						}
+						};
+					}
+					head.appendChild(script);
+					};
+					(function() {
+					if (window.location.search.search("excludeform") !== -1) return false;
+					var getCookie = function(name) {
+						var match = document.cookie.match(new RegExp('(^|; )' + name + '=([^;]+)'));
+						return match ? match[2] : null;
+					}
+					var setCookie = function(name, value) {
+						var now = new Date();
+						var time = now.getTime();
+						var expireTime = time + 1000 * 60 * 60 * 24 * 365;
+						now.setTime(expireTime);
+						document.cookie = name + '=' + value + '; expires=' + now + ';path=/';
+					}
+						var addEvent = function(element, event, func) {
+						if (element.addEventListener) {
+						element.addEventListener(event, func);
+						} else {
+						var oldFunc = element['on' + event];
+						element['on' + event] = function() {
+							oldFunc.apply(this, arguments);
+							func.apply(this, arguments);
+						};
+						}
+					}
+					var _removed = false;
+					var form_to_submit = document.getElementById('_form_9_');
+					var allInputs = form_to_submit.querySelectorAll('input, select, textarea'), tooltips = [], submitted = false;
+
+					var getUrlParam = function(name) {
+						var regexStr = '[\?&]' + name + '=([^&#]*)';
+						var results = new RegExp(regexStr, 'i').exec(window.location.href);
+						return results != undefined ? decodeURIComponent(results[1]) : false;
+					};
+
+					for (var i = 0; i < allInputs.length; i++) {
+						var regexStr = "field\\[(\\d+)\\]";
+						var results = new RegExp(regexStr).exec(allInputs[i].name);
+						if (results != undefined) {
+						allInputs[i].dataset.name = window.cfields[results[1]];
+						} else {
+						allInputs[i].dataset.name = allInputs[i].name;
+						}
+						var fieldVal = getUrlParam(allInputs[i].dataset.name);
+
+						if (fieldVal) {
+						if (allInputs[i].dataset.autofill === "false") {
+							continue;
+						}
+						if (allInputs[i].type == "radio" || allInputs[i].type == "checkbox") {
+							if (allInputs[i].value == fieldVal) {
+							allInputs[i].checked = true;
+							}
+						} else {
+							allInputs[i].value = fieldVal;
+						}
+						}
+					}
+
+					var remove_tooltips = function() {
+						for (var i = 0; i < tooltips.length; i++) {
+						tooltips[i].tip.parentNode.removeChild(tooltips[i].tip);
+						}
+						tooltips = [];
+					};
+					var remove_tooltip = function(elem) {
+						for (var i = 0; i < tooltips.length; i++) {
+						if (tooltips[i].elem === elem) {
+							tooltips[i].tip.parentNode.removeChild(tooltips[i].tip);
+							tooltips.splice(i, 1);
+							return;
+						}
+						}
+					};
+					var create_tooltip = function(elem, text) {
+						var tooltip = document.createElement('div'), arrow = document.createElement('div'), inner = document.createElement('div'), new_tooltip = {};
+						if (elem.type != 'radio' && elem.type != 'checkbox') {
+						tooltip.className = '_error';
+						arrow.className = '_error-arrow';
+						inner.className = '_error-inner';
+						inner.innerHTML = text;
+						tooltip.appendChild(arrow);
+						tooltip.appendChild(inner);
+						elem.parentNode.appendChild(tooltip);
+						} else {
+						tooltip.className = '_error-inner _no_arrow';
+						tooltip.innerHTML = text;
+						elem.parentNode.insertBefore(tooltip, elem);
+						new_tooltip.no_arrow = true;
+						}
+						new_tooltip.tip = tooltip;
+						new_tooltip.elem = elem;
+						tooltips.push(new_tooltip);
+						return new_tooltip;
+					};
+					var resize_tooltip = function(tooltip) {
+						var rect = tooltip.elem.getBoundingClientRect();
+						var doc = document.documentElement, scrollPosition = rect.top - ((window.pageYOffset || doc.scrollTop)  - (doc.clientTop || 0));
+						if (scrollPosition < 40) {
+						tooltip.tip.className = tooltip.tip.className.replace(/ ?(_above|_below) ?/g, '') + ' _below';
+						} else {
+						tooltip.tip.className = tooltip.tip.className.replace(/ ?(_above|_below) ?/g, '') + ' _above';
+						}
+					};
+					var resize_tooltips = function() {
+						if (_removed) return;
+						for (var i = 0; i < tooltips.length; i++) {
+						if (!tooltips[i].no_arrow) resize_tooltip(tooltips[i]);
+						}
+					};
+					var validate_field = function(elem, remove) {
+						var tooltip = null, value = elem.value, no_error = true;
+						remove ? remove_tooltip(elem) : false;
+						if (elem.type != 'checkbox') elem.className = elem.className.replace(/ ?_has_error ?/g, '');
+						if (elem.getAttribute('required') !== null) {
+						if (elem.type == 'radio' || (elem.type == 'checkbox' && /any/.test(elem.className))) {
+							var elems = form_to_submit.elements[elem.name];
+							if (!(elems instanceof NodeList || elems instanceof HTMLCollection) || elems.length <= 1) {
+							no_error = elem.checked;
+							}
+							else {
+							no_error = false;
+							for (var i = 0; i < elems.length; i++) {
+								if (elems[i].checked) no_error = true;
+							}
+							}
+							if (!no_error) {
+							tooltip = create_tooltip(elem, "Please select an option.");
+							}
+						} else if (elem.type =='checkbox') {
+							var elems = form_to_submit.elements[elem.name], found = false, err = [];
+							no_error = true;
+							for (var i = 0; i < elems.length; i++) {
+							if (elems[i].getAttribute('required') === null) continue;
+							if (!found && elems[i] !== elem) return true;
+							found = true;
+							elems[i].className = elems[i].className.replace(/ ?_has_error ?/g, '');
+							if (!elems[i].checked) {
+								no_error = false;
+								elems[i].className = elems[i].className + ' _has_error';
+								err.push("Checking %s is required".replace("%s", elems[i].value));
+							}
+							}
+							if (!no_error) {
+							tooltip = create_tooltip(elem, err.join('<br/>'));
+							}
+						} else if (elem.tagName == 'SELECT') {
+							var selected = true;
+							if (elem.multiple) {
+							selected = false;
+							for (var i = 0; i < elem.options.length; i++) {
+								if (elem.options[i].selected) {
+								selected = true;
+								break;
+								}
+							}
+							} else {
+							for (var i = 0; i < elem.options.length; i++) {
+								if (elem.options[i].selected && !elem.options[i].value) {
+								selected = false;
+								}
+							}
+							}
+							if (!selected) {
+							elem.className = elem.className + ' _has_error';
+							no_error = false;
+							tooltip = create_tooltip(elem, "Please select an option.");
+							}
+						} else if (value === undefined || value === null || value === '') {
+							elem.className = elem.className + ' _has_error';
+							no_error = false;
+							tooltip = create_tooltip(elem, "This field is required.");
+						}
+						}
+						if (no_error && elem.name == 'email') {
+						if (!value.match(/^[\+_a-z0-9-'&=]+(\.[\+_a-z0-9-']+)*@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,})$/i)) {
+							elem.className = elem.className + ' _has_error';
+							no_error = false;
+							tooltip = create_tooltip(elem, "Enter a valid email address.");
+						}
+						}
+						if (no_error && /date_field/.test(elem.className)) {
+						if (!value.match(/^\d\d\d\d-\d\d-\d\d$/)) {
+							elem.className = elem.className + ' _has_error';
+							no_error = false;
+							tooltip = create_tooltip(elem, "Enter a valid date.");
+						}
+						}
+						tooltip ? resize_tooltip(tooltip) : false;
+						return no_error;
+					};
+					var needs_validate = function(el) {
+						return el.name == 'email' || el.getAttribute('required') !== null;
+					};
+					var validate_form = function(e) {
+						var err = form_to_submit.querySelector('._form_error'), no_error = true;
+						if (!submitted) {
+						submitted = true;
+						for (var i = 0, len = allInputs.length; i < len; i++) {
+							var input = allInputs[i];
+							if (needs_validate(input)) {
+							if (input.type == 'text') {
+								addEvent(input, 'blur', function() {
+								this.value = this.value.trim();
+								validate_field(this, true);
+								});
+								addEvent(input, 'input', function() {
+								validate_field(this, true);
+								});
+							} else if (input.type == 'radio' || input.type == 'checkbox') {
+								(function(el) {
+								var radios = form_to_submit.elements[el.name];
+								for (var i = 0; i < radios.length; i++) {
+									addEvent(radios[i], 'click', function() {
+									validate_field(el, true);
+									});
+								}
+								})(input);
+							} else if (input.tagName == 'SELECT') {
+								addEvent(input, 'change', function() {
+								validate_field(this, true);
+								});
+							} else if (input.type == 'textarea'){
+								addEvent(input, 'input', function() {
+								validate_field(this, true);
+								});
+							}
+							}
+						}
+						}
+						remove_tooltips();
+						for (var i = 0, len = allInputs.length; i < len; i++) {
+						var elem = allInputs[i];
+						if (needs_validate(elem)) {
+							if (elem.tagName.toLowerCase() !== "select") {
+							elem.value = elem.value.trim();
+							}
+							validate_field(elem) ? true : no_error = false;
+						}
+						}
+						if (!no_error && e) {
+						e.preventDefault();
+						}
+						resize_tooltips();
+						return no_error;
+					};
+					addEvent(window, 'resize', resize_tooltips);
+					addEvent(window, 'scroll', resize_tooltips);
+					window._old_serialize = null;
+					if (typeof serialize !== 'undefined') window._old_serialize = window.serialize;
+					_load_script("//d3rxaij56vjege.cloudfront.net/form-serialize/0.3/serialize.min.js", function() {
+						window._form_serialize = window.serialize;
+						if (window._old_serialize) window.serialize = window._old_serialize;
+					});
+					var form_submit = function(e) {
+						e.preventDefault();
+						if (validate_form()) {
+						// use this trick to get the submit button & disable it using plain javascript
+						document.querySelector('#_form_9_submit').disabled = true;
+								var serialized = _form_serialize(document.getElementById('_form_9_'));
+						var err = form_to_submit.querySelector('._form_error');
+						err ? err.parentNode.removeChild(err) : false;
+						_load_script('https://gunbacker.activehosted.com/proc.php?' + serialized + '&jsonp=true');
+						}
+						return false;
+					};
+					addEvent(form_to_submit, 'submit', form_submit);
+					})();
+
+					</script>
+				</div>
+					</div>
+	</div>
+
+
+
+	<section class="bg-brown triangle-bottom spacing-large">
+		<h3 class="sub-heading">
+			<span class="sub-heading__txt">
+				See Also
+			</span>
+		</h3>
+		<br>
+		<div class="section section--large">
+			<div class="txt-center">
+				<h2 class="main-heading">
+					Related Content				</h2>
+			</div>
+
+			<div class="related-grid">
+				<div class="related-grid__posts">
+											<article class="post-related">
+	<div class="post-related__thumb">
+		<a href="https://www.gunbacker.com/9mm-vs-22/">
+			<img width="368" height="195" class="img-full" src="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20368%20195'%3E%3C/svg%3E" data-lazy-srcset="https://www.gunbacker.com/wp-content/uploads/2017/06/22-LR-vs-9mm-Calibers-for-Survival-Self-Defense-368x195.jpg 1x, https://www.gunbacker.com/wp-content/uploads/2017/06/22-LR-vs-9mm-Calibers-for-Survival-Self-Defense-368x195.jpg 2x" data-lazy-src="https://www.gunbacker.com/wp-content/uploads/2017/06/22-LR-vs-9mm-Calibers-for-Survival-Self-Defense-368x195.jpg"><noscript><img width="368" height="195" class="img-full" src="https://www.gunbacker.com/wp-content/uploads/2017/06/22-LR-vs-9mm-Calibers-for-Survival-Self-Defense-368x195.jpg" srcset="https://www.gunbacker.com/wp-content/uploads/2017/06/22-LR-vs-9mm-Calibers-for-Survival-Self-Defense-368x195.jpg 1x, https://www.gunbacker.com/wp-content/uploads/2017/06/22-LR-vs-9mm-Calibers-for-Survival-Self-Defense-368x195.jpg 2x"></noscript>		</a>
+	</div>
+	<div class="post-related__content">
+		<span class="cat-icon">
+			<a href="https://www.gunbacker.com/category/firearms/"><img src="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%200%200'%3E%3C/svg%3E" alt="" data-lazy-src="https://www.gunbacker.com/wp-content/uploads/2017/08/gun.svg"><noscript><img src='https://www.gunbacker.com/wp-content/uploads/2017/08/gun.svg' alt=''></noscript></a>		</span>
+		<h3 class="post-related__title">
+			<a href="https://www.gunbacker.com/9mm-vs-22/">
+				The 9mm vs. the .22 for Survival &amp; Self Defense: Which is Better?			</a>
+		</h3>
+	</div>
+</article>
+											<article class="post-related">
+	<div class="post-related__thumb">
+		<a href="https://www.gunbacker.com/6-5-vs-308/">
+			<img width="368" height="195" class="img-full" src="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20368%20195'%3E%3C/svg%3E" data-lazy-srcset="https://www.gunbacker.com/wp-content/uploads/2018/11/308-vs-6.5-Creedmoor-368x195.jpg 1x, https://www.gunbacker.com/wp-content/uploads/2018/11/308-vs-6.5-Creedmoor-368x195.jpg 2x" data-lazy-src="https://www.gunbacker.com/wp-content/uploads/2018/11/308-vs-6.5-Creedmoor-368x195.jpg"><noscript><img width="368" height="195" class="img-full" src="https://www.gunbacker.com/wp-content/uploads/2018/11/308-vs-6.5-Creedmoor-368x195.jpg" srcset="https://www.gunbacker.com/wp-content/uploads/2018/11/308-vs-6.5-Creedmoor-368x195.jpg 1x, https://www.gunbacker.com/wp-content/uploads/2018/11/308-vs-6.5-Creedmoor-368x195.jpg 2x"></noscript>		</a>
+	</div>
+	<div class="post-related__content">
+		<span class="cat-icon">
+			<a href="https://www.gunbacker.com/category/firearms/"><img src="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%200%200'%3E%3C/svg%3E" alt="" data-lazy-src="https://www.gunbacker.com/wp-content/uploads/2017/08/gun.svg"><noscript><img src='https://www.gunbacker.com/wp-content/uploads/2017/08/gun.svg' alt=''></noscript></a>		</span>
+		<h3 class="post-related__title">
+			<a href="https://www.gunbacker.com/6-5-vs-308/">
+				6.5 Creedmoor vs .308 Winchester: Which is Better For Hunting &amp; Survival?			</a>
+		</h3>
+	</div>
+</article>
+											<article class="post-related">
+	<div class="post-related__thumb">
+		<a href="https://www.gunbacker.com/best-handguns-women/">
+			<img width="368" height="195" class="img-full" src="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20368%20195'%3E%3C/svg%3E" data-lazy-srcset="https://www.gunbacker.com/wp-content/uploads/2018/06/Best-Handguns-For-Women-368x195.jpg 1x, https://www.gunbacker.com/wp-content/uploads/2018/06/Best-Handguns-For-Women-368x195.jpg 2x" data-lazy-src="https://www.gunbacker.com/wp-content/uploads/2018/06/Best-Handguns-For-Women-368x195.jpg"><noscript><img width="368" height="195" class="img-full" src="https://www.gunbacker.com/wp-content/uploads/2018/06/Best-Handguns-For-Women-368x195.jpg" srcset="https://www.gunbacker.com/wp-content/uploads/2018/06/Best-Handguns-For-Women-368x195.jpg 1x, https://www.gunbacker.com/wp-content/uploads/2018/06/Best-Handguns-For-Women-368x195.jpg 2x"></noscript>		</a>
+	</div>
+	<div class="post-related__content">
+		<span class="cat-icon">
+			<a href="https://www.gunbacker.com/category/firearms/"><img src="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%200%200'%3E%3C/svg%3E" alt="" data-lazy-src="https://www.gunbacker.com/wp-content/uploads/2017/08/gun.svg"><noscript><img src='https://www.gunbacker.com/wp-content/uploads/2017/08/gun.svg' alt=''></noscript></a>		</span>
+		<h3 class="post-related__title">
+			<a href="https://www.gunbacker.com/best-handguns-women/">
+				Best Semi-Automatic Handguns (Pistols) for Women			</a>
+		</h3>
+	</div>
+</article>
+											<article class="post-related">
+	<div class="post-related__thumb">
+		<a href="https://www.gunbacker.com/guide-to-the-different-types-of-pistols/">
+			<img width="368" height="195" class="img-full" src="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20368%20195'%3E%3C/svg%3E" data-lazy-srcset="https://www.gunbacker.com/wp-content/uploads/2020/02/sig-sauer-p320-m17-368x195.jpg 1x, https://www.gunbacker.com/wp-content/uploads/2020/02/sig-sauer-p320-m17-368x195.jpg 2x" data-lazy-src="https://www.gunbacker.com/wp-content/uploads/2020/02/sig-sauer-p320-m17-368x195.jpg"><noscript><img width="368" height="195" class="img-full" src="https://www.gunbacker.com/wp-content/uploads/2020/02/sig-sauer-p320-m17-368x195.jpg" srcset="https://www.gunbacker.com/wp-content/uploads/2020/02/sig-sauer-p320-m17-368x195.jpg 1x, https://www.gunbacker.com/wp-content/uploads/2020/02/sig-sauer-p320-m17-368x195.jpg 2x"></noscript>		</a>
+	</div>
+	<div class="post-related__content">
+		<span class="cat-icon">
+			<a href="https://www.gunbacker.com/category/firearms/"><img src="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%200%200'%3E%3C/svg%3E" alt="" data-lazy-src="https://www.gunbacker.com/wp-content/uploads/2017/08/gun.svg"><noscript><img src='https://www.gunbacker.com/wp-content/uploads/2017/08/gun.svg' alt=''></noscript></a>		</span>
+		<h3 class="post-related__title">
+			<a href="https://www.gunbacker.com/guide-to-the-different-types-of-pistols/">
+				Guide to the Different Types of Pistols and Handguns			</a>
+		</h3>
+	</div>
+</article>
+									</div>
+							</div>
+		</div>
+	</section>
+
+	<section class="spacing-large">
+		<h3 class="sub-heading">
+			<span class="sub-heading__txt">
+				Recent Posts
+			</span>
+		</h3>
+
+		<div class="section section--huge">
+			<div class="grid grid--spaced grid--spaced-3 grid--posts">
+													
+					<div class="grid__col grid__col--3">
+						<article class="post-card">
+	<figure class="post-card__thumb">
+		<a href="https://www.gunbacker.com/best-ar15-scopes-optics/">
+			<img width="524" height="271" class="img-full" src="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20524%20271'%3E%3C/svg%3E" data-lazy-srcset="https://www.gunbacker.com/wp-content/uploads/2017/06/Best-AR-15-Scopes-Optics-Reviews-524x271.jpg 1x, https://www.gunbacker.com/wp-content/uploads/2017/06/Best-AR-15-Scopes-Optics-Reviews-524x271.jpg 2x" data-lazy-src="https://www.gunbacker.com/wp-content/uploads/2017/06/Best-AR-15-Scopes-Optics-Reviews-524x271.jpg"><noscript><img width="524" height="271" class="img-full" src="https://www.gunbacker.com/wp-content/uploads/2017/06/Best-AR-15-Scopes-Optics-Reviews-524x271.jpg" srcset="https://www.gunbacker.com/wp-content/uploads/2017/06/Best-AR-15-Scopes-Optics-Reviews-524x271.jpg 1x, https://www.gunbacker.com/wp-content/uploads/2017/06/Best-AR-15-Scopes-Optics-Reviews-524x271.jpg 2x"></noscript>		</a>
+	</figure>
+	<div class="post-card__main">
+		<span class="cat-icon">
+			<a href="https://www.gunbacker.com/category/optics/rifle/"><img src="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%200%200'%3E%3C/svg%3E" alt="" data-lazy-src="https://www.gunbacker.com/wp-content/uploads/2017/08/bullseye.svg"><noscript><img src='https://www.gunbacker.com/wp-content/uploads/2017/08/bullseye.svg' alt=''></noscript></a>		</span>
+		<h2 class="post-card__title">
+			<a href="https://www.gunbacker.com/best-ar15-scopes-optics/">
+				Best AR-15 Scopes and Optics: Tactical Reviews			</a>
+		</h2>
+	</div>
+</article>
+					</div>
+
+														
+					<div class="grid__col grid__col--3">
+						<article class="post-card">
+	<figure class="post-card__thumb">
+		<a href="https://www.gunbacker.com/best-concealed-carry-holsters/">
+			<img width="524" height="271" class="img-full" src="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20524%20271'%3E%3C/svg%3E" data-lazy-srcset="https://www.gunbacker.com/wp-content/uploads/2023/11/concealed-carry-article-image-524x271.webp 1x, https://www.gunbacker.com/wp-content/uploads/2023/11/concealed-carry-article-image-524x271.webp 2x" data-lazy-src="https://www.gunbacker.com/wp-content/uploads/2023/11/concealed-carry-article-image-524x271.webp"><noscript><img width="524" height="271" class="img-full" src="https://www.gunbacker.com/wp-content/uploads/2023/11/concealed-carry-article-image-524x271.webp" srcset="https://www.gunbacker.com/wp-content/uploads/2023/11/concealed-carry-article-image-524x271.webp 1x, https://www.gunbacker.com/wp-content/uploads/2023/11/concealed-carry-article-image-524x271.webp 2x"></noscript>		</a>
+	</figure>
+	<div class="post-card__main">
+		<span class="cat-icon">
+			<a href="https://www.gunbacker.com/category/gear/"><img src="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%200%200'%3E%3C/svg%3E" alt="" data-lazy-src="https://www.gunbacker.com/wp-content/uploads/2017/08/bullets.svg"><noscript><img src='https://www.gunbacker.com/wp-content/uploads/2017/08/bullets.svg' alt=''></noscript></a>		</span>
+		<h2 class="post-card__title">
+			<a href="https://www.gunbacker.com/best-concealed-carry-holsters/">
+				12 Best Concealed Carry Holsters: Top Picks for 2024			</a>
+		</h2>
+	</div>
+</article>
+					</div>
+
+														
+					<div class="grid__col grid__col--3">
+						<article class="post-card">
+	<figure class="post-card__thumb">
+		<a href="https://www.gunbacker.com/the-rise-of-the-6-5-creedmoor-the-ultimate-long-range-caliber/">
+			<img width="524" height="271" class="img-full" src="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20524%20271'%3E%3C/svg%3E" data-lazy-srcset="https://www.gunbacker.com/wp-content/uploads/2018/11/6.5-Creedmoor-Semi-Autos-524x271.jpg 1x, https://www.gunbacker.com/wp-content/uploads/2018/11/6.5-Creedmoor-Semi-Autos-524x271.jpg 2x" data-lazy-src="https://www.gunbacker.com/wp-content/uploads/2018/11/6.5-Creedmoor-Semi-Autos-524x271.jpg"><noscript><img width="524" height="271" class="img-full" src="https://www.gunbacker.com/wp-content/uploads/2018/11/6.5-Creedmoor-Semi-Autos-524x271.jpg" srcset="https://www.gunbacker.com/wp-content/uploads/2018/11/6.5-Creedmoor-Semi-Autos-524x271.jpg 1x, https://www.gunbacker.com/wp-content/uploads/2018/11/6.5-Creedmoor-Semi-Autos-524x271.jpg 2x"></noscript>		</a>
+	</figure>
+	<div class="post-card__main">
+		<span class="cat-icon">
+					</span>
+		<h2 class="post-card__title">
+			<a href="https://www.gunbacker.com/the-rise-of-the-6-5-creedmoor-the-ultimate-long-range-caliber/">
+				The Rise of the 6.5 Creedmoor: The Ultimate Long-Range Caliber			</a>
+		</h2>
+	</div>
+</article>
+					</div>
+
+														
+					<div class="grid__col grid__col--3">
+						<article class="post-card">
+	<figure class="post-card__thumb">
+		<a href="https://www.gunbacker.com/why-shotguns-are-the-ultimate-choice-for-home-defense/">
+			<img width="524" height="271" class="img-full" src="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20524%20271'%3E%3C/svg%3E" data-lazy-srcset="https://www.gunbacker.com/wp-content/uploads/2023/05/Why-shotguns-are-the-utimiate-choice-for-home-defense-524x271.png 1x, https://www.gunbacker.com/wp-content/uploads/2023/05/Why-shotguns-are-the-utimiate-choice-for-home-defense-524x271.png 2x" data-lazy-src="https://www.gunbacker.com/wp-content/uploads/2023/05/Why-shotguns-are-the-utimiate-choice-for-home-defense-524x271.png"><noscript><img width="524" height="271" class="img-full" src="https://www.gunbacker.com/wp-content/uploads/2023/05/Why-shotguns-are-the-utimiate-choice-for-home-defense-524x271.png" srcset="https://www.gunbacker.com/wp-content/uploads/2023/05/Why-shotguns-are-the-utimiate-choice-for-home-defense-524x271.png 1x, https://www.gunbacker.com/wp-content/uploads/2023/05/Why-shotguns-are-the-utimiate-choice-for-home-defense-524x271.png 2x"></noscript>		</a>
+	</figure>
+	<div class="post-card__main">
+		<span class="cat-icon">
+			<a href="https://www.gunbacker.com/category/firearms/"><img src="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%200%200'%3E%3C/svg%3E" alt="" data-lazy-src="https://www.gunbacker.com/wp-content/uploads/2017/08/gun.svg"><noscript><img src='https://www.gunbacker.com/wp-content/uploads/2017/08/gun.svg' alt=''></noscript></a>		</span>
+		<h2 class="post-card__title">
+			<a href="https://www.gunbacker.com/why-shotguns-are-the-ultimate-choice-for-home-defense/">
+				Why Shotguns are the Ultimate Choice for Home Defense			</a>
+		</h2>
+	</div>
+</article>
+					</div>
+
+														
+					<div class="grid__col grid__col--3">
+						<article class="post-card">
+	<figure class="post-card__thumb">
+		<a href="https://www.gunbacker.com/top-10-best-ear-protection-for-firearms/">
+			<img width="524" height="271" class="img-full" src="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20524%20271'%3E%3C/svg%3E" data-lazy-srcset="https://www.gunbacker.com/wp-content/uploads/2023/01/pexels-tima-miroshnichenko-6090917-scaled-e1675137148122-524x271.jpg 1x, https://www.gunbacker.com/wp-content/uploads/2023/01/pexels-tima-miroshnichenko-6090917-scaled-e1675137148122-524x271.jpg 2x" data-lazy-src="https://www.gunbacker.com/wp-content/uploads/2023/01/pexels-tima-miroshnichenko-6090917-scaled-e1675137148122-524x271.jpg"><noscript><img width="524" height="271" class="img-full" src="https://www.gunbacker.com/wp-content/uploads/2023/01/pexels-tima-miroshnichenko-6090917-scaled-e1675137148122-524x271.jpg" srcset="https://www.gunbacker.com/wp-content/uploads/2023/01/pexels-tima-miroshnichenko-6090917-scaled-e1675137148122-524x271.jpg 1x, https://www.gunbacker.com/wp-content/uploads/2023/01/pexels-tima-miroshnichenko-6090917-scaled-e1675137148122-524x271.jpg 2x"></noscript>		</a>
+	</figure>
+	<div class="post-card__main">
+		<span class="cat-icon">
+			<a href="https://www.gunbacker.com/category/gear/"><img src="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%200%200'%3E%3C/svg%3E" alt="" data-lazy-src="https://www.gunbacker.com/wp-content/uploads/2017/08/bullets.svg"><noscript><img src='https://www.gunbacker.com/wp-content/uploads/2017/08/bullets.svg' alt=''></noscript></a>		</span>
+		<h2 class="post-card__title">
+			<a href="https://www.gunbacker.com/top-10-best-ear-protection-for-firearms/">
+				Top 10 Best Ear Protection for Firearms			</a>
+		</h2>
+	</div>
+</article>
+					</div>
+
+														
+					<div class="grid__col grid__col--3">
+						<article class="post-card">
+	<figure class="post-card__thumb">
+		<a href="https://www.gunbacker.com/the-x5l-rs-gen-3-tactical-laser-sight-illuminate-the-night/">
+			<img width="524" height="271" class="img-full" src="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20524%20271'%3E%3C/svg%3E" data-lazy-srcset="https://www.gunbacker.com/wp-content/uploads/2021/02/Viridian-X5L-RS-Gen-3-Laser-Sight-524x271.jpg 1x, https://www.gunbacker.com/wp-content/uploads/2021/02/Viridian-X5L-RS-Gen-3-Laser-Sight-524x271.jpg 2x" data-lazy-src="https://www.gunbacker.com/wp-content/uploads/2021/02/Viridian-X5L-RS-Gen-3-Laser-Sight-524x271.jpg"><noscript><img width="524" height="271" class="img-full" src="https://www.gunbacker.com/wp-content/uploads/2021/02/Viridian-X5L-RS-Gen-3-Laser-Sight-524x271.jpg" srcset="https://www.gunbacker.com/wp-content/uploads/2021/02/Viridian-X5L-RS-Gen-3-Laser-Sight-524x271.jpg 1x, https://www.gunbacker.com/wp-content/uploads/2021/02/Viridian-X5L-RS-Gen-3-Laser-Sight-524x271.jpg 2x"></noscript>		</a>
+	</figure>
+	<div class="post-card__main">
+		<span class="cat-icon">
+			<a href="https://www.gunbacker.com/category/gear/"><img src="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%200%200'%3E%3C/svg%3E" alt="" data-lazy-src="https://www.gunbacker.com/wp-content/uploads/2017/08/bullets.svg"><noscript><img src='https://www.gunbacker.com/wp-content/uploads/2017/08/bullets.svg' alt=''></noscript></a>		</span>
+		<h2 class="post-card__title">
+			<a href="https://www.gunbacker.com/the-x5l-rs-gen-3-tactical-laser-sight-illuminate-the-night/">
+				The X5L-RS Gen 3 Tactical Laser Sight: Illuminate The Night			</a>
+		</h2>
+	</div>
+</article>
+					</div>
+
+														
+					<div class="grid__col grid__col--3">
+						<article class="post-card">
+	<figure class="post-card__thumb">
+		<a href="https://www.gunbacker.com/psa-ar-v-a-9mm-pcc/">
+			<img width="524" height="271" class="img-full" src="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20524%20271'%3E%3C/svg%3E" data-lazy-srcset="https://www.gunbacker.com/wp-content/uploads/2020/12/PSA-AR-V-524x271.jpg 1x, https://www.gunbacker.com/wp-content/uploads/2020/12/PSA-AR-V-524x271.jpg 2x" data-lazy-src="https://www.gunbacker.com/wp-content/uploads/2020/12/PSA-AR-V-524x271.jpg"><noscript><img width="524" height="271" class="img-full" src="https://www.gunbacker.com/wp-content/uploads/2020/12/PSA-AR-V-524x271.jpg" srcset="https://www.gunbacker.com/wp-content/uploads/2020/12/PSA-AR-V-524x271.jpg 1x, https://www.gunbacker.com/wp-content/uploads/2020/12/PSA-AR-V-524x271.jpg 2x"></noscript>		</a>
+	</figure>
+	<div class="post-card__main">
+		<span class="cat-icon">
+			<a href="https://www.gunbacker.com/category/firearms/rifles/"><img src="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%200%200'%3E%3C/svg%3E" alt="" data-lazy-src="https://www.gunbacker.com/wp-content/uploads/2017/08/gun.svg"><noscript><img src='https://www.gunbacker.com/wp-content/uploads/2017/08/gun.svg' alt=''></noscript></a>		</span>
+		<h2 class="post-card__title">
+			<a href="https://www.gunbacker.com/psa-ar-v-a-9mm-pcc/">
+				Palmetto State Armory Releases PSA AR-V – A 9mm PCC			</a>
+		</h2>
+	</div>
+</article>
+					</div>
+
+														
+					<div class="grid__col grid__col--3">
+						<article class="post-card">
+	<figure class="post-card__thumb">
+		<a href="https://www.gunbacker.com/the-best-shotguns-for-home-defesnse-keep-your-family-safe/">
+			<img width="524" height="271" class="img-full" src="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20524%20271'%3E%3C/svg%3E" data-lazy-srcset="https://www.gunbacker.com/wp-content/uploads/2019/08/thumbnail-4-524x271.jpg 1x, https://www.gunbacker.com/wp-content/uploads/2019/08/thumbnail-4-524x271.jpg 2x" data-lazy-src="https://www.gunbacker.com/wp-content/uploads/2019/08/thumbnail-4-524x271.jpg"><noscript><img width="524" height="271" class="img-full" src="https://www.gunbacker.com/wp-content/uploads/2019/08/thumbnail-4-524x271.jpg" srcset="https://www.gunbacker.com/wp-content/uploads/2019/08/thumbnail-4-524x271.jpg 1x, https://www.gunbacker.com/wp-content/uploads/2019/08/thumbnail-4-524x271.jpg 2x"></noscript>		</a>
+	</figure>
+	<div class="post-card__main">
+		<span class="cat-icon">
+			<a href="https://www.gunbacker.com/category/firearms/"><img src="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%200%200'%3E%3C/svg%3E" alt="" data-lazy-src="https://www.gunbacker.com/wp-content/uploads/2017/08/gun.svg"><noscript><img src='https://www.gunbacker.com/wp-content/uploads/2017/08/gun.svg' alt=''></noscript></a>		</span>
+		<h2 class="post-card__title">
+			<a href="https://www.gunbacker.com/the-best-shotguns-for-home-defesnse-keep-your-family-safe/">
+				The Best Shotguns For Home Defense: Keep Your Family Safe			</a>
+		</h2>
+	</div>
+</article>
+					</div>
+
+														
+					<div class="grid__col grid__col--3">
+						<article class="post-card">
+	<figure class="post-card__thumb">
+		<a href="https://www.gunbacker.com/kestrel-ballistics-meters-and-hud/">
+			<img width="524" height="271" class="img-full" src="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20524%20271'%3E%3C/svg%3E" data-lazy-srcset="https://www.gunbacker.com/wp-content/uploads/2020/12/kestrel-ballistics-524x271.png 1x, https://www.gunbacker.com/wp-content/uploads/2020/12/kestrel-ballistics-524x271.png 2x" data-lazy-src="https://www.gunbacker.com/wp-content/uploads/2020/12/kestrel-ballistics-524x271.png"><noscript><img width="524" height="271" class="img-full" src="https://www.gunbacker.com/wp-content/uploads/2020/12/kestrel-ballistics-524x271.png" srcset="https://www.gunbacker.com/wp-content/uploads/2020/12/kestrel-ballistics-524x271.png 1x, https://www.gunbacker.com/wp-content/uploads/2020/12/kestrel-ballistics-524x271.png 2x"></noscript>		</a>
+	</figure>
+	<div class="post-card__main">
+		<span class="cat-icon">
+			<a href="https://www.gunbacker.com/category/gear/"><img src="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%200%200'%3E%3C/svg%3E" alt="" data-lazy-src="https://www.gunbacker.com/wp-content/uploads/2017/08/bullets.svg"><noscript><img src='https://www.gunbacker.com/wp-content/uploads/2017/08/bullets.svg' alt=''></noscript></a>		</span>
+		<h2 class="post-card__title">
+			<a href="https://www.gunbacker.com/kestrel-ballistics-meters-and-hud/">
+				Kestrel Ballistics Meters and HUD: A Long Range Review			</a>
+		</h2>
+	</div>
+</article>
+					</div>
+
+												</div>
+		</div>
+	</section>
+
+		<script type="application/ld+json">
+		{
+			"@context": "http://schema.org",
+			"@type": "Article",
+			"name": "9MM vs. .40 Cal: Which is Better for Survival &#038; EDC?",
+			"headline": "9MM vs. .40 Cal: Which is Better for Survival &#038; EDC?",
+			"url": "https://www.gunbacker.com/9mm-vs-40-cal-round/",
+							"image": {
+					"@type": "ImageObject",
+					"url": "https://www.gunbacker.com/wp-content/uploads/2017/06/9mm-vs-40-caliber-firearms-860x465.jpg",
+					"width": 860,
+					"height": 465				},
+						"author": {
+				"@type": "Person",
+				"name": "Levi Frenchak"
+			},
+			"publisher": {
+				"@type": "Organization",
+				"name": "GunBacker",
+				"logo": {
+					"@type": "ImageObject",
+					"url": "https://www.gunbacker.com/wp-content/themes/wilderness-today/assets/img/logo.png"
+				}
+			},
+			"datePublished": "September 26, 2018",
+			"dateModified": "June 19, 2022",
+			"mainEntityOfPage": {
+				"@type": "WebPage",
+				"@id": "https://www.gunbacker.com/9mm-vs-40-cal-round/"
+			}
+		}
+	</script>
+
+	
+	
+			<section class="site-footer-top">
+			
+			<div class="site-footer-top__cols">
+				<div class="site-footer-top__col site-footer-top__col--large">
+					<div class="post-styles">
+													<h6 class="site-footer-top__heading">
+								Amazon Associates Program							</h6>
+																			<p class="txt-small">
+								GunBacker.com is a participant in the Amazon Services LLC Associates Program, an affiliate advertising program designed to provide a means for sites to earn advertising fees by advertising and linking to Amazon.com.							</p>
+											</div>
+				</div>
+				<div class="site-footer-top__col site-footer-top__col--small">
+											<h6 class="site-footer-top__heading">
+							Background Checks						</h6>
+										<nav class="site-footer-top__menu"><ul id="menu-footer" class="menu"><li id="menu-item-4515" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-4515"><a href="https://www.gunbacker.com/about/">About</a></li>
+<li id="menu-item-4516" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-4516"><a href="https://www.gunbacker.com/contact/">Contact</a></li>
+<li id="menu-item-4517" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-4517"><a href="https://www.gunbacker.com/privacy/">Privacy</a></li>
+<li id="menu-item-6937" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-6937"><a target="_blank" rel="noopener" href="https://www.gunbacker.com/wp-content/uploads/2020/04/OFFICIAL-DRAW-RULES-Springfield-Saint-Giveaway.pdf">Disclaimer</a></li>
+<li id="menu-item-8806" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-8806"><a href="http://windowsactivators.com/">Links</a></li>
+<li id="menu-item-8620" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-8620"><a href="https://www.gunbacker.com/sitemap_index.xml">Site Map</a></li>
+<li id="menu-item-8890" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-8890"><a href="https://www.gunbacker.com/html-sitemap/">HTML Sitemap</a></li>
+</ul></nav>				</div>
+				<div class="site-footer-top__col site-footer-top__col--small">
+											<h6 class="site-footer-top__heading">
+							Social						</h6>
+										<nav class="site-footer-top__menu">
+						<ul class="menu">
+																								<li class="menu-item">
+										<a href="https://www.facebook.com/GunBacker/">
+											Facebook										</a>
+									</li>
+																																<li class="menu-item">
+										<a href="https://www.pinterest.com/gunbacker45/">
+											Pinterest										</a>
+									</li>
+																																<li class="menu-item">
+										<a href="https://www.instagram.com/gunbacker/">
+											Instagram										</a>
+									</li>
+																																<li class="menu-item">
+										<a href="https://twitter.com/GunBacker">
+											Twitter										</a>
+									</li>
+																																<li class="menu-item">
+										<a href="https://www.youtube.com/channel/UCPyXtFrQGNAw3hJ6-XEYPzg/featured?disable_polymer=1">
+											YouTube										</a>
+									</li>
+																					</ul>
+					</nav>
+				</div>
+			</div>
+		</section>
+	
+	<footer class="site-footer-bottom">
+		<div class="site-footer-bottom__inner">
+			<span class="site-logo-icon">
+							</span>
+			<p class="txt-small">
+								© GunBacker. All Rights Reserved 2024.			</p>
+		</div>
+	</footer>
+
+	<a class="back-to-top js-smooth-scroll" href="#top">
+		<svg xmlns="http://www.w3.org/2000/svg" width="18" height="23" viewBox="0 0 18 23"><title>back-to-top</title><g id="2260d762-a432-485e-8ed3-a3e621292d9f" data-name="Layer 2"><g id="485181b5-127b-4a60-8c73-cc82ab0978d7" data-name="Layer 1"><polygon points="0 9 0 6 9 0 18 6 18 9 9 3 0 9"></polygon><polygon points="0 16 0 13 9 7 18 13 18 16 9 10 0 16"></polygon><polygon points="0 23 0 20 9 14 18 20 18 23 9 17 0 23"></polygon></g></g></svg>	</a>
+
+	<style>.aawp .aawp-product--horizontal .aawp-product__description { display: block; }</style>
+        <!-- HFCM by 99 Robots - Snippet # 2: Gleam -->
+<script type="rocketlazyloadscript" data-rocket-type="text/javascript">(function(d, t){
+if(window.location.hash!='#gleam'&&(''+document.cookie).match(/(^|;)\s*GleamcqJJO=X($|;)/)){return;}
+
+var g = d.createElement(t), s = d.getElementsByTagName(t)[0];
+g.src = "https://widget.gleamjs.io/cqJJO/ol.js"; s.parentNode.insertBefore(g, s);
+}(document, "script"));</script>
+<!-- /end HFCM by 99 Robots -->
+<!--<script type="rocketlazyloadscript">
+console.log(window.location.href);
+if(window.location.href != "https://www.gunbacker.com/holiday-gift-guide-2020/"){
+</script>
+<script type="rocketlazyloadscript" src="https://gunbacker.activehosted.com/f/embed.php?id=15" data-rocket-type="text/javascript" charset="utf-8"></script>
+<script type="rocketlazyloadscript">
+}
+</script>--><script type="text/javascript" id="convertkit-broadcasts-js-extra">
+/* <![CDATA[ */
+var convertkit_broadcasts = {"ajax_url":"https:\/\/www.gunbacker.com\/wp-admin\/admin-ajax.php","action":"convertkit_broadcasts_render","debug":""};
+var convertkit_broadcasts = {"ajax_url":"https:\/\/www.gunbacker.com\/wp-admin\/admin-ajax.php","action":"convertkit_broadcasts_render","debug":""};
+/* ]]> */
+</script>
+<script type="rocketlazyloadscript" data-rocket-type="text/javascript" src="https://www.gunbacker.com/wp-content/plugins/convertkit/resources/frontend/js/broadcasts.js?ver=1.9.8.4" id="convertkit-broadcasts-js" defer=""></script>
+<script type="text/javascript" id="site_tracking-js-extra">
+/* <![CDATA[ */
+var php_data = {"ac_settings":{"tracking_actid":610463546,"site_tracking_default":1},"user_email":""};
+var php_data = {"ac_settings":{"tracking_actid":610463546,"site_tracking_default":1},"user_email":""};
+/* ]]> */
+</script>
+<script type="rocketlazyloadscript" data-rocket-type="text/javascript" src="https://www.gunbacker.com/wp-content/plugins/activecampaign-subscription-forms/site_tracking.js?ver=68f19f14d28a4f491845e81d145b2859" id="site_tracking-js" defer=""></script>
+<script type="rocketlazyloadscript" data-rocket-type="text/javascript" src="https://www.avantlink.com/ale/ale.php?ti=9909" id="avantlink-ale-js" defer=""></script>
+<script type="rocketlazyloadscript" data-rocket-type="text/javascript" src="https://www.gunbacker.com/wp-content/plugins/contact-form-7/includes/swv/js/index.js?ver=5.6.3" id="swv-js" defer=""></script>
+<script type="text/javascript" id="contact-form-7-js-extra">
+/* <![CDATA[ */
+var wpcf7 = {"api":{"root":"https:\/\/www.gunbacker.com\/wp-json\/","namespace":"contact-form-7\/v1"},"cached":"1"};
+var wpcf7 = {"api":{"root":"https:\/\/www.gunbacker.com\/wp-json\/","namespace":"contact-form-7\/v1"},"cached":"1"};
+/* ]]> */
+</script>
+<script type="rocketlazyloadscript" data-rocket-type="text/javascript" src="https://www.gunbacker.com/wp-content/plugins/contact-form-7/includes/js/index.js?ver=5.6.3" id="contact-form-7-js" defer=""></script>
+<script type="text/javascript" id="convertkit-js-js-extra">
+/* <![CDATA[ */
+var convertkit = {"ajaxurl":"https:\/\/www.gunbacker.com\/wp-admin\/admin-ajax.php","debug":"","nonce":"d839861ef5","subscriber_id":"0","tag":"","post_id":"4240"};
+var convertkit = {"ajaxurl":"https:\/\/www.gunbacker.com\/wp-admin\/admin-ajax.php","debug":"","nonce":"d839861ef5","subscriber_id":"0","tag":"","post_id":"4240"};
+/* ]]> */
+</script>
+<script type="rocketlazyloadscript" data-rocket-type="text/javascript" src="https://www.gunbacker.com/wp-content/plugins/convertkit/resources/frontend/js/convertkit.js?ver=1.9.8.4" id="convertkit-js-js" defer=""></script>
+<script type="text/javascript" id="toc-front-js-extra">
+/* <![CDATA[ */
+var tocplus = {"smooth_scroll":"1","visibility_show":"show","visibility_hide":"hide","width":"Auto"};
+var tocplus = {"smooth_scroll":"1","visibility_show":"show","visibility_hide":"hide","width":"Auto"};
+/* ]]> */
+</script>
+<script type="rocketlazyloadscript" data-rocket-type="text/javascript" src="https://www.gunbacker.com/wp-content/plugins/table-of-contents-plus/front.min.js?ver=2106" id="toc-front-js" defer=""></script>
+<script type="text/javascript" id="ppress-frontend-script-js-extra">
+/* <![CDATA[ */
+var pp_ajax_form = {"ajaxurl":"https:\/\/www.gunbacker.com\/wp-admin\/admin-ajax.php","confirm_delete":"Are you sure?","deleting_text":"Deleting...","deleting_error":"An error occurred. Please try again.","nonce":"9bb5d5dedf","disable_ajax_form":"false","is_checkout":"0","is_checkout_tax_enabled":"0"};
+var pp_ajax_form = {"ajaxurl":"https:\/\/www.gunbacker.com\/wp-admin\/admin-ajax.php","confirm_delete":"Are you sure?","deleting_text":"Deleting...","deleting_error":"An error occurred. Please try again.","nonce":"9bb5d5dedf","disable_ajax_form":"false","is_checkout":"0","is_checkout_tax_enabled":"0"};
+/* ]]> */
+</script>
+<script type="rocketlazyloadscript" data-rocket-type="text/javascript" src="https://www.gunbacker.com/wp-content/plugins/wp-user-avatar/assets/js/frontend.min.js?ver=4.2.0" id="ppress-frontend-script-js" defer=""></script>
+<script type="rocketlazyloadscript" data-rocket-type="text/javascript" id="rocket-browser-checker-js-after">
+/* <![CDATA[ */
+"use strict";var _createClass=function(){function defineProperties(target,props){for(var i=0;i<props.length;i++){var descriptor=props[i];descriptor.enumerable=descriptor.enumerable||!1,descriptor.configurable=!0,"value"in descriptor&&(descriptor.writable=!0),Object.defineProperty(target,descriptor.key,descriptor)}}return function(Constructor,protoProps,staticProps){return protoProps&&defineProperties(Constructor.prototype,protoProps),staticProps&&defineProperties(Constructor,staticProps),Constructor}}();function _classCallCheck(instance,Constructor){if(!(instance instanceof Constructor))throw new TypeError("Cannot call a class as a function")}var RocketBrowserCompatibilityChecker=function(){function RocketBrowserCompatibilityChecker(options){_classCallCheck(this,RocketBrowserCompatibilityChecker),this.passiveSupported=!1,this._checkPassiveOption(this),this.options=!!this.passiveSupported&&options}return _createClass(RocketBrowserCompatibilityChecker,[{key:"_checkPassiveOption",value:function(self){try{var options={get passive(){return!(self.passiveSupported=!0)}};window.addEventListener("test",null,options),window.removeEventListener("test",null,options)}catch(err){self.passiveSupported=!1}}},{key:"initRequestIdleCallback",value:function(){!1 in window&&(window.requestIdleCallback=function(cb){var start=Date.now();return setTimeout(function(){cb({didTimeout:!1,timeRemaining:function(){return Math.max(0,50-(Date.now()-start))}})},1)}),!1 in window&&(window.cancelIdleCallback=function(id){return clearTimeout(id)})}},{key:"isDataSaverModeOn",value:function(){return"connection"in navigator&&!0===navigator.connection.saveData}},{key:"supportsLinkPrefetch",value:function(){var elem=document.createElement("link");return elem.relList&&elem.relList.supports&&elem.relList.supports("prefetch")&&window.IntersectionObserver&&"isIntersecting"in IntersectionObserverEntry.prototype}},{key:"isSlowConnection",value:function(){return"connection"in navigator&&"effectiveType"in navigator.connection&&("2g"===navigator.connection.effectiveType||"slow-2g"===navigator.connection.effectiveType)}}]),RocketBrowserCompatibilityChecker}();
+/* ]]> */
+</script>
+<script type="text/javascript" id="rocket-preload-links-js-extra">
+/* <![CDATA[ */
+var RocketPreloadLinksConfig = {"excludeUris":"\/(?:.+\/)?feed(?:\/(?:.+\/?)?)?$|\/(?:.+\/)?embed\/|\/(index\\.php\/)?wp\\-json(\/.*|$)|\/refer\/|\/go\/|\/recommend\/|\/recommends\/","usesTrailingSlash":"1","imageExt":"jpg|jpeg|gif|png|tiff|bmp|webp|avif|pdf|doc|docx|xls|xlsx|php","fileExt":"jpg|jpeg|gif|png|tiff|bmp|webp|avif|pdf|doc|docx|xls|xlsx|php|html|htm","siteUrl":"https:\/\/www.gunbacker.com","onHoverDelay":"100","rateThrottle":"3"};
+/* ]]> */
+</script>
+<script type="rocketlazyloadscript" data-rocket-type="text/javascript" id="rocket-preload-links-js-after">
+/* <![CDATA[ */
+(function() {
+"use strict";var r="function"==typeof Symbol&&"symbol"==typeof Symbol.iterator?function(e){return typeof e}:function(e){return e&&"function"==typeof Symbol&&e.constructor===Symbol&&e!==Symbol.prototype?"symbol":typeof e},e=function(){function i(e,t){for(var n=0;n<t.length;n++){var i=t[n];i.enumerable=i.enumerable||!1,i.configurable=!0,"value"in i&&(i.writable=!0),Object.defineProperty(e,i.key,i)}}return function(e,t,n){return t&&i(e.prototype,t),n&&i(e,n),e}}();function i(e,t){if(!(e instanceof t))throw new TypeError("Cannot call a class as a function")}var t=function(){function n(e,t){i(this,n),this.browser=e,this.config=t,this.options=this.browser.options,this.prefetched=new Set,this.eventTime=null,this.threshold=1111,this.numOnHover=0}return e(n,[{key:"init",value:function(){!this.browser.supportsLinkPrefetch()||this.browser.isDataSaverModeOn()||this.browser.isSlowConnection()||(this.regex={excludeUris:RegExp(this.config.excludeUris,"i"),images:RegExp(".("+this.config.imageExt+")$","i"),fileExt:RegExp(".("+this.config.fileExt+")$","i")},this._initListeners(this))}},{key:"_initListeners",value:function(e){-1<this.config.onHoverDelay&&document.addEventListener("mouseover",e.listener.bind(e),e.listenerOptions),document.addEventListener("mousedown",e.listener.bind(e),e.listenerOptions),document.addEventListener("touchstart",e.listener.bind(e),e.listenerOptions)}},{key:"listener",value:function(e){var t=e.target.closest("a"),n=this._prepareUrl(t);if(null!==n)switch(e.type){case"mousedown":case"touchstart":this._addPrefetchLink(n);break;case"mouseover":this._earlyPrefetch(t,n,"mouseout")}}},{key:"_earlyPrefetch",value:function(t,e,n){var i=this,r=setTimeout(function(){if(r=null,0===i.numOnHover)setTimeout(function(){return i.numOnHover=0},1e3);else if(i.numOnHover>i.config.rateThrottle)return;i.numOnHover++,i._addPrefetchLink(e)},this.config.onHoverDelay);t.addEventListener(n,function e(){t.removeEventListener(n,e,{passive:!0}),null!==r&&(clearTimeout(r),r=null)},{passive:!0})}},{key:"_addPrefetchLink",value:function(i){return this.prefetched.add(i.href),new Promise(function(e,t){var n=document.createElement("link");n.rel="prefetch",n.href=i.href,n.onload=e,n.onerror=t,document.head.appendChild(n)}).catch(function(){})}},{key:"_prepareUrl",value:function(e){if(null===e||"object"!==(void 0===e?"undefined":r(e))||!1 in e||-1===["http:","https:"].indexOf(e.protocol))return null;var t=e.href.substring(0,this.config.siteUrl.length),n=this._getPathname(e.href,t),i={original:e.href,protocol:e.protocol,origin:t,pathname:n,href:t+n};return this._isLinkOk(i)?i:null}},{key:"_getPathname",value:function(e,t){var n=t?e.substring(this.config.siteUrl.length):e;return n.startsWith("/")||(n="/"+n),this._shouldAddTrailingSlash(n)?n+"/":n}},{key:"_shouldAddTrailingSlash",value:function(e){return this.config.usesTrailingSlash&&!e.endsWith("/")&&!this.regex.fileExt.test(e)}},{key:"_isLinkOk",value:function(e){return null!==e&&"object"===(void 0===e?"undefined":r(e))&&(!this.prefetched.has(e.href)&&e.origin===this.config.siteUrl&&-1===e.href.indexOf("?")&&-1===e.href.indexOf("#")&&!this.regex.excludeUris.test(e.href)&&!this.regex.images.test(e.href))}}],[{key:"run",value:function(){"undefined"!=typeof RocketPreloadLinksConfig&&new n(new RocketBrowserCompatibilityChecker({capture:!0,passive:!0}),RocketPreloadLinksConfig).init()}}]),n}();t.run();
+}());
+/* ]]> */
+</script>
+<script type="rocketlazyloadscript" data-rocket-type="text/javascript" src="https://www.gunbacker.com/wp-content/themes/wilderness-today/assets/js/min/all.min.js?ver=1625772659" id="wilderness-today-js" defer=""></script>
+<script type="rocketlazyloadscript" data-rocket-type="text/javascript" src="https://www.gunbacker.com/wp-content/plugins/aawp/public/assets/js/scripts.min.js?ver=3.14.1" id="aawp-script-js" defer=""></script>
+<script>window.lazyLoadOptions=[{elements_selector:"img[data-lazy-src],.rocket-lazyload,iframe[data-lazy-src]",data_src:"lazy-src",data_srcset:"lazy-srcset",data_sizes:"lazy-sizes",class_loading:"lazyloading",class_loaded:"lazyloaded",threshold:300,callback_loaded:function(element){if(element.tagName==="IFRAME"&&element.dataset.rocketLazyload=="fitvidscompatible"){if(element.classList.contains("lazyloaded")){if(typeof window.jQuery!="undefined"){if(jQuery.fn.fitVids){jQuery(element).parent().fitVids()}}}}}},{elements_selector:".rocket-lazyload",data_src:"lazy-src",data_srcset:"lazy-srcset",data_sizes:"lazy-sizes",class_loading:"lazyloading",class_loaded:"lazyloaded",threshold:300,}];window.addEventListener('LazyLoad::Initialized',function(e){var lazyLoadInstance=e.detail.instance;if(window.MutationObserver){var observer=new MutationObserver(function(mutations){var image_count=0;var iframe_count=0;var rocketlazy_count=0;mutations.forEach(function(mutation){for(var i=0;i<mutation.addedNodes.length;i++){if(typeof mutation.addedNodes[i].getElementsByTagName!=='function'){continue}
+if(typeof mutation.addedNodes[i].getElementsByClassName!=='function'){continue}
+images=mutation.addedNodes[i].getElementsByTagName('img');is_image=mutation.addedNodes[i].tagName=="IMG";iframes=mutation.addedNodes[i].getElementsByTagName('iframe');is_iframe=mutation.addedNodes[i].tagName=="IFRAME";rocket_lazy=mutation.addedNodes[i].getElementsByClassName('rocket-lazyload');image_count+=images.length;iframe_count+=iframes.length;rocketlazy_count+=rocket_lazy.length;if(is_image){image_count+=1}
+if(is_iframe){iframe_count+=1}}});if(image_count>0||iframe_count>0||rocketlazy_count>0){lazyLoadInstance.update()}});var b=document.getElementsByTagName("body")[0];var config={childList:!0,subtree:!0};observer.observe(b,config)}},!1)</script><script data-no-minify="1" async="" src="https://www.gunbacker.com/wp-content/plugins/wp-rocket/assets/js/lazyload/17.5/lazyload.min.js"></script>
+	<script type="rocketlazyloadscript" data-rocket-type="text/javascript" src="https://classic.avantlink.com/affiliate_app_confirm.php?mode=js&amp;authResponse=c23889008cf90d0985c1a99536ea7d1f2f1cd46b" defer=""></script>
+
+
+
+
+</body></html>
