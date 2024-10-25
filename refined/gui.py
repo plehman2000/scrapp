@@ -7,10 +7,10 @@ from rapidfuzz import fuzz
 import uuid
 import base64
 from streamlit_searchbox import st_searchbox
+from prover import prover
 
-st.session_state.title = "Entity Search"
+st.session_state.title = "Prover"
 SAVE_DIR = "./documents/"
-st.session_state.ingesting = False
 
 
 def load_font(font_file):
@@ -55,105 +55,40 @@ def get_fonted_text(text, size=24, body=False):
 def prover_page():
     st.markdown(font_info, unsafe_allow_html=True)
 
-    st.markdown(get_fonted_text("Entity/Facts Search", size=48), unsafe_allow_html=True)
+    st.markdown(get_fonted_text("Prover", size=48), unsafe_allow_html=True)
     # Add custom CSS to load the font
 
-    ent_suggestions = [doc["subject"] for doc in scrapp_copy]
-    ent_suggestions = [x for x in ent_suggestions if x != ""]
-    print(ent_suggestions)
-    from scipy import spatial
 
-    def get_ent_suggestions(searchterm: str) -> list[any]:
-        all_subjects = sorted(
-            ent_suggestions,
-            key=lambda x: fuzz.partial_ratio(searchterm, x[1]),
-            reverse=True,
-        )[:8]
-        return all_subjects if searchterm else []
+    def process_text(text):
+    # Replace this with your desired processing function
+        return f"You entered: {text}"
 
-    # fact_suggestions = [[[doc['subject'] + " " + str(x[0]), 1] for x in doc['facts']] for doc in scrapp_copy]
-    # def get_fact_suggestions(searchterm: str) -> list[any]:
-    #     all_subjects = sorted(fact_suggestions, key=lambda x: fuzz.partial_ratio(searchterm,x), reverse=True)[:8]
-    #     return all_subjects if searchterm else []
+    # Create text input that captures Enter key
+    claim = st.text_input("Enter your provable claim:", key="text_input", 
+                    on_change=None, args=None, kwargs=None)
 
-    print("Entity SEARCH")
-    st.session_state.title = "Entity Search"
+    # Check if Enter was pressed (when text_input has a value and Enter is hit)
+    opposition_claim = None
 
-    search_term = st_searchbox(
-        get_ent_suggestions,
-        key="searchbox",
-    )
-    results = json.loads(search_db(search_term))["facts"]
+    if claim:
+        out = None
+        for x in prover(claim, use_small_model=True):
+            # out = x
+            #calculate difference between out andx
+            # if "opposition_claim" in out:
+            #     st.write(x['opposition_claim'])
+            st.markdown(get_fonted_text(x['status'], size=16), unsafe_allow_html=True)
+        arg1_w_claims = x['arg1_w_claims']
+        arg2_w_claims = x['arg2_w_claims']
+        st.write(arg1_w_claims, arg2_w_claims)
+        st.markdown(get_fonted_text(f"Winning Claim: {x['victor']}", size=48), unsafe_allow_html=True)
 
-    if search_term:
-        if results:
-            st.markdown(
-                get_fonted_text("Search Results", size=24, body=True),
-                unsafe_allow_html=True,
-            )
 
-            texts = results
-            images = ["https://via.placeholder.com/150"] * len(results)
-
-            for label in results:
-                col1, col2 = st.columns([2, 1])
-
-                with col1:
-                    # st.write(f"{label} clicked!")
-                    st.markdown(
-                        get_fonted_text(f'"{label[0]}"', size=16, body=True),
-                        unsafe_allow_html=True,
-                    )
-
-                    # if st.button(label[0]):
-                    #     st.write(f"{label} clicked!")
-
-                with col2:
-                    file_info = file_name_db.get(Query().doc_id == label[1])["metadata"]
-                    del file_info["file_size"]
-                    del file_info["modification_time"]
-
-                    source = file_info["file_name"]
-
-                    if "url" in file_info.keys():
-                        source = file_info["url"]
-
-                    # st.write(f"File Name: \"{file_info['file_name']}\"")
-                    # st.write(f"Collection Time: {file_info['creation_time']}")
-                    # st.write(f"Source: {source}")
-
-                    st.markdown(
-                        get_fonted_text(
-                            f"File Name: \"{file_info['file_name']}\"",
-                            size=16,
-                            body=True,
-                        ),
-                        unsafe_allow_html=True,
-                    )
-                    st.markdown(
-                        get_fonted_text(
-                            f"Collection Time: {file_info['creation_time']}",
-                            size=16,
-                            body=True,
-                        ),
-                        unsafe_allow_html=True,
-                    )
-                    st.markdown(
-                        get_fonted_text(f"Source: {source}", size=16, body=True),
-                        unsafe_allow_html=True,
-                    )
-                    # st.markdown(get_fonted_text(f"Embedding: {label[2]}",size=16,body=True), unsafe_allow_html=True)
-                # with col3:
-                #     st.write("NEEd to add deleting")
-                #     if st.button("Delete", key=uuid.uuid4()):
-                #         st.success(f"Deleted entry: {label[0]}")
-
-                st.markdown("---")
-        else:
-            st.info("No results found.")
+    st.session_state.title = "Prover"
+ 
 
 page_names_to_funcs = {
-    "History": history_page,
+    # "History": history_page,
     "Prover": prover_page,
 }
 
