@@ -87,7 +87,7 @@ def ingest_source_pages(filedir):
         chunks = chunk_text(text)
         for c in chunks:
             # if not is_non_informative(c):
-            all_chunks.append(c)
+            all_chunks.append({"chunk":c, "source":filedir})
     return all_chunks
 
 def get_webdata_chunks(query):
@@ -97,17 +97,19 @@ def get_webdata_chunks(query):
     return chunks
 
 
-def embed_chunks(chunks):
+def embed_chunks(sourced_chunks):
     all_chunk_vector_pairs = []
-    for chunk in tqdm(chunks, desc="Embedding chunks..."):
-        if len(chunk) > 15:
-            embedding = ollama.embeddings(model="nomic-embed-text", prompt=chunk)["embedding"]
-            all_chunk_vector_pairs.append([chunk, embedding])
+    for sourced_chunk in tqdm(sourced_chunks, desc="Embedding chunks..."):
+        if len(sourced_chunk) > 15:
+            print(sourced_chunk)
+            embedding = ollama.embeddings(model="nomic-embed-text", prompt=sourced_chunk)["embedding"]
+            all_chunk_vector_pairs.append([sourced_chunk, embedding])
     return all_chunk_vector_pairs
 
 
 
 def get_clusters(chunk_vector_pairs, n_argument_clusters):
+    print(chunk_vector_pairs[0])
     clustered = k_means(np.array([x[1] for x in chunk_vector_pairs]), n_argument_clusters)
     _, cluster_ids, _ = clustered
     # Take N biggest clusters
@@ -197,287 +199,161 @@ def get_final_args(claim,cluster_to_chunk_dict,max_sampled_chunks_per_cluster, i
 
 
 
+class Prover():
+    def __init__(self):
+        self.proposition_claim = None
+        self.opposition_claim=None
+        self.n_argument_clusters = None
+        self.n_chunks_needed_per_cluster = None
+        self.use_small_model=None
+
+    def run(self, proposition_claim, opposition_claim=None,n_argument_clusters = 3,n_chunks_needed_per_cluster = 10, use_small_model=True):
+        
+        self.proposition_claim = proposition_claim
+        self.opposition_claim= opposition_claim
+        self.n_argument_clusters = n_argument_clusters
+        self.n_chunks_needed_per_cluster = n_chunks_needed_per_cluster
+        self.use_small_model=use_small_model
+        
+        assert n_chunks_needed_per_cluster%2 == 0
 
 
+        max_sampled_chunks_per_cluster = 500
 
-def prover(proposition_claim, opposition_claim=None,n_argument_clusters = 3,n_chunks_needed_per_cluster = 10, use_small_model=True):
-    
-    # n_argument_clusters = 5
-    # n_chunks_needed_per_cluster = 10
-    # max_sampled_chunks_per_cluster = 150
-    assert n_chunks_needed_per_cluster%2 == 0
+        master_dict = {
+            "proposition_claim": self.proposition_claim,
+            "status": "Starting",
+            "progress": 0
+        }
+        yield master_dict
 
-
-    max_sampled_chunks_per_cluster = 500
-
-    master_dict = {
-        "proposition_claim": proposition_claim,
-        "status": "Starting",
-        "progress": 0
-    }
-    yield master_dict
-
-    # Generate opposition claim and queries
-    if opposition_claim == None:
-        opposition_claim = reverse_claim(proposition_claim)
+        # Generate opposition claim and queries
+        if self.opposition_claim == None:
+            self.opposition_claim = reverse_claim(self.proposition_claim)
+        print(self.opposition_claim)
         master_dict.update({
-            "opposition_claim": opposition_claim,
+            "opposition_claim": self.opposition_claim,
             "status": "Generated opposition claim",
             "progress": 10
         })
         yield master_dict
-    
-    proposition_query = reword_query(proposition_claim)
-    opposition_query = reword_query(opposition_claim)
-    master_dict.update({
-        "proposition_query": proposition_query,
-        "opposition_query": opposition_query,
-        "status": "Generated search queries",
-        "progress": 20
-    })
-    yield master_dict
-
-    # Get chunks
-    prop_chunks = get_webdata_chunks(proposition_query)
-    master_dict.update({
-        "status": "Retrieved proposition web data",
-        "progress": 30
-    })
-    yield master_dict
-
-    opp_chunks = get_webdata_chunks(opposition_query)
-    master_dict.update({
-        "status": "Retrieved opposition web data",
-        "progress": 40
-    })
-    yield master_dict
-
-    # Embed chunks
-    prop_all_chunk_vector_pairs = embed_chunks(prop_chunks)
-    master_dict.update({
-        "status": "Embedded proposition chunks",
-        "progress": 50
-    })
-    yield master_dict
-
-    opp_all_chunk_vector_pairs = embed_chunks(opp_chunks)
-    master_dict.update({
-        "status": "Embedded opposition chunks",
-        "progress": 60
-    })
-    yield master_dict
-
-    prop_sampled_clusters, prop_cluster_ids = get_clusters(prop_all_chunk_vector_pairs, n_argument_clusters)
-    prop_cluster_dict = generate_cluster_dict(prop_sampled_clusters, prop_all_chunk_vector_pairs, prop_cluster_ids)
-    master_dict.update({
-        "status": "Generated proposition clusters",
-        "progress": 70
-    })
-    yield master_dict
-
-    opp_sampled_clusters, opp_cluster_ids = get_clusters(opp_all_chunk_vector_pairs, n_argument_clusters)
-    opp_cluster_dict = generate_cluster_dict(opp_sampled_clusters, opp_all_chunk_vector_pairs, opp_cluster_ids)
-    master_dict.update({
-        "status": "Generated opposition clusters",
-        "progress": 80
-    })
-    yield master_dict
-
-    
-    
-    prop_informative_chunks =  get_n_informative_chunks(proposition_claim, prop_cluster_dict,max_sampled_chunks_per_cluster, n_chunks_needed_per_cluster)
-
-    prop_final_args = get_final_args(proposition_claim, prop_cluster_dict, max_sampled_chunks_per_cluster, prop_informative_chunks)
-    master_dict.update({
-        "prop_final_args": prop_final_args,
-        "prop_chunk":prop_informative_chunks,
-        "status": "Generated proposition arguments",
-        "progress": 85
-    })
-    yield master_dict
-
-    opp_informative_chunks =  get_n_informative_chunks(opposition_claim, opp_cluster_dict,max_sampled_chunks_per_cluster, n_chunks_needed_per_cluster)
-
-    opp_final_args = get_final_args(opposition_claim, opp_cluster_dict, max_sampled_chunks_per_cluster, opp_informative_chunks)
-    master_dict.update({
-        "opp_final_args": opp_final_args,
-        "opp_chunks":opp_informative_chunks,
-        "status": "Generated opposition arguments",
-        "progress": 90
-    })
-    yield master_dict
-
-    # Format arguments
-    arg1_w_claims = f"Claim:{proposition_claim}\n"
-    for i, zx in enumerate(prop_final_args):
-        arg1_w_claims += f"Premise {i+1}: {zx}\n"
-
-    arg2_w_claims = f"Claim: {opposition_claim}\n"
-    for i, zx in enumerate(opp_final_args):
-        arg2_w_claims += f"Premise {i+1}: {zx}\n"
-
-    master_dict.update({
-        "arg1_w_claims": arg1_w_claims,
-        "arg2_w_claims": arg2_w_claims,
-        "status": "Formatted arguments",
-        "progress": 95
-    })
-    yield master_dict
-
-    # Get final judgment
-    final_judge = get_final_judgement(arg1_w_claims, arg2_w_claims, use_small_model=use_small_model)
-    idx = int(final_judge['argument'])-1
-    choice = [master_dict['proposition_claim'],master_dict['opposition_claim']][idx]
-    master_dict['victor'] = choice
-
-    master_dict.update({
-        "final_judge": final_judge,
-        "status": "Complete",
-        "progress": 100,
-        "victor" : choice
-    })
-
-
-
-    yield master_dict
-
-
-
-
-
-
-def prover_DEBUG(proposition_claim, opposition_claim=None, n_argument_clusters=3, n_chunks_needed_per_cluster=10, use_small_model=True):
-    assert n_chunks_needed_per_cluster % 2 == 0
-    max_sampled_chunks_per_cluster = 500
-
-    master_dict = {
-        "proposition_claim": proposition_claim,
-        "status": "Starting",
-        "progress": 0
-    }
-    yield master_dict
-
-    # Generate opposition claim and queries
-    if opposition_claim == None:
-        # Dummy reverse_claim
-        opposition_claim = f"NOT {proposition_claim}"  # Simplified dummy reversal
+        
+        proposition_query = reword_query(self.proposition_claim)
+        opposition_query = reword_query(self.opposition_claim)
         master_dict.update({
-            "opposition_claim": opposition_claim,
-            "status": "Generated opposition claim",
-            "progress": 10
+            "proposition_query": proposition_query,
+            "opposition_query": opposition_query,
+            "status": "Generated search queries",
+            "progress": 20
         })
         yield master_dict
-    
-    # Dummy reword_query
-    proposition_query = f"SEARCH: {proposition_claim}"
-    opposition_query = f"SEARCH: {opposition_claim}"
-    master_dict.update({
-        "proposition_query": proposition_query,
-        "opposition_query": opposition_query,
-        "status": "Generated search queries",
-        "progress": 20
-    })
-    yield master_dict
 
-    # Dummy get_webdata_chunks
-    prop_chunks = [f"Proposition chunk {i}" for i in range(10)]
-    master_dict.update({
-        "status": "Retrieved proposition web data",
-        "progress": 30
-    })
-    yield master_dict
+        # Get chunks
+        prop_chunks_pairs = get_webdata_chunks(proposition_query)
+        prop_chunks = [x['chunk'] for x in  prop_chunks_pairs]
+        master_dict.update({
+            "status": "Retrieved proposition web data",
+            "progress": 30
+        })
+        yield master_dict
 
-    opp_chunks = [f"Opposition chunk {i}" for i in range(10)]
-    master_dict.update({
-        "status": "Retrieved opposition web data",
-        "progress": 40
-    })
-    yield master_dict
+        opp_chunks_pairs = get_webdata_chunks(opposition_query)
+        opp_chunks = [x['chunk'] for x in  opp_chunks_pairs]
 
-    # Dummy embed_chunks
-    prop_all_chunk_vector_pairs = [(chunk, [0.1] * 10) for chunk in prop_chunks]
-    master_dict.update({
-        "status": "Embedded proposition chunks",
-        "progress": 50
-    })
-    yield master_dict
+        master_dict.update({
+            "status": "Retrieved opposition web data",
+            "progress": 40
+        })
+        yield master_dict
 
-    opp_all_chunk_vector_pairs = [(chunk, [0.1] * 10) for chunk in opp_chunks]
-    master_dict.update({
-        "status": "Embedded opposition chunks",
-        "progress": 60
-    })
-    yield master_dict
+        # Embed chunks
+        prop_all_chunk_vector_pairs = embed_chunks(prop_chunks)
+        master_dict.update({
+            "status": "Embedded proposition chunks",
+            "progress": 50
+        })
+        yield master_dict
 
-    # Dummy get_clusters
-    prop_sampled_clusters = [[i] for i in range(n_argument_clusters)]
-    prop_cluster_ids = list(range(n_argument_clusters))
-    prop_cluster_dict = {i: [f"Prop cluster {i} item {j}" for j in range(5)] for i in range(n_argument_clusters)}
-    master_dict.update({
-        "status": "Generated proposition clusters",
-        "progress": 70
-    })
-    yield master_dict
+        opp_all_chunk_vector_pairs = embed_chunks(opp_chunks)
+        master_dict.update({
+            "status": "Embedded opposition chunks",
+            "progress": 60
+        })
+        yield master_dict
 
-    opp_sampled_clusters = [[i] for i in range(n_argument_clusters)]
-    opp_cluster_ids = list(range(n_argument_clusters))
-    opp_cluster_dict = {i: [f"Opp cluster {i} item {j}" for j in range(5)] for i in range(n_argument_clusters)}
-    master_dict.update({
-        "status": "Generated opposition clusters",
-        "progress": 80
-    })
-    yield master_dict
+        prop_sampled_clusters, prop_cluster_ids = get_clusters(prop_all_chunk_vector_pairs, n_argument_clusters)
+        prop_cluster_dict = generate_cluster_dict(prop_sampled_clusters, prop_all_chunk_vector_pairs, prop_cluster_ids)
+        master_dict.update({
+            "status": "Generated proposition clusters",
+            "progress": 70
+        })
+        yield master_dict
 
-    # Dummy informative chunks
-    prop_informative_chunks = [f"Important prop chunk {i}" for i in range(n_chunks_needed_per_cluster)]
-    prop_final_args = [f"Proposition argument {i}" for i in range(3)]
-    master_dict.update({
-        "prop_final_args": prop_final_args,
-        "prop_chunk": prop_informative_chunks,
-        "status": "Generated proposition arguments",
-        "progress": 85
-    })
-    yield master_dict
+        opp_sampled_clusters, opp_cluster_ids = get_clusters(opp_all_chunk_vector_pairs, n_argument_clusters)
+        opp_cluster_dict = generate_cluster_dict(opp_sampled_clusters, opp_all_chunk_vector_pairs, opp_cluster_ids)
+        master_dict.update({
+            "status": "Generated opposition clusters",
+            "progress": 80
+        })
+        yield master_dict
 
-    opp_informative_chunks = [f"Important opp chunk {i}" for i in range(n_chunks_needed_per_cluster)]
-    opp_final_args = [f"Opposition argument {i}" for i in range(3)]
-    master_dict.update({
-        "opp_final_args": opp_final_args,
-        "opp_chunks": opp_informative_chunks,
-        "status": "Generated opposition arguments",
-        "progress": 90
-    })
-    yield master_dict
+        
+        prop_informative_chunks =  get_n_informative_chunks(self.proposition_claim, prop_cluster_dict,max_sampled_chunks_per_cluster, n_chunks_needed_per_cluster)
 
-    # Format arguments
-    arg1_w_claims = f"Claim:{proposition_claim}\n"
-    for i, zx in enumerate(prop_final_args):
-        arg1_w_claims += f"Premise {i+1}: {zx}\n"
+        prop_final_args = get_final_args(self.proposition_claim, prop_cluster_dict, max_sampled_chunks_per_cluster, prop_informative_chunks)
+        master_dict.update({
+            "prop_final_args": prop_final_args,
+            "prop_chunk":prop_informative_chunks,
+            "status": "Generated proposition arguments",
+            "progress": 85
+        })
+        yield master_dict
 
-    arg2_w_claims = f"Claim: {opposition_claim}\n"
-    for i, zx in enumerate(opp_final_args):
-        arg2_w_claims += f"Premise {i+1}: {zx}\n"
+        opp_informative_chunks =  get_n_informative_chunks(self.opposition_claim, opp_cluster_dict,max_sampled_chunks_per_cluster, n_chunks_needed_per_cluster)
 
-    master_dict.update({
-        "arg1_w_claims": arg1_w_claims,
-        "arg2_w_claims": arg2_w_claims,
-        "status": "Formatted arguments",
-        "progress": 95
-    })
-    yield master_dict
+        opp_final_args = get_final_args(self.opposition_claim, opp_cluster_dict, max_sampled_chunks_per_cluster, opp_informative_chunks)
+        master_dict.update({
+            "opp_final_args": opp_final_args,
+            "opp_chunks":opp_informative_chunks,
+            "status": "Generated opposition arguments",
+            "progress": 90
+        })
+        yield master_dict
 
-    # Dummy final judgment
-    final_judge = {
-        "argument": "1",  # Always chooses proposition_claim for debugging
-        "explanation": "This is a dummy judgment for debugging purposes"
-    }
-    choice = proposition_claim  # Always chooses proposition_claim for debugging
-    
-    master_dict.update({
-        "final_judge": final_judge,
-        "status": "Complete",
-        "progress": 100,
-        "victor": choice
-    })
+        # Format arguments
+        arg1_w_claims = f"Claim:{self.proposition_claim}\n"
+        for i, zx in enumerate(prop_final_args):
+            arg1_w_claims += f"Premise {i+1}: {zx}\n"
 
-    yield master_dict
+        arg2_w_claims = f"Claim: {self.opposition_claim}\n"
+        for i, zx in enumerate(opp_final_args):
+            arg2_w_claims += f"Premise {i+1}: {zx}\n"
+
+        master_dict.update({
+            "arg1_w_claims": arg1_w_claims,
+            "arg2_w_claims": arg2_w_claims,
+            "status": "Formatted arguments",
+            "progress": 95
+        })
+        yield master_dict
+
+        # Get final judgment
+        final_judge = get_final_judgement(arg1_w_claims, arg2_w_claims, use_small_model=use_small_model)
+        idx = int(final_judge['argument'])-1
+        choice = [master_dict['proposition_claim'],master_dict['opposition_claim']][idx]
+        master_dict['victor'] = choice
+
+        master_dict.update({
+            "final_judge": final_judge,
+            "status": "Complete",
+            "progress": 100,
+            "victor" : choice
+        })
+
+
+
+        yield master_dict
+
+
+
+

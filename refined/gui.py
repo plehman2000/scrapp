@@ -58,7 +58,6 @@ def prover_page():
     st.markdown(get_fonted_text("Prover", size=48), unsafe_allow_html=True)
     # Add custom CSS to load the font
 
-
     def process_text(text):
     # Replace this with your desired processing function
         return f"You entered: {text}"
@@ -82,8 +81,6 @@ def prover_page():
         arg2_w_claims = x['arg2_w_claims']
         st.write(arg1_w_claims, arg2_w_claims)
         st.markdown(get_fonted_text(f"Winning Claim: {x['victor']}", size=48), unsafe_allow_html=True)
-
-
     st.session_state.title = "Prover"
  
 
