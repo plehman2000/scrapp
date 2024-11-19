@@ -1,7 +1,7 @@
 ## Scrapp
 ![alt text](https://github.com/plehman2000/scrapp/blob/main/assets/graph.png?raw=true)
 
-(WIP) A utility for collecting and organizing information.
+(WIP) A utility for collecting and organizing information in scientific papers. This will likely remain untouched until I understand ontology generation better.
 
 
 
