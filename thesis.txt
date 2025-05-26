@@ -1,0 +1,5 @@
+I guess the point of this project is to have a system that
+
+A) converts natural language input into strongly labelled logical information, like triples
+B) Builds up a hierarchical system from these inputs using rules/ explainable logic, not black box LLM based methods
+C) Combines this knowledge base

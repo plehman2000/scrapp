@@ -1,0 +1,96 @@
+1.1 Themes and Concepts of Biology
+Biology is the science that studies life. What exactly is life? This may sound like a silly question
+with an obvious answer; however, it is not always easy to define life. For example, a branch of
+biology called virology studies viruses. Viruses exhibit some of the characteristics of life but
+lack others. It turns out that although viruses can attack living organisms, cause diseases, and
+even reproduce with the help of host cells, they do not meet all the criteria that biologists use to
+define life.
+From its earliest beginnings, biology has wrestled with four questions: What are the shared
+properties that make something “alive”? How do those various living things function? Planet
+2 Return to Table of Contents
+earth has a diversity of life forms; how do we organize and classify these different organisms?
+Finally, how did this diversity arise, and how is it continuing? As new organisms are discovered
+every day, biologists continue to seek answers to these and other questions.
+Properties of Life
+All living organisms share the following key characteristics: order, response to stimuli,
+reproduction, adaptation, growth and development, homeostasis, and energy processing. These
+seven characteristics serve to define life. It is essential that students know these different
+properties of life and be able to explain each.
+Order
+Organisms are highly organized and consist of one or more cells. Even very simple, single-celled
+organisms are remarkably complex. Inside each cell, atoms come together through chemical
+bonding and form molecules. Molecules come together to form cell components or structures
+called organelles. Like the toad shown in Figure 1.2,
+multicellular organisms can consist of millions of
+cells. Different groups of cells then specialize in
+performing specific functions. Without order,
+specialization would not be possible.
+Figure 1.2 A toad represents a highly organized
+individual. (credit: "Ivengo(RUS)"/Wikimedia
+Commons)
+Response to Stimuli
+Organisms respond to diverse stimuli. For example, plants can bend toward a source of light or
+respond to touch (Figure 1.3). Even tiny bacteria can move toward or away from chemicals, a
+process called chemotaxis. A movement toward a stimulus is considered a positive response,
+while movement away from a stimulus is regarded as a negative response.
+Humans also respond to stimuli. For example, when we become warm on a hot sunny day, the
+body has tiny glands called sudoriferous, or sweat,
+glands that make and release sweat onto the skin's
+surface. The heat from the body can be transferred to
+the sweat, which acts as a cooling mechanism and
+helps to maintain constant body temperature.
+Figure 1.3 The leaves of this sensitive plant (Mimosa
+pudica) will instantly droop and fold when touched.
+After a few minutes, the plant returns to its normal
+state. (credit: Alex Lomas/Concepts of Biology
+OpenStax)
+
+Reproduction is necessary on both a cellular and organismal level. For a population to survive,
+some individuals within that population must reproduce. Organisms that are multicellular, such
+as plants and animals, also need to reproduce on a cellular level. As old cells become damaged or
+worn out, they must be replaced by new cells. For example,
+skin cells are damaged continuously and need to be replaced
+every two to three weeks; otherwise, the skin would lose its
+ability to provide protection.
+Single-celled organisms must also reproduce. Reproduction
+begins by first duplicating their genetic material. Once the
+genetic material is duplicated, it is then divided equally into
+two new cells (Figure 1.4). The two new daughter cells should
+be identical to the parent cell.
+Figure 1.4 Bacteria cell going through division. (credit:
+Pradana Aumars/Wikimedia Commons)
+Adaptation
+All living organisms exhibit a “fit” to their environment. Biologists refer to this fit as
+adaptation. Adaptations are a consequence of evolution by natural selection. Evolution has had
+some impact on every lineage of reproducing organisms. Examples of adaptations are diverse
+and unique. For example, some microorganisms live in boiling hot springs, whereas some moths
+have tongues the exact length of the flower from which they feed.
+Adaptations are vital because they enhance an individual's ability to survive and reproduce;
+however, adaptations are not constant. As an environment changes, natural selection causes the
+individuals in a population to adapt to those changes.
+For example, imagine that there is a population of finches living on an island. An environmental
+event has resulted in two main food sources: soft insects and hard seeds. Not all finches within
+the population have the same beak length or size. Finches in the population that have long,
+skinny beaks begin to feed on soft insects because they are easy for those birds to catch and eat.
+Finches with large, more dense beaks feed on hard seeds because their dense beaks allow them to
+4 Return to Table of Contents
+crush and open the hard seeds. Unfortunately, finches that have beaks that are neither long nor
+dense may slowly begin to decline in number because they are limited in their ability to obtain
+nutrients. Finches that obtain food can put energy into reproduction and survival needs. When
+those finches reproduce, they pass along those adaptations that allow them to be successful in
+their respective feeding environments. Over time two distinct groups may arise, those with thick,
+dense beaks and those with longer skinnier beaks (Figure 1.5). If these individuals genetically
+change in such a way that they no longer can interbreed with one another, a speciation event will
+have occurred.
+
+Growth and Development
+Development is often described as the processes that an individual goes through as it grows and
+matures. For example, in humans, development begins once the sperm fertilizes the egg. Human
+development can be broken down into different stages including embryonic development, fetal
+development, infancy, childhood, puberty, and adulthood. Development can also be observed in
+many other organisms. For example, butterflies go through a developmental process called
+metamorphosis that begins at the egg stage and then proceeds to the larva, pupa, and adult stages.
+Both multicellular and single-celled organisms grow and develop according to specific
+instructions encoded in their DNA. DNA is organized into genes that provide information for
+cellular growth and development. An individual's DNA ensures that a species’ young (Figure
+1.6) will grow up to exhibit many of the same traits as its parents.
