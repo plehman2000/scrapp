@@ -22,7 +22,7 @@ MODEL = 'gemma3:12b'
 def extract_facts(text):
     schema = {"entity1": ["fact1", "fact2"]}
     prompt = f"""Extract atomic facts from the following text. Each fact should be:
-    - A single, complete statement about one entity
+    - A single, complete statement
     - Non-redundant
     - Self-contained (at least partially understandable without context)
     - Begin with the main entity being described
@@ -66,25 +66,28 @@ import time
 
 
 
+import random;random.seed(42)
 
-chunk_size = 1000
+chunk_size = 500
 splitter = RecursiveCharacterTextSplitter(
-    chunk_size=1000,
+    chunk_size=chunk_size,
     chunk_overlap=int(chunk_size * 0.1),
     length_function=len,
     is_separator_regex=False
 )
-all_text = open(r"docs\rando.txt", encoding="utf8").read()
+all_text = open(r"docs\mahs.txt", encoding="utf8").read()
 chunks = splitter.split_text(all_text)
+print(chunks[0])
 
 
 knowledge_base = {}#pickle.load(open("kbase.pkl", "rb"))
-for chunk in tqdm(chunks):
+for i,chunk in enumerate(tqdm(chunks)):
+    print(f"On Chunk {i},,,")
 
-    start_time = time.time()
+    # start_time = time.time()
     facts = extract_facts(chunk)
-    end_time = time.time()
-    print(f"LLM Execution time: {end_time - start_time} seconds")
+    # end_time = time.time()
+    # print(f"LLM Execution time: {end_time - start_time} seconds")
     new_parsed_facts = parse_json_response(facts)
 
 
